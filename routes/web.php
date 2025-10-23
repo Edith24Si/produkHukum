@@ -1,16 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdukHukumController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
- // ini kalau mau akses lewat url browser
- Route::get('/produkHukum',[ProdukHukumController::class, 'index']);
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
- // pertemuan 4
- Route::post('/home/signup' , [HomeController::class, 'signup']);
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
- Route::get('/auth',[AuthController::class, 'index']);
- Route::post('/auth/login',[AuthController::class, 'login'])->name('');
+Route::get('/produk-hukum', [ProdukHukumController::class, 'index'])->name('produk.index');
+
+Route::resource('produk', ProdukHukumController::class);
