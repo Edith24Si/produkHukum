@@ -44,7 +44,7 @@ class AuthController extends Controller
     $request->session()->flush();
 
     // Redirect kembali ke halaman login
-    return redirect()->route('login.show')->with('success', 'Anda telah logout.');
+    return redirect()->route('login.show')->with('success', 'Anda telah logout.');
 }
 
 }

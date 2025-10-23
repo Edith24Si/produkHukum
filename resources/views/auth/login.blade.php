@@ -126,7 +126,11 @@
         @endif
 
         {{-- Form Login --}}
+<<<<<<< HEAD
         <form action="{{ route('auth.login') }}" method="POST">
+=======
+        <form action="{{ route('auth.login.post') }}" method="POST">
+>>>>>>> d98a2e4ed5a3859b229062c23f7381523f9e6416
             @csrf
             <label class="form-label">Username</label>
             <input type="text" name="username" class="form-control" value="{{ old('username') }}">
