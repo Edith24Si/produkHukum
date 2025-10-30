@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Tambah Produk Hukum</h1>
 
-    <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('produkHukum.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label>Judul</label>

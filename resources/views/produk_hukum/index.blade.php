@@ -4,10 +4,12 @@
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Data Produk Hukum</h1>
 
-    <a href="{{ route('produk.create') }}" class="btn btn-primary mb-3">+ Tambah Produk Hukum</a>
+    <a href="{{ route('produkHukum.create') }}" class="btn btn-primary">
+        + Tambah Produk Hukum
+    </a>
 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <table class="table table-bordered">
@@ -23,20 +25,20 @@
         </thead>
         <tbody>
             @foreach ($data as $item)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->judul }}</td>
-                    <td>{{ $item->nomor }}</td>
-                    <td>{{ $item->tahun }}</td>
-                    <td>{{ $item->tentang }}</td>
-                    <td>
-                        <a href="{{ route('produk.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('produk.destroy', $item->id) }}" method="POST" class="d-inline">
-                            @csrf @method('DELETE')
-                            <button onclick="return confirm('Yakin ingin menghapus?')" class="btn btn-sm btn-danger">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $item->judul }}</td>
+                <td>{{ $item->nomor }}</td>
+                <td>{{ $item->tahun }}</td>
+                <td>{{ $item->tentang }}</td>
+                <td>
+                    <a href="{{ route('produkHukum.edit', ['produk' => $item->id]) }}">Edit</a>
+                    <form action="{{ route('produkHukum.destroy', ['produk' => $item->id]) }}" method="POST">
+                         @csrf @method('DELETE')
+                        <button onclick="return confirm('Yakin ingin menghapus?')" class="btn btn-sm btn-danger">Hapus</button>
+                    </form>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>

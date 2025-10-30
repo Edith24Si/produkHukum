@@ -11,8 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jenis_dokumens', function (Blueprint $table) {
+        Schema::create('wargas', function (Blueprint $table) {
             $table->id();
+            $table->string('no_ktp')->unique(); 
+            $table->string('nama');
+            $table->string('jenis_kelamin'); 
+            $table->string('agama');
+            $table->string('pekerjaan');
+            $table->string('telp')->nullable(); 
+            $table->string('email')->nullable(); 
             $table->timestamps();
         });
     }
@@ -22,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jenis_dokumens');
+        Schema::dropIfExists('wargas');
     }
 };

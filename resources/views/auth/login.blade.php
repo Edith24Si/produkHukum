@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin</title>
 
+    {{-- [STYLE ANDA SAYA BIARKAN UTUH] --}}
     <style>
         body {
             background: url('/images/login.jpg') no-repeat center center fixed;
@@ -45,7 +47,7 @@
             padding: 10px;
             border-radius: 10px;
             border: 1px solid #ccc;
-            background: rgba(255,255,255,0.85);
+            background: rgba(255, 255, 255, 0.85);
             margin-bottom: 10px;
             font-size: 14px;
         }
@@ -101,6 +103,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="login-container">
@@ -108,45 +111,37 @@
 
         {{-- Flash Message --}}
         @if(session('error'))
-            <div class="alert">{{ session('error') }}</div>
+        <div class="alert">{{ session('error') }}</div>
         @endif
         @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        {{-- Jika ada error validasi --}}
-        @if ($errors->any())
-            <div class="alert">
-                <ul style="margin: 0; padding-left: 20px;">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        {{-- Form Login --}}
-<<<<<<< HEAD
-        <form action="{{ route('auth.login') }}" method="POST">
-=======
         <form action="{{ route('auth.login.post') }}" method="POST">
->>>>>>> d98a2e4ed5a3859b229062c23f7381523f9e6416
             @csrf
+
             <label class="form-label">Username</label>
             <input type="text" name="username" class="form-control" value="{{ old('username') }}">
             @error('username')
-                <div class="error-text">{{ $message }}</div>
+            <div class="error-text">{{ $message }}</div>
             @enderror
 
             <label class="form-label">Password</label>
             <input type="password" name="password" class="form-control">
             @error('password')
-                <div class="error-text">{{ $message }}</div>
+            <div class="error-text">{{ $message }}</div>
             @enderror
 
             <button type="submit" class="btn-primary">Login</button>
+
+            {{-- PERBAIKAN 3: Menambahkan link ke halaman Register --}}
+            <a href="{{ route('register') }}" class="register-link">
+                Belum punya akun? Daftar di sini
+            </a>
         </form>
+
     </div>
 
 </body>
+
 </html>

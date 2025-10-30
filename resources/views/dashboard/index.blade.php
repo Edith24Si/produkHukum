@@ -14,12 +14,12 @@
     <!-- Statistik Cards -->
     <div class="row">
         @php
-            $cards = [
-                ['title' => 'Total Dokumen', 'value' => 1230, 'change' => '+12%', 'color' => 'primary', 'icon' => 'fa-file-alt'],
-                ['title' => 'Kategori', 'value' => 57, 'change' => '-4%', 'color' => 'success', 'icon' => 'fa-folder-open'],
-                ['title' => 'Jenis Dokumen', 'value' => 32, 'change' => '+8%', 'color' => 'warning', 'icon' => 'fa-tags'],
-                ['title' => 'Lampiran', 'value' => 204, 'change' => '+5%', 'color' => 'info', 'icon' => 'fa-paperclip']
-            ];
+        $cards = [
+        ['title' => 'Total Dokumen', 'value' => 1230, 'change' => '+12%', 'color' => 'primary', 'icon' => 'fa-file-alt'],
+        ['title' => 'Kategori', 'value' => 57, 'change' => '-4%', 'color' => 'success', 'icon' => 'fa-folder-open'],
+        ['title' => 'Jenis Dokumen', 'value' => 32, 'change' => '+8%', 'color' => 'warning', 'icon' => 'fa-tags'],
+        ['title' => 'Lampiran', 'value' => 204, 'change' => '+5%', 'color' => 'info', 'icon' => 'fa-paperclip']
+        ];
         @endphp
 
         @foreach ($cards as $card)
@@ -65,6 +65,15 @@
         </div>
     </div>
 
+    
+    <!-- whatsapp -->
+    <a href="https://wa.me/6285363390456?text=Halo, saya butuh bantuan terkait aplikasi Produk Hukum."
+        class="btn btn-success btn-lg"
+        target="_blank">
+        Hubungi Admin via WhatsApp
+    </a>
+
+
     <!-- Data Table -->
     <div class="card shadow mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -85,16 +94,25 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1</td><td>Peraturan Desa No. 1 Tahun 2025</td><td>Peraturan</td>
-                            <td>01 Okt 2025</td><td class="text-success">+15%</td>
+                            <td>1</td>
+                            <td>Peraturan Desa No. 1 Tahun 2025</td>
+                            <td>Peraturan</td>
+                            <td>01 Okt 2025</td>
+                            <td class="text-success">+15%</td>
                         </tr>
                         <tr>
-                            <td>2</td><td>Keputusan Kepala Desa</td><td>Keputusan</td>
-                            <td>15 Sep 2025</td><td class="text-danger">-5%</td>
+                            <td>2</td>
+                            <td>Keputusan Kepala Desa</td>
+                            <td>Keputusan</td>
+                            <td>15 Sep 2025</td>
+                            <td class="text-danger">-5%</td>
                         </tr>
                         <tr>
-                            <td>3</td><td>Surat Edaran Desa</td><td>Surat</td>
-                            <td>12 Sep 2025</td><td class="text-success">+8%</td>
+                            <td>3</td>
+                            <td>Surat Edaran Desa</td>
+                            <td>Surat</td>
+                            <td>12 Sep 2025</td>
+                            <td class="text-success">+8%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -107,40 +125,55 @@
 <!-- Chart.js Script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    // Line Chart
-    new Chart(document.getElementById('lineChart'), {
-        type: 'line',
-        data: {
-            labels: ['Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt'],
-            datasets: [{
-                label: 'Jumlah Dokumen',
-                data: [900, 950, 1020, 1100, 1180, 1230],
-                borderColor: '#4e73df',
-                backgroundColor: 'rgba(78,115,223,0.1)',
-                tension: 0.4,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true } }
-        }
-    });
+    document.addEventListener("DOMContentLoaded", () => {
+        // Line Chart
+        new Chart(document.getElementById('lineChart'), {
+            type: 'line',
+            data: {
+                labels: ['Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt'],
+                datasets: [{
+                    label: 'Jumlah Dokumen',
+                    data: [900, 950, 1020, 1100, 1180, 1230],
+                    borderColor: '#4e73df',
+                    backgroundColor: 'rgba(78,115,223,0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
-    // Pie Chart
-    new Chart(document.getElementById('pieChart'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Peraturan', 'Keputusan', 'Surat', 'Lainnya'],
-            datasets: [{
-                data: [40, 25, 20, 15],
-                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e']
-            }]
-        },
-        options: { cutout: '70%', plugins: { legend: { position: 'bottom' } } }
+        // Pie Chart
+        new Chart(document.getElementById('pieChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Peraturan', 'Keputusan', 'Surat', 'Lainnya'],
+                datasets: [{
+                    data: [40, 25, 20, 15],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e']
+                }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
     });
-});
 </script>
 @endsection

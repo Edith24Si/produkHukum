@@ -1,48 +1,44 @@
 <?php
 
-<<<<<<< HEAD
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdukHukumController;
+use App\Http\Controllers\JenisDokumenController;
+use App\Http\Controllers\KategoriDokumenController;
+use App\Http\Controllers\WargaController;
+use App\Http\Controllers\UserController;
+// use App\Models\KategoriDokumen;, tidak diperlukan di file rute
 
-Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-Route::get('/produk-hukum', [ProdukHukumController::class, 'index'])->name('produk.index');
-
-Route::resource('produk', ProdukHukumController::class);
-=======
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProdukHukumController;
-
-// 🔹 Redirect otomatis ke halaman login
 Route::get('/', function () {
     return redirect()->route('auth.login');
 });
 
-// 🔹 AUTH ROUTES
 Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login.post');
-Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-Route::get('/success', [AuthController::class, 'success'])->name('auth.success');
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'processRegister'])->name('register.process');
 
-// (opsional) halaman register
-Route::get('/register', [AuthController::class, 'registerForm'])->name('auth.register.form');
-Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+// RUTE ADMIN
+Route::middleware(['auth'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Logout
+    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-// 🔹 DASHBOARD — hanya bisa diakses setelah login
-Route::get('/dashboard', function () {
-    if (!session()->has('username')) {
-        return redirect()->route('auth.login')->with('error', 'Anda belum login!');
-    }
-    return view('auth.dashboard'); // file: resources/views/auth/dashboard.blade.php
-})->name('dashboard');
+    // Route::get('/success', [AuthController::class, 'success'])->name('auth.success'), tidak perlu lagi
 
-// 🔹 PRODUK HUKUM — halaman utama setelah login
-Route::get('/produk-Hukum', [ProdukHukumController::class, 'index'])
-    ->name('produkHukum.index');
->>>>>>> d98a2e4ed5a3859b229062c23f7381523f9e6416
+    // Produk Hukum
+    // VERSI BARU (PERBAIKAN)
+    Route::resource('produk-hukum', ProdukHukumController::class)
+        ->names('produkHukum')
+        ->parameter('produk-hukum', 'produk'); 
+    // Jenis Dokumen
+    Route::resource('jenis_dokumen', JenisDokumenController::class);
+
+    // Kategori Dokumen
+    Route::resource('kategori_dokumen', KategoriDokumenController::class);
+    Route::resource('kategori_dokumen', KategoriDokumenController::class);
+    Route::resource('warga', WargaController::class); // <-- TAMBAHKAN INI
+    Route::resource('user', UserController::class);
+});

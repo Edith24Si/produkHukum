@@ -4,8 +4,7 @@
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Edit Produk Hukum</h1>
 
-    <form action="{{ route('produk.update', $produk->id) }}" method="POST">
-        @csrf @method('PUT')
+    <form action="{{ route('produkHukum.update', ['produk' => $produk->id]) }}" method="POST"> @csrf @method('PUT')
         <div class="form-group">
             <label>Judul</label>
             <input type="text" name="judul" value="{{ $produk->judul }}" class="form-control" required>

@@ -5,15 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JenisDokumen extends Model
+class Warga extends Model
 {
     use HasFactory;
-    protected $table = 'jenis_dokumen';
-    /**
-     * Kolom yang boleh diisi.
-     */
+
     protected $fillable = [
-        'nama_jenis',
-        'deskripsi',
+        'no_ktp',
+        'nama',
+        'jenis_kelamin',
+        'agama',
+        'pekerjaan',
+        'telp',
+        'email',
     ];
 }

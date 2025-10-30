@@ -9,10 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('kategori_dokumens', function (Blueprint $table) {
+        Schema::create('kategori_dokumen', function (Blueprint $table) {
             $table->id();
+            $table->string('nama'); 
+            $table->text('deskripsi')->nullable(); 
             $table->timestamps();
         });
     }
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kategori_dokumens');
+        Schema::dropIfExists('kategori_dokumen');
     }
 };

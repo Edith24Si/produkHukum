@@ -19,52 +19,51 @@ class ProdukHukumController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'judul' => 'required',
-            'nomor' => 'required',
-            'tahun' => 'required',
-            'tentang' => 'required',
-            'file' => 'nullable|file|mimes:pdf,docx',
-        ]);
+{
+    $request->validate([
+        'judul' => 'required',
+        'nomor' => 'required',
+        'tahun' => 'required',
+        'tentang' => 'required',
+        'file' => 'nullable|file|mimes:pdf,docx',
+    ]);
 
-        $file = null;
-        if ($request->hasFile('file')) {
-            $file = $request->file('file')->store('produk_hukum', 'public');
-        }
-
-        ProdukHukum::create([
-            'judul' => $request->judul,
-            'nomor' => $request->nomor,
-            'tahun' => $request->tahun,
-            'tentang' => $request->tentang,
-            'file' => $file,
-        ]);
-
-        return redirect()->route('produk.index')->with('success', 'Data berhasil ditambahkan');
+    $file = null;
+    if ($request->hasFile('file')) {
+        $file = $request->file('file')->store('produk_hukum', 'public');
     }
 
-    public function edit(ProdukHukum $produk)
-    {
-        return view('produk_hukum.edit', compact('produk'));
-    }
+    ProdukHukum::create([
+        'judul' => $request->judul,
+        'nomor' => $request->nomor,
+        'tahun' => $request->tahun,
+        'tentang' => $request->tentang,
+        'file' => $file,
+    ]);
 
-    public function update(Request $request, ProdukHukum $produk)
-    {
-        $request->validate([
-            'judul' => 'required',
-            'nomor' => 'required',
-            'tahun' => 'required',
-            'tentang' => 'required',
-        ]);
+    return redirect()->route('produkHukum.index')->with('success', 'Data berhasil ditambahkan');
+}
 
-        $produk->update($request->only(['judul', 'nomor', 'tahun', 'tentang']));
-        return redirect()->route('produk.index')->with('success', 'Data berhasil diupdate');
-    }
+public function update(Request $request, ProdukHukum $produk)
+{
+    $request->validate([
+        'judul' => 'required',
+        'nomor' => 'required',
+        'tahun' => 'required',
+        'tentang' => 'required',
+    ]);
 
-    public function destroy(ProdukHukum $produk)
-    {
-        $produk->delete();
-        return redirect()->route('produk.index')->with('success', 'Data berhasil dihapus');
-    }
+    $produk->update($request->only(['judul', 'nomor', 'tahun', 'tentang']));
+    return redirect()->route('produkHukum.index')->with('success', 'Data berhasil diupdate');
+}
+
+public function edit(ProdukHukum $produk) {
+    return view('produk_hukum.edit', compact('produk'));
+}
+
+public function destroy(ProdukHukum $produk)
+{
+    $produk->delete();
+    return redirect()->route('produkHukum.index')->with('success', 'Data berhasil dihapus');
+}
 }

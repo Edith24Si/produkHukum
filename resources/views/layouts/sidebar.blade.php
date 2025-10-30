@@ -24,11 +24,43 @@
     <div class="sidebar-heading">
         Menu Utama
     </div>
-
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('user.index') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>User</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('warga.index') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Warga</span>
+        </a>
+    </li>
     <li class="nav-item {{ request()->is('produk*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('produk.index') }}">
+        <a class="nav-link" href="{{ route('produkHukum.index') }}">
             <i class="fas fa-fw fa-folder"></i>
             <span>Data Produk Hukum</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{ request()->is('produk*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kategori_dokumen.index') }}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Kategori Dokumen</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{ request()->is('produk*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('produkHukum.index') }}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Jenis Dokumen</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{ request()->is('produk*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('produkHukum.index') }}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Lampiran Dokumen</span>
         </a>
     </li>
 
