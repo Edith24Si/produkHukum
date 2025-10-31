@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
     // VERSI BARU (PERBAIKAN)
     Route::resource('produk-hukum', ProdukHukumController::class)
         ->names('produkHukum')
-        ->parameter('produk-hukum', 'produk'); 
+        ->parameter('produk-hukum', 'produk');
     // Jenis Dokumen
     Route::resource('jenis_dokumen', JenisDokumenController::class);
 
@@ -41,4 +41,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('kategori_dokumen', KategoriDokumenController::class);
     Route::resource('warga', WargaController::class); // <-- TAMBAHKAN INI
     Route::resource('user', UserController::class);
+
+
+
 });

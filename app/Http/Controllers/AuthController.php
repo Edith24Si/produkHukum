@@ -25,14 +25,14 @@ class AuthController extends Controller
         ]);
 
         $credentials = [
-            'username' => $request->username, 
+            'username' => $request->username,
             'password' => $request->password
         ];
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            
-            return redirect()->intended('dashboard') 
+
+            return redirect()->intended('dashboard')
                              ->with('success', 'Login berhasil!');
         }
 
@@ -58,7 +58,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect()->route('auth.login')->with('success', 'Anda telah logout.');
     }
 
@@ -74,14 +74,14 @@ class AuthController extends Controller
     public function processRegister(Request $request)
     {
         $request->validate([
-            'username' => 'required|unique:users,name', 
+            'username' => 'required|unique:users,name',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
         ]);
 
         User::create([
-            'name' => $request->username, 
-            'username' => $request->username, 
+            'name' => $request->username,
+            'username' => $request->username,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -100,4 +100,6 @@ class AuthController extends Controller
         // Logic ini sebaiknya dipindah ke middleware
         return view('dashboard');
     }
+    
+
 }
