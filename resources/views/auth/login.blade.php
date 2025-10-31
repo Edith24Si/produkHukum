@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin</title>
-
-    {{-- [STYLE ANDA SAYA BIARKAN UTUH] --}}
+    <title>Login Admin - Produk Hukum</title>
     <style>
         body {
             background: url('/images/login.jpg') no-repeat center center fixed;
@@ -20,18 +18,31 @@
         }
 
         .login-container {
-            background-color: rgba(255, 255, 255, 0.85);
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 40px 30px;
             border-radius: 20px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            width: 350px;
+            width: 380px;
             text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
         }
 
         h2 {
             color: #3E97FF;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
+        }
+
+        .desc {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 25px;
         }
 
         .form-label {
@@ -105,16 +116,20 @@
 </head>
 
 <body>
-
     <div class="login-container">
+        {{-- Tambahkan Logo Modul --}}
+        <img src="/images/logo-produk-hukum.jpg" alt="Logo Produk Hukum" class="logo">
+
+
         <h2>Login Admin</h2>
+        <p class="desc">Akses sistem manajemen produk hukum untuk mengelola data dan informasi secara efisien.</p>
 
         {{-- Flash Message --}}
-        @if(session('error'))
-        <div class="alert">{{ session('error') }}</div>
+        @if (session('error'))
+            <div class="alert">{{ session('error') }}</div>
         @endif
-        @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
         <form action="{{ route('auth.login.post') }}" method="POST">
@@ -123,25 +138,22 @@
             <label class="form-label">Username</label>
             <input type="text" name="username" class="form-control" value="{{ old('username') }}">
             @error('username')
-            <div class="error-text">{{ $message }}</div>
+                <div class="error-text">{{ $message }}</div>
             @enderror
 
             <label class="form-label">Password</label>
             <input type="password" name="password" class="form-control">
             @error('password')
-            <div class="error-text">{{ $message }}</div>
+                <div class="error-text">{{ $message }}</div>
             @enderror
 
             <button type="submit" class="btn-primary">Login</button>
 
-            {{-- PERBAIKAN 3: Menambahkan link ke halaman Register --}}
             <a href="{{ route('register') }}" class="register-link">
                 Belum punya akun? Daftar di sini
             </a>
         </form>
-
     </div>
-
 </body>
 
 </html>

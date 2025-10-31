@@ -14,7 +14,10 @@
 
     {{-- Notifikasi Sukses --}}
     @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success shadow-lg rounded-pill text-center">
+    🎉 <strong>Berhasil!</strong>  SELAMAT DATANG Data warga baru telah ditambahkan dengan sukses.
+</div>
+
     @endif
 
     <div class="card shadow mb-4">

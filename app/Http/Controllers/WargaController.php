@@ -57,8 +57,8 @@ class WargaController extends Controller
 
         $warga->update($request->all());
 
-        return redirect()->route('warga.index')
-            ->with('success', 'Data warga berhasil diperbarui.');
+      return redirect()->back()->with('success', 'Data warga berhasil ditambahkan!');
+
     }
 
     public function destroy(Warga $warga)
