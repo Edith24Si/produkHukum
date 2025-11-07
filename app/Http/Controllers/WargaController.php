@@ -10,12 +10,12 @@ class WargaController extends Controller
     public function index()
     {
         $data = Warga::latest()->get();
-        return view('warga.index', compact('data'));
+        return view('pages.warga.index', compact('data'));
     }
 
     public function create()
     {
-        return view('warga.create');
+        return view('pages.warga.create');
     }
 
     public function store(Request $request)
@@ -39,7 +39,7 @@ class WargaController extends Controller
 
     public function edit(Warga $warga) // Laravel otomatis mencari Warga by ID
     {
-        return view('warga.edit', compact('warga'));
+        return view('pages.warga.edit', compact('warga'));
     }
 
     public function update(Request $request, Warga $warga)
@@ -57,7 +57,8 @@ class WargaController extends Controller
 
         $warga->update($request->all());
 
-      return redirect()->back()->with('success', 'Data warga berhasil ditambahkan!');
+       return redirect()->route('warga.index')
+            ->with('success', 'Data warga berhasil ditambahkan.');
 
     }
 

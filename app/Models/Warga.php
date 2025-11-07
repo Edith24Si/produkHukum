@@ -9,6 +9,8 @@ class Warga extends Model
 {
     use HasFactory;
 
+    protected $table = 'wargas';
+
     protected $fillable = [
         'no_ktp',
         'nama',

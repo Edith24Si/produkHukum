@@ -17,7 +17,6 @@
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -36,15 +35,24 @@
                 <div class="container-fluid">
                     @yield('content')
                 </div>
+
             </div>
+            @include('layouts.wa-css')
+<a href="https://wa.me/6281234567890" target="_blank" id="whatsapp-button">
+    <img
+        src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+        alt="WhatsApp">
+</a>
 
             <!-- Footer -->
             @include('layouts.footer')
             <!-- End of Footer -->
+
+
         </div>
     </div>
 
-    <!-- Scroll to Top Button-->
+
+   <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fa
- 

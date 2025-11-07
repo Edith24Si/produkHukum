@@ -10,12 +10,12 @@ class ProdukHukumController extends Controller
     public function index()
     {
         $data = ProdukHukum::latest()->get();
-        return view('produk_hukum.index', compact('data'));
+        return view('pages.produk_hukum.index', compact('data'));
     }
 
     public function create()
     {
-        return view('produk_hukum.create');
+        return view('pages.produk_hukum.create');
     }
 
     public function store(Request $request)
@@ -58,7 +58,7 @@ public function update(Request $request, ProdukHukum $produk)
 }
 
 public function edit(ProdukHukum $produk) {
-    return view('produk_hukum.edit', compact('produk'));
+    return view('pages.produk_hukum.edit', compact('produk'));
 }
 
 public function destroy(ProdukHukum $produk)

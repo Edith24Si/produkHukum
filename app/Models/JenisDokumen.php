@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class JenisDokumen extends Model
 {
     use HasFactory;
-    protected $table = 'jenis_dokumen';
-    /**
-     * Kolom yang boleh diisi.
-     */
+
+    protected $table = 'jenis_dokumen'; 
+
     protected $fillable = [
-        'nama_jenis',
-        'deskripsi',
+        'nama',
+        'deskripsi'
     ];
 }

@@ -8,15 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    /**
-     */
     public function index()
     {
-        return view('auth.login');
+        return view('pages.auth.login');  // ✅ PERBAIKI PATH
     }
 
-    /**
-     */
     public function login(Request $request)
     {
         $request->validate([
@@ -24,6 +20,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        // Coba login dengan username
         $credentials = [
             'username' => $request->username,
             'password' => $request->password
@@ -31,50 +28,40 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            return redirect()->route('dashboard')->with('success', 'Login berhasil!');
+        }
 
-            return redirect()->intended('dashboard')
-                             ->with('success', 'Login berhasil!');
+        // Jika gagal dengan username, coba dengan email
+        $emailCredentials = [
+            'email' => $request->username,
+            'password' => $request->password
+        ];
+
+        if (Auth::attempt($emailCredentials)) {
+            $request->session()->regenerate();
+            return redirect()->route('dashboard')->with('success', 'Login berhasil!');
         }
 
         return back()->with('error', 'Username atau password salah.');
-
-        /*
-        // --- Logic Statis (di-comment seperti permintaan Anda) ---
-        // $usernameBenar = 'edith';
-        // $passwordBenar = '123456';
-        // if ($request->username === $usernameBenar && $request->password === $passwordBenar) {
-        //     $request->session()->put('username', $request->username);
-        //     return redirect()->route('produkHukum.index')->with('success', 'Login berhasil!');
-        // }
-        // return back()->with('error', 'Username atau password salah.');
-        */
     }
 
-    /**
-     * Logout
-     */
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return redirect()->route('auth.login')->with('success', 'Anda telah logout.');
+        return redirect()->route('pages.auth.login')->with('success', 'Anda telah logout.');
     }
 
-    /**
-     */
     public function showRegisterForm()
     {
-        return view('auth.register');
+        return view('pages.auth.register');  // ✅ PERBAIKI PATH
     }
 
-    /**
-     */
     public function processRegister(Request $request)
     {
         $request->validate([
-            'username' => 'required|unique:users,name',
+            'username' => 'required|unique:users,username',  // ✅ PERBAIKI: users,username
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
         ]);
@@ -89,17 +76,4 @@ class AuthController extends Controller
         return redirect()->route('auth.login')
                          ->with('success', 'Registrasi berhasil! Silakan login.');
     }
-    /**
-     * Halaman dashboard
-     * * CATATAN: Fungsi ini tidak lagi digunakan karena
-     * rute '/dashboard' Anda sekarang dilindungi oleh middleware
-     * (Akan kita perbaiki di file web.php)
-     */
-    public function dashboard()
-    {
-        // Logic ini sebaiknya dipindah ke middleware
-        return view('dashboard');
-    }
-    
-
 }

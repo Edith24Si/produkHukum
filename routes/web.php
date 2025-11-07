@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('jenis_dokumen', JenisDokumenController::class);
 
     // Kategori Dokumen
-    Route::resource('kategori_dokumen', KategoriDokumenController::class);
+   
     Route::resource('kategori_dokumen', KategoriDokumenController::class);
     Route::resource('warga', WargaController::class); // <-- TAMBAHKAN INI
     Route::resource('user', UserController::class);
