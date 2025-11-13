@@ -15,6 +15,9 @@ use App\Http\Controllers\GuestController;
 // });
 // --- RUTE GUEST (PUBLIK) ---
 Route::get('/', [GuestController::class, 'index'])->name('home');
+Route::get('/tentang', [GuestController::class, 'tentang'])->name('tentang');
+Route::get('/layanan', [GuestController::class, 'layanan'])->name('layanan');
+Route::get('/kontak', [GuestController::class, 'kontak'])->name('kontak');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login.post');
