@@ -10,12 +10,12 @@ class KategoriDokumenController extends Controller
     public function index()
     {
         $data = KategoriDokumen::latest()->get();
-        return view('kategori_dokumen.index', compact('data'));
+        return view('pages.kategori_dokumen.index', compact('data'));
     }
 
     public function create()
     {
-        return view('kategori_dokumen.create');
+        return view('pages.kategori_dokumen.create');
     }
 
     public function store(Request $request)
@@ -30,13 +30,13 @@ class KategoriDokumenController extends Controller
             'deskripsi' => $request->deskripsi,
         ]);
 
-        return redirect()->route('kategori_dokumen.index')->with('success', 'Kategori berhasil ditambahkan');
+        return redirect()->route('pages.kategori_dokumen.index')->with('success', 'Kategori berhasil ditambahkan');
     }
 
     public function edit($id)
     {
         $kategori = KategoriDokumen::findOrFail($id);
-        return view('kategori_dokumen.edit', compact('kategori'));
+        return view('pages.kategori_dokumen.edit', compact('kategori'));
     }
 
     public function update(Request $request, $id)
@@ -52,7 +52,7 @@ class KategoriDokumenController extends Controller
             'deskripsi' => $request->deskripsi,
         ]);
 
-        return redirect()->route('kategori_dokumen.index')->with('success', 'Kategori berhasil diperbarui');
+        return redirect()->route('pages.kategori_dokumen.index')->with('success', 'Kategori berhasil diperbarui');
     }
 
     public function destroy($id)
@@ -60,6 +60,6 @@ class KategoriDokumenController extends Controller
         $kategori = KategoriDokumen::findOrFail($id);
         $kategori->delete();
 
-        return redirect()->route('kategori_dokumen.index')->with('success', 'Kategori berhasil dihapus');
+        return redirect()->route('pages.kategori_dokumen.index')->with('success', 'Kategori berhasil dihapus');
     }
 }

@@ -3,10 +3,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
-        <h1 class="h3 mb-4 text-gray-800">Dashboard</h1>
-        <p>Selamat datang, {{ session('username') }}!</p>
-    </div>
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Dashboard</h1>
+    <p>Selamat datang, {{ session('username') }}!</p>
+</div>
 @endsection
 
 <head>
@@ -748,7 +748,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="{{ route('auth.logout') }}">Logout</a>
                 </div>
             </div>
         </div>

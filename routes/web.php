@@ -8,13 +8,13 @@ use App\Http\Controllers\JenisDokumenController;
 use App\Http\Controllers\KategoriDokumenController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\UserController;
-// use App\Models\KategoriDokumen;, tidak diperlukan di file rute
+use App\Http\Controllers\GuestController;
 
 Route::get('/', function () {
-    return redirect()->route('auth.login');
+    return redirect()->route('login');
 });
 
-Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login.post');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'processRegister'])->name('register.process');
@@ -37,11 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('jenis_dokumen', JenisDokumenController::class);
 
     // Kategori Dokumen
-   
+
     Route::resource('kategori_dokumen', KategoriDokumenController::class);
     Route::resource('warga', WargaController::class); // <-- TAMBAHKAN INI
     Route::resource('user', UserController::class);
-
-
-
 });
