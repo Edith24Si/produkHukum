@@ -2,13 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\GuestController;
+use App\Http\Controllers\WargaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdukHukumController;
 use App\Http\Controllers\JenisDokumenController;
 use App\Http\Controllers\KategoriDokumenController;
-use App\Http\Controllers\WargaController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\GuestController;
+use App\Http\Controllers\LampiranDokumenController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -47,3 +48,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('warga', WargaController::class); // <-- TAMBAHKAN INI
     Route::resource('user', UserController::class);
 });
+
+Route::resource('lampiran-dokumen', LampiranDokumenController::class);
