@@ -21,7 +21,7 @@ class KategoriDokumenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',   
+            'nama' => 'required',
             'deskripsi' => 'nullable',
         ]);
 
@@ -30,7 +30,7 @@ class KategoriDokumenController extends Controller
             'deskripsi' => $request->deskripsi,
         ]);
 
-        return redirect()->route('pages.kategori_dokumen.index')->with('success', 'Kategori berhasil ditambahkan');
+        return redirect()->route('kategori_dokumen.index')->with('success', 'Kategori berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -60,6 +60,6 @@ class KategoriDokumenController extends Controller
         $kategori = KategoriDokumen::findOrFail($id);
         $kategori->delete();
 
-        return redirect()->route('pages.kategori_dokumen.index')->with('success', 'Kategori berhasil dihapus');
+        return redirect()->route('kategori_dokumen.index')->with('success', 'Kategori berhasil dihapus');
     }
 }
