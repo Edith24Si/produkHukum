@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\WargaController;
+use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdukHukumController;
 use App\Http\Controllers\JenisDokumenController;
@@ -50,3 +51,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::resource('lampiran-dokumen', LampiranDokumenController::class);
+
+Route::get('/dokumen', [DokumenController::class, 'index'])->name('dokumen.index');
+
+Route::get('/produk-hukum', [DokumenController::class, 'index'])->name('produkHukum.index');
