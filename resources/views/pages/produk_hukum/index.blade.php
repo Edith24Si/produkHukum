@@ -20,7 +20,8 @@
                     <th>Judul</th>
                     <th>Nomor</th>
                     <th>Tahun</th>
-                    <th>Jenis/Tentang</th>
+                    {{-- KOREKSI 1: Mengubah judul kolom agar lebih jelas --}}
+                    <th>Jenis / Kategori</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -29,11 +30,17 @@
                 @forelse ($dokumens as $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->judul }}</td>
+                    {{-- Menampilkan Judul secara singkat jika terlalu panjang --}}
+                    <td>{{ \Illuminate\Support\Str::limit($item->judul, 50, '...') }}</td>
                     <td>{{ $item->nomor }}</td>
                     <td>{{ $item->tahun }}</td>
-                    {{-- Memanggil relasi jenisDokumen() dengan kolom nama_jenis --}}
-                    <td>{{ $item->jenisDokumen->nama_jenis ?? 'N/A' }}</td>
+                    {{-- KOREKSI 2: Menampilkan Jenis dan Kategori Dokumen dalam satu sel --}}
+                    <td>
+                        {{-- Menggunakan nama_jenis dari model JenisDokumen --}}
+                        <strong>Jenis:</strong> {{ $item->jenisDokumen->nama_jenis ?? 'N/A' }}<br>
+                        {{-- Menggunakan nama dari model KategoriDokumen (sesuai perbaikan seeder) --}}
+                        <strong>Kategori:</strong> {{ $item->kategoriDokumen->nama ?? 'N/A' }}
+                    </td>
                     <td>
                         <div class="d-flex">
                             <a href="#" class="btn btn-sm btn-info me-2">Lihat</a>
