@@ -114,7 +114,7 @@
             <button type="submit" class="btn btn-primary" style="width: 100%;">Daftar</button>
 
             <div class="text-center mt-3">
-                <a href="{{ route('auth.login') }}">Sudah punya akun? Login</a>
+                <a href="{{ route('login') }}">Sudah punya akun? Login</a>
             </div>
         </form>
     </div>

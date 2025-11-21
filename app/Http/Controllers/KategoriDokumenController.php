@@ -10,18 +10,18 @@ class KategoriDokumenController extends Controller
     public function index()
     {
         $data = KategoriDokumen::latest()->get();
-        return view('kategori_dokumen.index', compact('data'));
+        return view('pages.kategori_dokumen.index', compact('data'));
     }
 
     public function create()
     {
-        return view('kategori_dokumen.create');
+        return view('pages.kategori_dokumen.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',   
+            'nama' => 'required',
             'deskripsi' => 'nullable',
         ]);
 
@@ -36,7 +36,7 @@ class KategoriDokumenController extends Controller
     public function edit($id)
     {
         $kategori = KategoriDokumen::findOrFail($id);
-        return view('kategori_dokumen.edit', compact('kategori'));
+        return view('pages.kategori_dokumen.edit', compact('kategori'));
     }
 
     public function update(Request $request, $id)
@@ -52,7 +52,7 @@ class KategoriDokumenController extends Controller
             'deskripsi' => $request->deskripsi,
         ]);
 
-        return redirect()->route('kategori_dokumen.index')->with('success', 'Kategori berhasil diperbarui');
+        return redirect()->route('pages.kategori_dokumen.index')->with('success', 'Kategori berhasil diperbarui');
     }
 
     public function destroy($id)

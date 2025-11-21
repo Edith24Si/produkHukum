@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jenis_dokumens', function (Blueprint $table) {
-            $table->id();
+        Schema::create('jenis_dokumen', function (Blueprint $table) {
+            $table->id(); // primary key
             $table->string('nama_jenis');
             $table->text('deskripsi')->nullable();
             $table->timestamps();

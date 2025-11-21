@@ -50,7 +50,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('pages.auth.login')->with('success', 'Anda telah logout.');
+        return redirect()->route('login')->with('success', 'Anda telah logout.');
     }
 
     public function showRegisterForm()
@@ -73,7 +73,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('auth.login')
+        return redirect()->route('login')
                          ->with('success', 'Registrasi berhasil! Silakan login.');
     }
 }

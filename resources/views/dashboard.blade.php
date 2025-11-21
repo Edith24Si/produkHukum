@@ -180,22 +180,13 @@
 
 <!-- Chart.js Script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         // Line Chart
         new Chart(document.getElementById('lineChart'), {
             type: 'line',
-            data: {
-                labels: ['Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt'],
-                datasets: [{
-                    label: 'Jumlah Dokumen',
-                    data: [900, 950, 1020, 1100, 1180, {{ $totalDokumen ?? 1230 }}],
-                    borderColor: '#4e73df',
-                    backgroundColor: 'rgba(78,115,223,0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
+            data: [900, 950, 1020, 1100, 1180, {{ $totalDokumen ?? 1230 }}],
             options: {
                 responsive: true,
                 plugins: {

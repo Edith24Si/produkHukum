@@ -2,68 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProdukHukum;
 use Illuminate\Http\Request;
+use App\Models\Dokumen;
+use App\Models\JenisDokumen;
+use App\Models\KategoriDokumen;
 
 class ProdukHukumController extends Controller
 {
+    /**
+     * Menampilkan daftar semua Dokumen (Produk Hukum).
+     */
     public function index()
     {
-        $data = ProdukHukum::latest()->get();
-        return view('pages.produk_hukum.index', compact('data'));
+        // Ambil data Dokumen dengan eager loading Jenis dan Kategori,
+        // diurutkan berdasarkan tahun terbaru, dan dipaginasi 15 data per halaman.
+        $dokumens = Dokumen::with(['jenisDokumen', 'kategoriDokumen'])
+            ->orderBy('tahun', 'desc')
+            ->paginate(15);
+
+        // Kirim data ke view 'pages.produk_hukum.index'
+        return view('pages.produk_hukum.index', compact('dokumens'));
     }
 
+    /**
+     * Menampilkan form untuk membuat Dokumen (Produk Hukum) baru.
+     */
     public function create()
     {
-        return view('pages.produk_hukum.create');
+        // Ambil data Jenis dan Kategori untuk dropdown
+        $jenisDokumens = JenisDokumen::all();
+        $kategoriDokumens = KategoriDokumen::all();
+
+        // Kirim data ke view 'pages.produk_hukum.create'
+        return view('pages.produk_hukum.create', compact('jenisDokumens', 'kategoriDokumens'));
     }
 
+    /**
+     * Menyimpan Dokumen baru ke database.
+     */
     public function store(Request $request)
-{
-    $request->validate([
-        'judul' => 'required',
-        'nomor' => 'required',
-        'tahun' => 'required',
-        'tentang' => 'required',
-        'file' => 'nullable|file|mimes:pdf,docx',
-    ]);
+    {
+        // 1. Validasi Input
+        $validatedData = $request->validate([
+            'judul' => 'required|string|max:255',
+            'nomor' => 'required|integer|min:1',
+            'tahun' => 'required|integer|min:1900|max:' . date('Y'),
+            'tanggal_penetapan' => 'required|date',
+            'jenis_dokumen_id' => 'required|exists:jenis_dokumen,id',
+            'kategori_dokumen_id' => 'required|exists:kategori_dokumen,id',
+            'file_dokumen' => 'nullable|file|max:5120|mimes:pdf,doc,docx,xls,xlsx,zip,rar',
+        ]);
 
-    $file = null;
-    if ($request->hasFile('file')) {
-        $file = $request->file('file')->store('produk_hukum', 'public');
+        // 2. Proses Unggah File (Jika ada)
+        if ($request->hasFile('file_dokumen')) {
+            $file = $request->file('file_dokumen');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            // Simpan file ke direktori 'public/dokumen_hukum'
+            $path = $file->storeAs('dokumen_hukum', $filename, 'public');
+            $validatedData['file_path'] = $path;
+        }
+
+        // 3. Simpan Data ke Database
+        Dokumen::create($validatedData);
+
+        // 4. Redirect dengan Pesan Sukses
+        return redirect()->route('produkHukum.index')
+                         ->with('success', 'Produk Hukum berhasil ditambahkan!');
     }
 
-    ProdukHukum::create([
-        'judul' => $request->judul,
-        'nomor' => $request->nomor,
-        'tahun' => $request->tahun,
-        'tentang' => $request->tentang,
-        'file' => $file,
-    ]);
-
-    return redirect()->route('produkHukum.index')->with('success', 'Data berhasil ditambahkan');
-}
-
-public function update(Request $request, ProdukHukum $produk)
-{
-    $request->validate([
-        'judul' => 'required',
-        'nomor' => 'required',
-        'tahun' => 'required',
-        'tentang' => 'required',
-    ]);
-
-    $produk->update($request->only(['judul', 'nomor', 'tahun', 'tentang']));
-    return redirect()->route('produkHukum.index')->with('success', 'Data berhasil diupdate');
-}
-
-public function edit(ProdukHukum $produk) {
-    return view('pages.produk_hukum.edit', compact('produk'));
-}
-
-public function destroy(ProdukHukum $produk)
-{
-    $produk->delete();
-    return redirect()->route('produkHukum.index')->with('success', 'Data berhasil dihapus');
-}
+    // Anda bisa menambahkan method 'show', 'edit', 'update', dan 'destroy' di sini nanti
+    // ...
 }
