@@ -9,9 +9,8 @@ class JenisDokumenController extends Controller
 {
     public function index()
     {
-        $data = JenisDokumen::all();
-        // Ini sudah benar menggunakan view()
-        return view('pages.jenis_dokumen.index', compact('data'));
+        $data = JenisDokumen::paginate(10);
+        return view('jenis_dokumen.index', compact('data'));
     }
 
     public function create()
