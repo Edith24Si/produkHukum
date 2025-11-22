@@ -64,7 +64,7 @@
     </div>
 
     <div class="d-flex justify-content-center">
-        {{ $dokumens->links() }}
+        {{ $dokumens->links('pagination::bootstrap-5') }}
     </div>
 </div>
 @endsection

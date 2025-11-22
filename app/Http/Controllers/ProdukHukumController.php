@@ -18,7 +18,8 @@ class ProdukHukumController extends Controller
         // diurutkan berdasarkan tahun terbaru, dan dipaginasi 15 data per halaman.
         $dokumens = Dokumen::with(['jenisDokumen', 'kategoriDokumen'])
             ->orderBy('tahun', 'desc')
-            ->paginate(15);
+            ->paginate(30);
+
 
         // Kirim data ke view 'pages.produk_hukum.index'
         return view('pages.produk_hukum.index', compact('dokumens'));
