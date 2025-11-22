@@ -9,7 +9,8 @@ class KategoriDokumenController extends Controller
 {
     public function index()
     {
-        $data = KategoriDokumen::latest()->get();
+        $data = KategoriDokumen::paginate(30);
+
         return view('pages.kategori_dokumen.index', compact('data'));
     }
 

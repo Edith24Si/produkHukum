@@ -32,7 +32,7 @@ class DokumenDummySeeder extends Seeder
         for ($i = 0; $i < 50; $i++) {
             Dokumen::create([
                 // Judul akan menggunakan kalimat Bahasa Indonesia
-                'judul' => 'Peraturan Tentang di Indonesia' . $faker->sentence(5),
+                'judul' => 'Peraturan Tentang di Indonesia' . $faker->sentence(10),
                 'nomor' => $faker->numberBetween(1, 100),
                 'tahun' => $faker->numberBetween(2010, 2025),
                 'tanggal_penetapan' => $faker->dateTimeBetween('-5 years', 'now')->format('Y-m-d'),

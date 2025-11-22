@@ -34,5 +34,7 @@
             @endforeach
         </tbody>
     </table>
+     <div class="d-flex justify-content-center">
+        {{ $data->links('pagination::bootstrap-5') }}
 </div>
 @endsection

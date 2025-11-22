@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             {{-- KOREKSI: Tambahkan enctype untuk mendukung file upload --}}
-            <form action="{{ route('produkHukum.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('pages.produk_hukum.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
@@ -95,7 +95,7 @@
 
                 <div class="d-flex justify-content-end mt-4">
                     <button type="submit" class="btn btn-success me-2">Simpan Dokumen</button>
-                    <a href="{{ route('produkHukum.index') }}" class="btn btn-secondary">Batal</a>
+                    <a href="{{ route('pages.produk_hukum.index') }}" class="btn btn-secondary">Batal</a>
                 </div>
             </form>
         </div>
