@@ -18,7 +18,7 @@ class LampiranDokumenController extends Controller
         $lampirans = LampiranDokumen::with('dokumen')->paginate(20);
 
         // Memuat view index.blade.php
-        return view('pages.lampiran_dokumen.index', compact('lampirans'));
+        return view('pages.lampiran-dokumen.index', compact('lampirans'));
     }
 
     /**
@@ -31,7 +31,7 @@ class LampiranDokumenController extends Controller
         $dokumens = Dokumen::orderBy('judul')->get();
 
         // Memuat view create.blade.php dan mengirimkan data dokumen
-        return view('pages.lampiran_dokumen.create', compact('dokumens'));
+        return view('pages.lampiran-dokumen.create', compact('dokumens'));
     }
 
     /**
