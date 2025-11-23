@@ -12,13 +12,15 @@ class ProdukHukumController extends Controller
     /**
      * Menampilkan daftar semua Dokumen (Produk Hukum).
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Ambil data Dokumen dengan eager loading Jenis dan Kategori,
-        // diurutkan berdasarkan tahun terbaru, dan dipaginasi 15 data per halaman.
+        $filterableColumns = ['Judul'];
+        $filterableColumns =['Judul'];
+
         $dokumens = Dokumen::with(['jenisDokumen', 'kategoriDokumen'])
             ->orderBy('tahun', 'desc')
-            ->paginate(30);
+            ->paginate(30)
+            ->withQueryString();
 
 
         // Kirim data ke view 'pages.produk_hukum.index'
