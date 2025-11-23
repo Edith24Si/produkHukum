@@ -15,9 +15,9 @@
                     <div class="col-md-2">
                         <select name="JenisDokumen" class="form-select">
                             <option value="">All</option>
-                            <option value="Deskripsi" {{ request('JenisDokumen') == 'Deskripsi' ? 'selected' : '' }}>
+                            <option value="deskripsi" {{ request('JenisDokumen') == 'deskripsi' ? 'selected' : '' }}>
                                 Deskripsi</option>
-                            <option value="NamaJenis" {{ request('JenisDokumen') == 'NamaJenis' ? 'selected' : '' }}>
+                            <option value="nama_jenis" {{ request('JenisDokumen') == 'nama_jenis' ? 'selected' : '' }}>
                                 NamaJenis</option>
                         </select>
                     </div>
@@ -33,6 +33,10 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                             </button>
+                            @if (request('search'))
+                                <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
+                                    class="btn btn-outline-secondary ml-3" id="clear-search"> Clear</a>
+                            @endif
                         </div>
                     </div>
                 </div>

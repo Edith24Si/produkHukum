@@ -10,8 +10,10 @@ class JenisDokumenController extends Controller
     public function index(Request $request)
     {
          $filterableColumns = ['jenisDokumen'];
+         $searchableColumns = ['nama_jenis','deskripsi'];
 
         $data = JenisDokumen::filter($request, $filterableColumns)
+        ->search($request,$searchableColumns)
         ->paginate(10)
         ->withQueryString();
 
