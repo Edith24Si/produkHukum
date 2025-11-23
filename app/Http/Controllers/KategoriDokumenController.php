@@ -10,8 +10,10 @@ class KategoriDokumenController extends Controller
     public function index(Request $request)
     {
         $filterableColumns = ['nama_kategori'];
+        $searchableColumns = ['nama','deskripsi'];
 
         $data = KategoriDokumen::filter($request, $filterableColumns)
+        ->search($request,$searchableColumns)
         ->paginate(30)
         ->withQueryString();
 
