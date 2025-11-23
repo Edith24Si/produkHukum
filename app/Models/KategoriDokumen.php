@@ -3,8 +3,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Tambahkan ini
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory; // Tambahkan ini
 
 class KategoriDokumen extends Model
 {
@@ -18,6 +19,13 @@ class KategoriDokumen extends Model
         'deskripsi',
     ];
 
-    // Atau, jika Anda ingin semua kolom boleh diisi (kecuali 'id')
-    // protected $guarded = [];
+    public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
+    {
+        foreach ($filterableColumns as $column) {
+            if ($request->filled($column)) {
+                $query->where($column, $request->input($column));
+            }
+        }
+        return $query;
+    }
 }

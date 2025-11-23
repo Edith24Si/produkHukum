@@ -7,9 +7,13 @@ use App\Models\KategoriDokumen;
 
 class KategoriDokumenController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = KategoriDokumen::paginate(30);
+        $filterableColumns = ['nama_kategori'];
+
+        $data = KategoriDokumen::filter($request, $filterableColumns)
+        ->paginate(30)
+        ->withQueryString();
 
         return view('pages.kategori_dokumen.index', compact('data'));
     }
