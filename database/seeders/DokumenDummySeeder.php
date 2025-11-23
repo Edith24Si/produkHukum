@@ -29,7 +29,7 @@ class DokumenDummySeeder extends Seeder
             return;
         }
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             Dokumen::create([
                 // Judul akan menggunakan kalimat Bahasa Indonesia
                 'judul' => 'Peraturan Tentang di Indonesia' . $faker->sentence(10),
