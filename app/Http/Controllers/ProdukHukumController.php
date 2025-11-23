@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Dokumen;
 use App\Models\JenisDokumen;
 use App\Models\KategoriDokumen;
+use Illuminate\Http\Request;
 
 class ProdukHukumController extends Controller
 {
@@ -14,16 +13,16 @@ class ProdukHukumController extends Controller
      */
     public function index(Request $request)
     {
-        $filterableColumns = ['Judul'];
-        $filterableColumns =['Judul'];
+        $filterableColumns = ['judul', 'nomor', 'tahun'];
+        $searchableColumns = ['nomor', 'judul'];
 
         $dokumens = Dokumen::with(['jenisDokumen', 'kategoriDokumen'])
+            ->filter($request, $filterableColumns)
+            ->search($request, $searchableColumns)
             ->orderBy('tahun', 'desc')
             ->paginate(30)
             ->withQueryString();
 
-
-        // Kirim data ke view 'pages.produk_hukum.index'
         return view('pages.produk_hukum.index', compact('dokumens'));
     }
 
@@ -33,7 +32,7 @@ class ProdukHukumController extends Controller
     public function create()
     {
         // Ambil data Jenis dan Kategori untuk dropdown
-        $jenisDokumens = JenisDokumen::all();
+        $jenisDokumens    = JenisDokumen::all();
         $kategoriDokumens = KategoriDokumen::all();
 
         // Kirim data ke view 'pages.produk_hukum.create'
@@ -47,21 +46,21 @@ class ProdukHukumController extends Controller
     {
         // 1. Validasi Input
         $validatedData = $request->validate([
-            'judul' => 'required|string|max:255',
-            'nomor' => 'required|integer|min:1',
-            'tahun' => 'required|integer|min:1900|max:' . date('Y'),
-            'tanggal_penetapan' => 'required|date',
-            'jenis_dokumen_id' => 'required|exists:jenis_dokumen,id',
+            'judul'               => 'required|string|max:255',
+            'nomor'               => 'required|integer|min:1',
+            'tahun'               => 'required|integer|min:1900|max:' . date('Y'),
+            'tanggal_penetapan'   => 'required|date',
+            'jenis_dokumen_id'    => 'required|exists:jenis_dokumen,id',
             'kategori_dokumen_id' => 'required|exists:kategori_dokumen,id',
-            'file_dokumen' => 'nullable|file|max:5120|mimes:pdf,doc,docx,xls,xlsx,zip,rar',
+            'file_dokumen'        => 'nullable|file|max:5120|mimes:pdf,doc,docx,xls,xlsx,zip,rar',
         ]);
 
         // 2. Proses Unggah File (Jika ada)
         if ($request->hasFile('file_dokumen')) {
-            $file = $request->file('file_dokumen');
+            $file     = $request->file('file_dokumen');
             $filename = time() . '_' . $file->getClientOriginalName();
             // Simpan file ke direktori 'public/dokumen_hukum'
-            $path = $file->storeAs('dokumen_hukum', $filename, 'public');
+            $path                       = $file->storeAs('dokumen_hukum', $filename, 'public');
             $validatedData['file_path'] = $path;
         }
 
@@ -70,7 +69,7 @@ class ProdukHukumController extends Controller
 
         // 4. Redirect dengan Pesan Sukses
         return redirect()->route('produkHukum.index')
-                         ->with('success', 'Produk Hukum berhasil ditambahkan!');
+            ->with('success', 'Produk Hukum berhasil ditambahkan!');
     }
 
     // Anda bisa menambahkan method 'show', 'edit', 'update', dan 'destroy' di sini nanti
