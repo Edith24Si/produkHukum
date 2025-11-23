@@ -7,9 +7,14 @@ use App\Models\JenisDokumen;
 
 class JenisDokumenController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = JenisDokumen::paginate(10);
+         $filterableColumns = ['jenisDokumen'];
+
+        $data = JenisDokumen::filter($request, $filterableColumns)
+        ->paginate(10)
+        ->withQueryString();
+
         return view('pages.jenis_dokumen.index', compact('data'));
     }
 
