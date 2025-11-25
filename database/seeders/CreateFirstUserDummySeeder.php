@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Faker\Factory as Faker; // Ini sudah benar
+use Faker\Factory as Faker; 
 
 class CreateFirstUserDummySeeder extends Seeder
 {
@@ -35,8 +35,6 @@ class CreateFirstUserDummySeeder extends Seeder
         for ($i = 0; $i < 100; $i++) {
             $namaUser = 'User ' . ucfirst($faker->unique()->word()) . ' ' . $faker->randomNumber(3);
 
-            // Perbaiki: User::create HARUS dipanggil di dalam perulangan
-            // dan menggunakan data dari $faker untuk data dummy.
             User::create([
                 'name' => $namaUser,
                 // Gunakan faker untuk username, pastikan unique
