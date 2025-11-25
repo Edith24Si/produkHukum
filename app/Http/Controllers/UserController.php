@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 
         $filterableColumns = ['User'];
@@ -19,7 +19,7 @@ class UserController extends Controller
         ->search($request,$searchableColumns)
         ->paginate(10)
         ->withQueryString();
-        latest()->get();
+        // latest()->get();
         return view('pages.user.index', compact('data'));
     }
 

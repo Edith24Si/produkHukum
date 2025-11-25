@@ -79,6 +79,10 @@
                                                             clip-rule="evenodd"></path>
                                                     </svg>
                                                 </button>
+                                                @if (request('search'))
+                                                    <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
+                                                        class="btn btn-outline-secondary ml-3" id="clear-search"> Clear</a>
+                                                @endif
                                             </div>
                                         </div>
                                         @forelse($data as $index => $user)
