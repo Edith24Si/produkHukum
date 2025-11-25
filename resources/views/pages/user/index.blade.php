@@ -20,16 +20,6 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        <div class="table-responsive">
-            <form method="GET" action="{{ route('user.index') }}" onchange="this.form.submit()" class="mb-3">
-                <div class="row">
-                    <div class="col-md-2">
-                        <select name="user" class="form-select">
-                            <option value="">All</option>
-                            <option value="name" {{ request('username') == 'name' ? 'selected' : '' }}>nama</option>
-                            <option value="email" {{ request('username') == 'email' ? 'selected' : '' }}>email</option>
-                        </select>
-                    </div>
                 </div>
             </form>
         </div>
