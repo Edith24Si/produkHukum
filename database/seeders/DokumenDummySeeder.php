@@ -5,8 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Dokumen;
 use App\Models\JenisDokumen;
-use App\Models\KategoriDokumen; // Import Model KategoriDokumen
-use Faker\Factory as Faker; // Import class Faker
+use App\Models\KategoriDokumen;
+use Faker\Factory as Faker; 
 
 class DokumenDummySeeder extends Seeder
 {

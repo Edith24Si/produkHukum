@@ -11,7 +11,15 @@ class UserController extends Controller
 {
     public function index()
     {
-        $data = User::latest()->get();
+
+        $filterableColumns = ['User'];
+        $searchableColumns = ['name', 'email','username','password'];
+
+        $data = User::filter($request, $filterableColumns)
+        ->search($request,$searchableColumns)
+        ->paginate(10)
+        ->withQueryString();
+        latest()->get();
         return view('pages.user.index', compact('data'));
     }
 
