@@ -11,6 +11,7 @@ use App\Http\Controllers\ProdukHukumController;
 use App\Http\Controllers\JenisDokumenController;
 use App\Http\Controllers\KategoriDokumenController;
 use App\Http\Controllers\LampiranDokumenController; // Sudah di-import
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -54,7 +55,14 @@ Route::middleware(['auth'])->group(function () {
     // Resource ini mencakup index(), create(), dan store()
     Route::resource('lampiran-dokumen', LampiranDokumenController::class)->names('lampiranDokumen');
 
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile-picture', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
 });
+
+
 
 // SEMUA ROUTE DUPLIKAT DI BAWAH INI DIHAPUS / DIKOMENTARI
 // Route::prefix('lampiran-dokumen')->group(function () {

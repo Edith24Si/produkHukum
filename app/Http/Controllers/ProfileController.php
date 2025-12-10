@@ -12,7 +12,12 @@ class ProfileController extends Controller
     // Show the edit profile form
     public function edit()
     {
-        return view('profile.edit');
+        // PERBAIKAN DI SINI:
+        // Ambil data user yang sedang login
+        $user = Auth::user();
+
+        // Kirim variable $user ke view
+        return view('profile.edit', compact('user'));
     }
 
     // Update the user's profile picture
@@ -26,11 +31,16 @@ class ProfileController extends Controller
 
         // Delete the old profile picture if it exists
         if ($user->profile_picture) {
-            Storage::disk('public')->delete($user->profile_picture);
+            // Cek dulu apakah file fisik benar-benar ada untuk menghindari error
+            if(Storage::disk('public')->exists($user->profile_picture)) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
         }
 
         // Store the new profile picture
         $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+
+        // Simpan path ke database (tanpa perlu mendefinisikan variabel $user lagi karena objectnya reference)
         $user->profile_picture = $path;
         $user->save();
 
@@ -50,7 +60,12 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         if ($user->profile_picture) {
-            Storage::disk('public')->delete($user->profile_picture);
+            // Hapus file dari storage jika ada
+            if(Storage::disk('public')->exists($user->profile_picture)) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+
+            // Set null di database
             $user->profile_picture = null;
             $user->save();
         }
