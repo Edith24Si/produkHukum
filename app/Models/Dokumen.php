@@ -11,7 +11,7 @@ class Dokumen extends Model
 
     protected $guarded = []; // Agar dapat diisi oleh Seeder
     protected $table   = 'dokumens';
-
+    protected $primaryKey = 'dokumen_id';
     // Relasi untuk mengambil nama Jenis Dokumen
     public function jenisDokumen()
     {

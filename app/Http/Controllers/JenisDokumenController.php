@@ -50,20 +50,18 @@ class JenisDokumenController extends Controller
         $jenis = JenisDokumen::findOrFail($id);
 
         $request->validate([
-            'nama_jenis' => 'required|unique:jenis_dokumen,nama_jenis,' . $id . ',jenis_id',
+            // HAPUS bagian ',jenis_id' di belakang.
+            // Laravel secara default akan mencari kolom 'id' jika parameter ke-4 tidak diisi.
+            'nama_jenis' => 'required|unique:jenis_dokumen,nama_jenis,' . $id,
+
+            // Atau jika ingin lebih eksplisit menyebutkan 'id':
+            // 'nama_jenis' => 'required|unique:jenis_dokumen,nama_jenis,' . $id . ',id',
+
             'deskripsi' => 'nullable|string'
         ]);
 
-/*************  ✨ Windsurf Command ⭐  *************/
-    /**
-     * Menghapus jenis dokumen berdasarkan id
-     *
-     * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-/*******  f6636020-6af6-4692-8432-bce3fd0df56b  *******/        $jenis->update($request->all());
+        $jenis->update($request->all());
 
-        // --- INI YANG DIPERBAIKI ---
         return redirect()->route('jenis_dokumen.index')->with('success', 'Jenis dokumen berhasil diperbarui.');
     }
 

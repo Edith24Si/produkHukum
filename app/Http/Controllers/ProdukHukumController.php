@@ -5,6 +5,7 @@ use App\Models\Dokumen;
 use App\Models\JenisDokumen;
 use App\Models\KategoriDokumen;
 use Illuminate\Http\Request;
+use App\Models\Media;
 
 class ProdukHukumController extends Controller
 {
@@ -71,7 +72,82 @@ class ProdukHukumController extends Controller
         return redirect()->route('produkHukum.index')
             ->with('success', 'Produk Hukum berhasil ditambahkan!');
     }
+    public function show($id)
+    {
+        // 1. Ambil detail dokumen
+        $dokumen = Dokumen::with(['jenisDokumen', 'kategoriDokumen'])->findOrFail($id);
 
-    // Anda bisa menambahkan method 'show', 'edit', 'update', dan 'destroy' di sini nanti
-    // ...
+        // 2. Ambil file media milik dokumen ini
+        // Note: 'dokumens' adalah nama tabel Anda di database
+        $medias = Media::where('ref_table', 'dokumens')
+            ->where('ref_id', $id)
+            ->latest()
+            ->get();
+
+        return view('pages.produk_hukum.show', compact('dokumen', 'medias'));
+    }
+    /**
+     * Menampilkan form edit.
+     */
+    public function edit($id)
+    {
+        // Menggunakan findOrFail dengan ID yang sesuai (dokumen_id)
+        $dokumen = Dokumen::findOrFail($id);
+
+        $jenisDokumens = JenisDokumen::all();
+        $kategoriDokumens = KategoriDokumen::all();
+
+        return view('pages.produk_hukum.edit', compact('dokumen', 'jenisDokumens', 'kategoriDokumens'));
+    }
+
+    /**
+     * Menyimpan perubahan (Update).
+     */
+    public function update(Request $request, $id)
+    {
+        $dokumen = Dokumen::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'judul' => 'required|string|max:255',
+            'nomor' => 'required|string', // Ubah jadi string jaga-jaga ada huruf
+            'tahun' => 'required|integer|min:1900|max:' . date('Y'),
+            'tanggal_penetapan' => 'required|date',
+            'jenis_dokumen_id' => 'required|exists:jenis_dokumen,id',
+            'kategori_dokumen_id' => 'required|exists:kategori_dokumen,id',
+            'file_dokumen' => 'nullable|file|max:5120|mimes:pdf,doc,docx,xls,xlsx,zip,rar',
+        ]);
+
+        // Cek jika ada file baru diupload untuk mengganti file utama
+        if ($request->hasFile('file_dokumen')) {
+            // Hapus file lama jika ada (Opsional, perlu import Storage)
+            // if ($dokumen->file_path && \Illuminate\Support\Facades\Storage::exists('public/' . $dokumen->file_path)) {
+            //    \Illuminate\Support\Facades\Storage::delete('public/' . $dokumen->file_path);
+            // }
+
+            $file = $request->file('file_dokumen');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('dokumen_hukum', $filename, 'public');
+
+            $validatedData['file_path'] = $path;
+        }
+
+        $dokumen->update($validatedData);
+
+        return redirect()->route('produkHukum.index')
+            ->with('success', 'Produk Hukum berhasil diperbarui!');
+    }
+
+    /**
+     * Menghapus data.
+     */
+    public function destroy($id)
+    {
+        $dokumen = Dokumen::findOrFail($id);
+
+        // Hapus data (File fisik bisa dihapus juga jika perlu)
+        $dokumen->delete();
+
+        return redirect()->route('produkHukum.index')
+            ->with('success', 'Produk Hukum berhasil dihapus!');
+    }
 }

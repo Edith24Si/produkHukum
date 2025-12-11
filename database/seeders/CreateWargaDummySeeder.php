@@ -5,36 +5,29 @@ namespace Database\Seeders;
 use App\Models\Warga;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class CreateWargaDummySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-
     public function run(): void
     {
-        // Membuat instance Faker dengan locale Indonesia
         $faker = Faker::create('id_ID');
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 50; $i++) {
 
-            $namaWarga = 'Warga ' . ucfirst($faker->unique()->word()) . ' ' . $faker->randomNumber(3);
+            // Simpan nama ke variabel dulu
+            $namaWarga = $faker->name;
 
             Warga::create([
-                'nama' => $nama,
-
-                // Menambahkan field 'no_ktp' yang diwajibkan oleh database
-                'no_ktp' => $faker->unique()->numerify('################'), // Menghasilkan 16 digit angka unik
-                'Email'  => 'Email untuk ' . $namaWarga . ': ' . $faker->sentence(6),
-                 'jenis_kelamin' => $faker->randomElement(['Laki-laki', 'Perempuan']),
-                  'agama' => $faker->randomElement(['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu']),
-                   'pekerjaan' => $faker->jobTitle,
-
+                'nama' => $namaWarga, // Panggil variabel yg benar
+                'no_ktp' => $faker->unique()->numerify('16##00######000#'), // Format NIK Indonesia
+                'email' => $faker->unique()->safeEmail, // Gunakan huruf kecil 'email'
+                'jenis_kelamin' => $faker->randomElement(['Laki-laki', 'Perempuan']),
+                'agama' => $faker->randomElement(['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu']),
+                'pekerjaan' => $faker->jobTitle,
+                // Tambahkan field lain jika ada di migration (misal: alamat, tgl_lahir)
             ]);
         }
 
-        $this->command->info('Berhasil membuat 100 data dummy untuk Warga.');
+        $this->command->info('Berhasil membuat 50 data dummy untuk Warga.');
     }
 }

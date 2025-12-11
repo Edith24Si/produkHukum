@@ -8,23 +8,25 @@ use Faker\Factory as Faker;
 
 class KategoriDokumenDummySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $faker = Faker::create('id_ID');
 
-        for ($i = 0; $i < 100; $i++) {
+        // Data pasti
+        $kategoriFix = ['Hukum Pidana', 'Hukum Perdata', 'Administrasi'];
+        foreach ($kategoriFix as $k) {
+            KategoriDokumen::firstOrCreate(['nama' => $k], ['deskripsi' => 'Deskripsi ' . $k]);
+        }
 
-            $namaKategori = 'Kategori ' . ucfirst($faker->unique()->word()) . ' ' . $faker->randomNumber(3);
-
+        // Data dummy
+        for ($i = 0; $i < 20; $i++) {
+            $namaKategori = 'Kategori ' . ucfirst($faker->unique()->word());
             KategoriDokumen::create([
                 'nama' => $namaKategori,
-                'deskripsi'  => 'Deskripsi untuk ' . $namaKategori . ': ' . $faker->sentence(6),
+                'deskripsi' => $faker->sentence(6),
             ]);
         }
 
-        $this->command->info('Berhasil membuat 100 data dummy untuk Jenis Dokumen.');
+        $this->command->info('Berhasil membuat data Kategori Dokumen.');
     }
 }

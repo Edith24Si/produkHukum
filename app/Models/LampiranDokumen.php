@@ -10,6 +10,7 @@ class LampiranDokumen extends Model
     use HasFactory;
 
     protected $table = 'lampiran_dokumen';
+    
     protected $guarded = []; // Mengizinkan semua field untuk diisi
 
     /**

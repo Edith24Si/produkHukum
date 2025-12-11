@@ -8,23 +8,25 @@ use Faker\Factory as Faker;
 
 class JenisDokumenDummySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $faker = Faker::create('id_ID');
 
-        for ($i = 0; $i < 100; $i++) {
+        // Buat beberapa data pasti dulu
+        $jenisFix = ['Peraturan Desa', 'Peraturan Kepala Desa', 'Keputusan Kepala Desa'];
+        foreach ($jenisFix as $j) {
+            JenisDokumen::firstOrCreate(['nama_jenis' => $j], ['deskripsi' => 'Deskripsi ' . $j]);
+        }
 
+        // Sisanya dummy acak
+        for ($i = 0; $i < 20; $i++) {
             $namaJenis = 'Jenis ' . ucfirst($faker->unique()->word()) . ' ' . $faker->randomNumber(3);
-
             JenisDokumen::create([
                 'nama_jenis' => $namaJenis,
-                'deskripsi'  => 'Deskripsi untuk ' . $namaJenis . ': ' . $faker->sentence(6),
+                'deskripsi' => $faker->sentence(6),
             ]);
         }
 
-        $this->command->info('Berhasil membuat 100 data dummy untuk Jenis Dokumen.');
+        $this->command->info('Berhasil membuat data Jenis Dokumen.');
     }
 }

@@ -8,17 +8,16 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        // Panggil semua seeder yang Anda buat
-       $this->call([
-        CreateFirstUser::class,
-        JenisDokumenSeeder::class,
-        KategoriDokumenSeeder::class,
-        DokumenDummySeeder::class, // <-- TAMBAHKAN INI
-    ]);
+        // Panggil seeder sesuai urutan relasi (Parent dulu baru Child)
+        $this->call([
+            CreateFirstUserDummySeeder::class, // User Admin & Dummy
+            JenisDokumenDummySeeder::class,    // Data Master Jenis
+            KategoriDokumenDummySeeder::class, // Data Master Kategori
+            DokumenDummySeeder::class,         // Data Dokumen (Butuh Jenis & Kategori)
+            CreateWargaDummySeeder::class,     // Data Warga
+        ]);
     }
 }

@@ -82,11 +82,15 @@
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->username }}</td>
                                                 <td>
-                                                    <a href="{{ route('user.edit', $user->id) }}"
-                                                        class="btn btn-warning btn-sm">Edit</a>
-
-                                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST"
-                                                        class="d-inline">
+                                                    @if($user->role == 'admin')
+                                                        <span class="badge badge-primary">Admin</span>
+                                                    @else
+                                                        <span class="badge badge-secondary">User</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger btn-sm"

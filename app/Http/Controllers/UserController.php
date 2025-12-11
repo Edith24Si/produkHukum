@@ -4,22 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash; // <-- Import Hash
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
-
         $filterableColumns = ['User'];
-        $searchableColumns = ['name', 'email','username','password'];
+        // Tambahkan 'role' ke kolom pencarian
+        $searchableColumns = ['name', 'email', 'username', 'role'];
 
         $data = User::filter($request, $filterableColumns)
-        ->search($request,$searchableColumns)
-        ->paginate(10)
-        ->withQueryString();
-        // latest()->get();
+            ->search($request, $searchableColumns)
+            ->paginate(10)
+            ->withQueryString();
+
         return view('pages.user.index', compact('data'));
     }
 
@@ -35,6 +35,7 @@ class UserController extends Controller
             'username' => 'required|string|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
+            'role' => 'required|in:admin,user', // Validasi Role
         ]);
 
         User::create([
@@ -42,6 +43,7 @@ class UserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role, // Simpan Role
         ]);
 
         return redirect()->route('user.index')
@@ -59,17 +61,17 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'username' => 'required|string|unique:users,username,' . $user->id,
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:8|confirmed', // Password boleh kosong
+            'password' => 'nullable|min:8|confirmed',
+            'role' => 'required|in:admin,user', // Validasi Role
         ]);
 
-        // Siapkan data update
         $dataToUpdate = [
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
+            'role' => $request->role, // Update Role
         ];
 
-        // Hanya update password JIKA diisi
         if ($request->filled('password')) {
             $dataToUpdate['password'] = Hash::make($request->password);
         }
@@ -82,7 +84,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        // Opsional: jangan biarkan user menghapus dirinya sendiri
         if (Auth::id() == $user->id) {
             return back()->with('error', 'Anda tidak bisa menghapus akun Anda sendiri.');
         }

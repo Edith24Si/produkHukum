@@ -5,104 +5,100 @@
         <h1 class="h3 mb-4 text-gray-800">Data Produk Hukum</h1>
 
         <a href="{{ route('produkHukum.create') }}" class="btn btn-primary mb-3">
-            + Tambah Produk Hukum
+            <i class="fas fa-plus"></i> Tambah Produk Hukum
         </a>
 
         @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         @endif
 
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="bg-primary text-white">
-                    <tr>
-                        <th>No</th>
-                        <th>Judul</th>
-                        <th>Nomor</th>
-                        <th>Tahun</th>
-                        {{-- KOREKSI 1: Mengubah judul kolom agar lebih jelas --}}
-                        <th>Jenis / Kategori</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
+        {{-- PERBAIKAN STRUKTUR: Form pencarian diletakkan DI LUAR tabel --}}
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <form method="GET" action="{{ route('produkHukum.index') }}" class="form-inline float-right">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control bg-light border-0 small"
+                            value="{{ request('search') }}" placeholder="Cari dokumen..." aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <h6 class="m-0 font-weight-bold text-primary pt-2">Daftar Dokumen</h6>
+            </div>
 
-
-                    <div class="table-responsive">
-                        <form method="GET" action="{{ route('produkHukum.index') }}">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <select name="Judul" class="form-select" onchange="this.form.submit()" class="mb-3">
-                                        <option value="">All</option>
-                                        <option value="Nomor" {{ request('judul') == 'Nomor' ? 'selected' : '' }}>Nomor
-                                        </option>
-                                        <option value="Tahun" {{ request('judul') == 'Tahun' ? 'selected' : '' }}>Tahun
-                                        </option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <input type="text" name="search" class="form-control" id="exampleInputIconRight"
-                                            value="{{ request('search') }}" placeholder="Search" aria-label="Search">
-                                        <button type="submit" class="input-group-text" id="basic-addon2">
-                                            <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd"
-                                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                                    clip-rule="evenodd"></path>
-                                            </svg>
-                                        </button>
-                                        @if (request('search'))
-                                            <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
-                                                class="btn btn-outline-secondary ml-3" id="clear-search"> Clear</a>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                {{-- Loop menggunakan variabel $dokumens --}}
-                                @forelse ($dokumens as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        {{-- Menampilkan Judul secara singkat jika terlalu panjang --}}
-                                        <td>{{ \Illuminate\Support\Str::limit($item->judul, 50, '...') }}</td>
-                                        <td>{{ $item->nomor }}</td>
-                                        <td>{{ $item->tahun }}</td>
-                                        {{-- KOREKSI 2: Menampilkan Jenis dan Kategori Dokumen dalam satu sel --}}
-                                        <td>
-                                            {{-- Menggunakan nama_jenis dari model JenisDokumen --}}
-                                            <strong>Jenis:</strong> {{ $item->jenisDokumen->nama_jenis ?? 'N/A' }}<br>
-                                            {{-- Menggunakan nama dari model KategoriDokumen (sesuai perbaikan seeder) --}}
-                                            <strong>Kategori:</strong> {{ $item->kategoriDokumen->nama ?? 'N/A' }}
-                                        </td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <a href="#" class="btn btn-sm btn-info me-2">Lihat</a>
-                                                <a href="{{ route('produkHukum.edit', $item->id) }}"
-                                                    class="btn btn-sm btn-warning me-2">Edit</a>
-
-                                                <form action="{{ route('produkHukum.destroy', $item->id) }}" method="POST"
-                                                    onsubmit="return confirm('Yakin ingin menghapus dokumen ini?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
-
-                            </div>
-                            </td>
-                            </tr>
-                        @empty
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="thead-light">
                             <tr>
-                                <td colspan="6" class="text-center">Tidak ada data produk hukum yang ditemukan.</td>
+                                <th width="5%">No</th>
+                                <th>Judul</th>
+                                <th>Nomor</th>
+                                <th>Tahun</th>
+                                <th>Jenis / Kategori</th>
+                                <th width="20%">Aksi</th>
                             </tr>
-                            @endforelse
-                </tbody>
-            </table>
-        </div>
+                        </thead>
+                        <tbody>
+                            @forelse ($dokumens as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($item->judul, 50, '...') }}</td>
+                                    <td>{{ $item->nomor }}</td>
+                                    <td>{{ $item->tahun }}</td>
+                                    <td>
+                                        <span
+                                            class="badge badge-primary">{{ $item->jenisDokumen->nama_jenis ?? '-' }}</span><br>
+                                        <small class="text-muted">{{ $item->kategoriDokumen->nama ?? '-' }}</small>
+                                    </td>
+                                    <td>
+                                        {{-- PERBAIKAN LINK --}}
 
-        <div class="d-flex justify-content-center">
-            {{ $dokumens->links('pagination::bootstrap-5') }}
+                                        {{-- 1. Tombol Lihat (Detail/Upload Media) --}}
+                                        {{-- Pastikan menggunakan primary key yang benar (dokumen_id) --}}
+                                        <a href="{{ route('produkHukum.show', $item->dokumen_id) }}" class="btn btn-sm btn-info"
+                                            title="Detail & Upload">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+
+                                        {{-- 2. Tombol Edit --}}
+                                        <a href="{{ route('produkHukum.edit', $item->dokumen_id) }}"
+                                            class="btn btn-sm btn-warning" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        {{-- 3. Tombol Hapus --}}
+                                        <form action="{{ route('produkHukum.destroy', $item->dokumen_id) }}" method="POST"
+                                            class="d-inline" onsubmit="return confirm('Yakin ingin menghapus dokumen ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">Tidak ada data produk hukum yang ditemukan.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-3">
+                    {{ $dokumens->links('pagination::bootstrap-4') }}
+                </div>
+            </div>
         </div>
     </div>
 @endsection
