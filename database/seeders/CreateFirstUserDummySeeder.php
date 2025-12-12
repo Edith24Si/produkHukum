@@ -19,7 +19,7 @@ class CreateFirstUserDummySeeder extends Seeder
             [
                 'name' => 'Admin Hukum',
                 'username' => 'adminhukum',
-                'password' => Hash::make('password'), // Password default
+                'password' => Hash::make('password123'), // Password default
                 'role' => 'admin', // <--- PENTING: Paksa role jadi admin
             ]
         );
