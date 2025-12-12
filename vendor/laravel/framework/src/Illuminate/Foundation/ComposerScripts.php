@@ -4,6 +4,7 @@ namespace Illuminate\Foundation;
 
 use Composer\Installer\PackageEvent;
 use Composer\Script\Event;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Console\Kernel;
 
 class ComposerScripts
@@ -63,11 +64,14 @@ class ComposerScripts
 
         require_once $vendorDir.'/autoload.php';
 
-        define('LARAVEL_START', microtime(true));
+        if (! defined('LARAVEL_START')) {
+            define('LARAVEL_START', microtime(true));
+        }
+
+        require_once $bootstrapFile;
 
         /** @var Application $app */
-        $app = require_once $bootstrapFile;
-
+        $app = Container::getInstance();
         $app->make(Kernel::class)->bootstrap();
 
         /** @var \Composer\DependencyResolver\Operation\UninstallOperation $uninstallOperation */

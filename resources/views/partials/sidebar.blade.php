@@ -5,7 +5,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-gavel"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Produk Hukum</div>
+        <div class="sidebar-brand-text mx-3">Portal Akses Hukum</div>
     </a>
 
     <!-- Divider -->

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin - Produk Hukum</title>
+    <title>Login Admin - Portal Akses Hukum</title>
     <style>
         body {
             background: url('/images/login.jpg') no-repeat center center fixed;
@@ -122,7 +122,7 @@
 
 
         <h2>Login Admin</h2>
-        <p class="desc">Akses sistem manajemen produk hukum untuk mengelola data dan informasi secara efisien.</p>
+        <p class="desc">Akses sistem manajemen portal hukum untuk mengelola data dan informasi secara efisien.</p>
 
         {{-- Flash Message --}}
         @if (session('error'))

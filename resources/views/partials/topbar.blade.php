@@ -5,7 +5,7 @@
         <i class="fa fa-bars"></i>
     </button>
 
-    <h5 class="m-0 font-weight-bold text-primary">Dashboard Produk Hukum</h5>
+    <h5 class="m-0 font-weight-bold text-primary">Dashboard Portal Akses Hukum</h5>
 
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown no-arrow">

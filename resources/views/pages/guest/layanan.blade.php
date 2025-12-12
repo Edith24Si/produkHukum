@@ -5,7 +5,7 @@
 @section('content')
 <div class="container py-5">
     <div class="text-center mb-5">
-        <h1 class="display-5 fw-bold">Layanan Desa</h1>
+        <h1 class="display-5 fw-bold">Layanan Hukum</h1>
         <p class="fs-5 text-muted">Kami menyediakan berbagai layanan untuk warga.</p>
     </div>
 
