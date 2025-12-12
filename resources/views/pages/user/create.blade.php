@@ -21,7 +21,8 @@
                     </div>
                 @endif
 
-                <form action="{{ route('user.store') }}" method="POST">
+                {{-- PENTING: Tambahkan enctype="multipart/form-data" --}}
+                <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -54,6 +55,24 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- START: Tambah Form Foto Profil --}}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr>
+                            <p><strong>Foto Profil</strong></p>
+                            <p class="text-muted small">Maksimal ukuran file 2MB (jpg, png, jpeg, gif).</p>
+                            <div class="form-group mb-3">
+                                <label>Pilih Foto</label>
+                                <input type="file" name="profile_picture" class="form-control" accept="image/*">
+                                @error('profile_picture')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    {{-- END: Tambah Form Foto Profil --}}
+
                     <hr>
                     <p><strong>Password</strong></p>
 
