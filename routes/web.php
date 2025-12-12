@@ -34,13 +34,13 @@ Route::get('/produk-hukum', [ProdukHukumController::class, 'index'])->name('prod
 // Cari baris ini di bagian RUTE PUBLIK (sekitar baris 30-an)
 Route::get('/produk-hukum/{id}', [ProdukHukumController::class, 'show'])
     ->name('produkHukum.show')
-    ->where('id', '[0-9]+'); // <--- TAMBAHKAN INI  
+    ->where('id', '[0-9]+'); // <--- TAMBAHKAN INI
 
 
 // ====================================================
 // 2. RUTE YANG BUTUH LOGIN (Middleware: checkislogin)
 // ====================================================
-Route::group(['middleware' => ['checkislogin']], function () {
+// Route::group(['middleware' => ['checkislogin']], function () {
 
     // Logout (Semua user yang login bisa logout)
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -56,7 +56,7 @@ Route::group(['middleware' => ['checkislogin']], function () {
     // 3. RUTE KHUSUS ADMIN (Middleware: checkrole:admin)
     // ====================================================
     // Hanya user dengan kolom role = 'admin' yang bisa mengakses ini
-    Route::group(['middleware' => ['checkrole:admin']], function () {
+    // Route::group(['middleware' => ['checkrole:admin']], function () {
 
         // --- CRUD Produk Hukum (Create, Edit, Delete) ---
         // Note: Index dan Show sudah ada di Public di atas
@@ -78,6 +78,6 @@ Route::group(['middleware' => ['checkislogin']], function () {
         // --- Media (Upload File Pendukung) ---
         Route::post('/media/store', [MediaController::class, 'store'])->name('media.store');
         Route::delete('/media/{id}', [MediaController::class, 'destroy'])->name('media.destroy');
-    });
+    // });
 
-});
+// });
