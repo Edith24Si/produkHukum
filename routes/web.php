@@ -25,8 +25,10 @@ Route::get('/', function () {
 // Otentikasi (Login & Register)
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login.post');
+
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'processRegister'])->name('register.process');
+
 
 // Dashboard & Baca Data (Agar tamu bisa melihat data tanpa login)
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -118,7 +118,7 @@
 <body>
     <div class="login-container">
         {{-- Tambahkan Logo Modul --}}
-        <img src="/images/logo-produk-hukum.jpg" alt="Logo Produk Hukum" class="logo">
+        <img src="{{ asset('images/logo-produk-hukum.jpg') }}"alt="Logo Produk Hukum" class="logo">
 
 
         <h2>Login Admin</h2>

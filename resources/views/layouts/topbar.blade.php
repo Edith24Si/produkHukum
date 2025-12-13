@@ -13,12 +13,13 @@
         @endguest
 
         @auth
-            <li class="nav-item">
+           {{-- PERBAIKAN: Link Logout GET di topbar telah dihilangkan atau dikomentari --}}
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="{{ route('auth.logout') }}">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Logout</span>
                     <i class="fas fa-sign-out-alt fa-sm fa-fw text-gray-400"></i>
                 </a>
-            </li>
+            </li> --}}
             <div class="topbar-divider d-none d-sm-block"></div>
 
             <li class="nav-item dropdown no-arrow">
@@ -46,11 +47,14 @@
                         {{ session('last_login') }}
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ route('auth.logout') }}" data-toggle="modal"
-                        data-target="#logoutModal">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Keluar
-                    </a>
+
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('auth.logout') }}">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Logout</span>
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw text-gray-400"></i>
+                </a>
+            </li>
                 </div>
             </li>
         @endauth

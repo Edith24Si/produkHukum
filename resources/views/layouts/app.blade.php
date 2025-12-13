@@ -45,7 +45,8 @@
             {{-- @include('layouts.wa-css') --}}
             <a href="https://wa.me/6281234567890" target="_blank" id="whatsapp-button"
                 style="position: fixed; bottom: 80px; right: 20px; z-index: 99;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="50">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"
+                    width="50">
             </a>
 
             @include('layouts.footer')
@@ -54,6 +55,10 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+    <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
 
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -68,8 +73,11 @@
                 <div class="modal-body"> Pilih "Keluar" di bawah jika Anda siap mengakhiri sesi Anda saat ini.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                    <a class="btn btn-primary" href="{{ route('auth.logout') }}">Keluar</a>
-                </div>
+                 {{-- 2. UBAH TOMBOL DI MODAL LOGOUT UNTUK SUBMIT FORM POST --}}
+                    <a class="btn btn-primary" href="#"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Keluar
+                    </a>
             </div>
         </div>
     </div>

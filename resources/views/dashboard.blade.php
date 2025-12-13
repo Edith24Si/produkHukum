@@ -173,6 +173,7 @@
                     </tbody>
                 </table>
             </div>
+             <span>&copy; 2025 Portal Akses Hukum. Hak Cipta Dilindungi.</span>
         </div>
     </div>
 
