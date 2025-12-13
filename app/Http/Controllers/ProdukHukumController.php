@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Dokumen;
 use App\Models\JenisDokumen;
 use App\Models\KategoriDokumen;
-use Illuminate\Http\Request;
 use App\Models\Media;
+use Illuminate\Http\Request;
 
 class ProdukHukumController extends Controller
 {
@@ -84,6 +84,12 @@ class ProdukHukumController extends Controller
             ->latest()
             ->get();
 
+        // Tambahkan ini untuk dokumen terkait
+        $relatedDocuments = Dokumen::where('jenis_dokumen_id', $dokumen->jenis_dokumen_id)
+            ->where('dokumen_id', '!=', $id)
+            ->limit(3)
+            ->get();
+
         return view('pages.produk_hukum.show', compact('dokumen', 'medias'));
     }
     /**
@@ -94,7 +100,7 @@ class ProdukHukumController extends Controller
         // Menggunakan findOrFail dengan ID yang sesuai (dokumen_id)
         $dokumen = Dokumen::findOrFail($id);
 
-        $jenisDokumens = JenisDokumen::all();
+        $jenisDokumens    = JenisDokumen::all();
         $kategoriDokumens = KategoriDokumen::all();
 
         return view('pages.produk_hukum.edit', compact('dokumen', 'jenisDokumens', 'kategoriDokumens'));
@@ -108,13 +114,13 @@ class ProdukHukumController extends Controller
         $dokumen = Dokumen::findOrFail($id);
 
         $validatedData = $request->validate([
-            'judul' => 'required|string|max:255',
-            'nomor' => 'required|string', // Ubah jadi string jaga-jaga ada huruf
-            'tahun' => 'required|integer|min:1900|max:' . date('Y'),
-            'tanggal_penetapan' => 'required|date',
-            'jenis_dokumen_id' => 'required|exists:jenis_dokumen,id',
+            'judul'               => 'required|string|max:255',
+            'nomor'               => 'required|string', // Ubah jadi string jaga-jaga ada huruf
+            'tahun'               => 'required|integer|min:1900|max:' . date('Y'),
+            'tanggal_penetapan'   => 'required|date',
+            'jenis_dokumen_id'    => 'required|exists:jenis_dokumen,id',
             'kategori_dokumen_id' => 'required|exists:kategori_dokumen,id',
-            'file_dokumen' => 'nullable|file|max:5120|mimes:pdf,doc,docx,xls,xlsx,zip,rar',
+            'file_dokumen'        => 'nullable|file|max:5120|mimes:pdf,doc,docx,xls,xlsx,zip,rar',
         ]);
 
         // Cek jika ada file baru diupload untuk mengganti file utama
@@ -124,9 +130,9 @@ class ProdukHukumController extends Controller
             //    \Illuminate\Support\Facades\Storage::delete('public/' . $dokumen->file_path);
             // }
 
-            $file = $request->file('file_dokumen');
+            $file     = $request->file('file_dokumen');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('dokumen_hukum', $filename, 'public');
+            $path     = $file->storeAs('dokumen_hukum', $filename, 'public');
 
             $validatedData['file_path'] = $path;
         }
