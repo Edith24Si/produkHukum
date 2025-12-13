@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.admin')
 
 {{-- Ini akan mengisi @yield('title') di layout --}}
 @section('title', 'Beranda - Website Desa')

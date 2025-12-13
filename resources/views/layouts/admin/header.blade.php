@@ -4,8 +4,7 @@
     </button>
 
     {{-- Anda dapat menghapus search bar jika tidak digunakan --}}
-    <form
-        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                 aria-label="Search" aria-describedby="basic-addon2">
@@ -28,20 +27,20 @@
         @auth
             <li class="nav-item dropdown no-arrow">
                 {{-- data-toggle="dropdown" disesuaikan dengan template SB Admin 2 --}}
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
 
                     {{-- START: TAMPILAN FOTO PROFIL --}}
-                    @if(Auth::user()->profile_picture)
+                    @if (Auth::user()->profile_picture)
                         {{-- FOTO DARI STORAGE --}}
                         <img class="img-profile rounded-circle"
-                             src="{{ asset('storage/' . Auth::user()->profile_picture) }}"
-                             alt="Foto Profil"
-                             style="width: 40px; height: 40px; object-fit: cover;">
+                            src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="Foto Profil"
+                            style="width: 40px; height: 40px; object-fit: cover;">
                     @else
                         {{-- PLACEHOLDER INISIAL --}}
                         <div class="img-profile rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"
-                             style="width: 40px; height: 40px; font-weight: bold; font-size: 16px;">
+                            style="width: 40px; height: 40px; font-weight: bold; font-size: 16px;">
                             {{-- Ambil inisial pertama nama --}}
                             {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                         </div>
@@ -52,7 +51,7 @@
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
 
                     {{-- Link ke Halaman Edit Profil Saya --}}
-                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                    <a class="dropdown-item" href="{{ route('profile.show') }}">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                         Profil Saya
                     </a>
@@ -64,14 +63,38 @@
                     </a>
                     <a class="dropdown-item" href="#">
                         <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Aktivitas Riwayat
+                        Riwayat
                     </a>
 
+                    {{-- LAST LOGIN SESSION --}}
                     <div class="dropdown-divider"></div>
+
+                    <div class="dropdown-item">
+                        <div class="small text-muted mb-1">Terakhir Login:</div>
+                        <div class="fw-bold mb-1">
+                            {{ session('last_login') ? date('d M Y H:i', strtotime(session('last_login'))) : 'Sekarang' }}
+                        </div>
+                        @if (session('last_login'))
+                            @php
+                                $diff = time() - strtotime(session('last_login'));
+                                $timeText = match (true) {
+                                    $diff < 60 => 'Baru saja',
+                                    $diff < 3600 => floor($diff / 60) . ' menit lalu',
+                                    $diff < 86400 => floor($diff / 3600) . ' jam lalu',
+                                    $diff < 2592000 => floor($diff / 86400) . ' hari lalu',
+                                    default => floor($diff / 2592000) . ' bulan lalu',
+                                };
+                            @endphp
+                            <div class="small text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                {{ $timeText }}
+                            </div>
+                        @endif
+                    </div>
 
                     {{-- Link Logout Standar Laravel --}}
                     <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                         Keluar
                     </a>

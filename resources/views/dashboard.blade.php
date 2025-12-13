@@ -32,6 +32,229 @@
             </div>
         </div>
     </div>
+
+    <!-- ==================== SLIDESHOW SECTION (TAMBAHAN BARU) ==================== -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 font-weight-bold text-dark">
+                        <i class="fas fa-images text-primary me-2"></i>
+                        Galeri Sistem Hukum Indonesia
+                    </h5>
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i> Dokumentasi Visual
+                    </small>
+                </div>
+                <div class="card-body p-0">
+                    <!-- Carousel -->
+                    <div id="hukumCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            @php
+                                // Cek gambar di folder slideshow
+                                $slideshowDir = public_path('images/slideshow');
+                                $availableImages = [];
+
+                                if (is_dir($slideshowDir)) {
+                                    $images = scandir($slideshowDir);
+                                    foreach ($images as $image) {
+                                        if ($image !== '.' && $image !== '..') {
+                                            $ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+                                            if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                                                $availableImages[] = $image;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                $totalSlides = max(3, count($availableImages));
+                            @endphp
+
+                            @for ($i = 0; $i < $totalSlides; $i++)
+                                <li data-bs-target="#hukumCarousel" data-bs-slide-to="{{ $i }}"
+                                    class="{{ $i === 0 ? 'active' : '' }} bg-primary"></li>
+                            @endfor
+                        </ol>
+
+                        <!-- Slides -->
+                        <div class="carousel-inner">
+                            @php
+                                // Daftar slide dengan fallback placeholder
+                                $slideTitles = [
+                                    'Sistem Hukum Digital Indonesia',
+                                    'Database Terpusat Hukum',
+                                    'Keamanan & Akses Terkontrol',
+                                    'Transparansi Publik',
+                                    'Pengembangan Sistem',
+                                ];
+
+                                $slideDescriptions = [
+                                    'Platform terpadu untuk pengelolaan produk hukum daerah dengan teknologi modern.',
+                                    'Semua dokumen hukum daerah tersimpan aman dalam satu sistem terintegrasi.',
+                                    'Dokumen hukum terlindungi dengan enkripsi dan hak akses yang terstruktur.',
+                                    'Akses terbuka untuk semua dokumen publik dengan sistem yang transparan.',
+                                    'Sistem terus dikembangkan untuk memenuhi kebutuhan hukum digital masa depan.',
+                                ];
+
+                                $slideIcons = ['gavel', 'database', 'shield-alt', 'users', 'users-cog'];
+                                $slideColors = ['primary', 'success', 'warning', 'info', 'secondary'];
+                            @endphp
+
+                            @for ($i = 0; $i < $totalSlides; $i++)
+                                <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
+                                    @if (isset($availableImages[$i]))
+                                        <!-- Jika ada gambar di slideshow -->
+                                        @php
+                                            $imagePath = 'images/slideshow/' . $availableImages[$i];
+                                        @endphp
+                                        <img src="{{ asset($imagePath) }}" class="d-block w-100"
+                                            alt="{{ $slideTitles[$i] ?? 'Slide ' . ($i + 1) }}"
+                                            style="height: 400px; object-fit: cover;">
+                                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3"
+                                            style="max-width: 600px; margin: 0 auto; bottom: 20px;">
+                                            <h4 class="text-white">{{ $slideTitles[$i] ?? 'Slide ' . ($i + 1) }}</h4>
+                                            <p class="mb-2">{{ $slideDescriptions[$i] ?? 'Deskripsi slide' }}</p>
+                                            @if ($i == 0)
+                                                <a href="{{ route('produkHukum.index') }}" class="btn btn-sm btn-warning">
+                                                    <i class="fas fa-search me-1"></i> Jelajahi Dokumen
+                                                </a>
+                                            @elseif($i == 1)
+                                                <a href="{{ route('jenis_dokumen.index') }}" class="btn btn-sm btn-info">
+                                                    <i class="fas fa-tags me-1"></i> Lihat Klasifikasi
+                                                </a>
+                                            @elseif($i == 2)
+                                                <a href="{{ route('kategori_dokumen.index') }}"
+                                                    class="btn btn-sm btn-success">
+                                                    <i class="fas fa-folder me-1"></i> Kategori Dokumen
+                                                </a>
+                                            @elseif($i == 3)
+                                                <a href="{{ route('warga.index') }}" class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-users me-1"></i> Data Warga
+                                                </a>
+                                            @else
+                                                <a href="{{ route('tim-pengembang') }}" class="btn btn-sm btn-secondary">
+                                                    <i class="fas fa-users-cog me-1"></i> Tim Pengembang
+                                                </a>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <!-- Jika tidak ada gambar, tampilkan placeholder -->
+                                        @php
+                                            $colorClass = $slideColors[$i] ?? 'primary';
+                                            $icon = $slideIcons[$i] ?? 'image';
+                                        @endphp
+                                        <div
+                                            class="carousel-slide-content bg-gradient-{{ $colorClass }} {{ $colorClass == 'warning' ? 'text-dark' : 'text-white' }}">
+                                            <div class="row align-items-center min-h-300">
+                                                <div class="col-md-6 p-5">
+                                                    <h3 class="display-6 fw-bold mb-3">
+                                                        {{ $slideTitles[$i] ?? 'Slide ' . ($i + 1) }}</h3>
+                                                    <p class="mb-4">{{ $slideDescriptions[$i] ?? 'Deskripsi slide' }}</p>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="text-center">
+                                                                <i class="fas fa-{{ $icon }} fa-2x mb-2"></i>
+                                                                <h6>{{ $slideTitles[$i] ?? 'Fitur ' . ($i + 1) }}</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="text-center">
+                                                                @if ($i == 0)
+                                                                    <i class="fas fa-file-upload fa-2x mb-2"></i>
+                                                                    <h6>Upload Dokumen</h6>
+                                                                @elseif($i == 1)
+                                                                    <i class="fas fa-search fa-2x mb-2"></i>
+                                                                    <h6>Cari & Temukan</h6>
+                                                                @elseif($i == 2)
+                                                                    <i class="fas fa-shield-alt fa-2x mb-2"></i>
+                                                                    <h6>Enkripsi Data</h6>
+                                                                @else
+                                                                    <i class="fas fa-cogs fa-2x mb-2"></i>
+                                                                    <h6>Sistem Terintegrasi</h6>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 p-0">
+                                                    <div
+                                                        class="carousel-image-placeholder bg-{{ $colorClass }} bg-opacity-25 min-h-300 d-flex align-items-center justify-content-center">
+                                                        <i class="fas fa-{{ $icon }} fa-6x opacity-50"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endfor
+                        </div>
+
+                        <!-- Controls -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#hukumCarousel"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#hukumCarousel"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                    <!-- Thumbnail Navigation -->
+                    <div class="row g-0 text-center bg-light">
+                        @php
+                            $thumbnailTitles = [
+                                'Hukum Digital',
+                                'Database',
+                                'Keamanan',
+                                'Transparansi',
+                                'Pengembangan',
+                            ];
+                        @endphp
+
+                        @for ($i = 0; $i < min(5, $totalSlides); $i++)
+                            <div class="{{ $totalSlides <= 5 ? 'col-' . 12 / $totalSlides : 'col-3' }}">
+                                <a href="#" onclick="goToSlide({{ $i }})"
+                                    class="d-block p-3 thumbnail-nav-item {{ $i === 0 ? 'active-thumbnail' : '' }}">
+                                    <i class="fas fa-{{ $slideIcons[$i] ?? 'image' }} me-1"></i>
+                                    {{ $thumbnailTitles[$i] ?? 'Slide ' . ($i + 1) }}
+                                </a>
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+                <div class="card-footer text-center bg-white">
+                    <small class="text-muted">
+                        <i class="fas fa-camera me-1"></i>
+                        Sistem Pengelolaan Produk Hukum Daerah - Versi 2.0
+                        @php
+                            $imageCount = count($availableImages);
+                        @endphp
+                        @if ($imageCount > 0)
+                            <br>
+                            <small class="text-success">
+                                <i class="fas fa-check-circle me-1"></i>
+                                {{ $imageCount }} gambar slideshow tersedia
+                            </small>
+                        @else
+                            <br>
+                            <small class="text-warning">
+                                <i class="fas fa-exclamation-circle me-1"></i>
+                                Tambahkan gambar di folder: public/images/slideshow/
+                            </small>
+                        @endif
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ==================== END SLIDESHOW SECTION ==================== -->
+
+
+
     <!-- Quick Stats Cards -->
     <div class="row mb-4">
         <!-- Total Dokumen -->

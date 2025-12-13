@@ -52,8 +52,15 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
         if ($user && Hash::check($request->password, $user->password)) {
+
             Auth::login($user);
-            session(['last_login' => now()]);
+
+            // Simpan last_login di session
+            session(['last_login' => now()->format('Y-m-d H:i:s')]);
+
+            // Update last_login di database (opsional)
+            $user->update(['last_login_at' => now()]);
+
             return redirect()->route('dashboard')->with('success', 'Login berhasil!');
         } else {
             return back()->withErrors(['email' => 'Email atau password salah'])->withInput();
@@ -70,7 +77,7 @@ class AuthController extends Controller
             $request->session()->regenerateToken(); // Buat token baru
 
             // Redirect ke ROUTE NAME 'login', bukan string '/login'
-            return redirect()->route('login');
+            return redirect()->route('auth.login.post');
         }
     }
 }
