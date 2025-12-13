@@ -1,18 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\GuestController;
-use App\Http\Controllers\WargaController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProdukHukumController;
 use App\Http\Controllers\JenisDokumenController;
 use App\Http\Controllers\KategoriDokumenController;
 use App\Http\Controllers\LampiranDokumenController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\ProdukHukumController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\MediaController; // Tambahkan ini agar lebih rapi
 use App\Http\Controllers\TimPengembangController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WargaController; // Tambahkan ini agar lebih rapi
+use Illuminate\Support\Facades\Route;
 
 // ====================================================
 // 1. RUTE PUBLIK (Bisa Diakses Siapa Saja / Tamu)
@@ -30,7 +29,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('auth.login.post')
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'processRegister'])->name('register.process');
 
-
 // Dashboard & Baca Data (Agar tamu bisa melihat data tanpa login)
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/produk-hukum', [ProdukHukumController::class, 'index'])->name('produkHukum.index');
@@ -39,52 +37,52 @@ Route::get('/produk-hukum/{id}', [ProdukHukumController::class, 'show'])
     ->name('produkHukum.show')
     ->where('id', '[0-9]+'); // <--- TAMBAHKAN INI
 
-
 // ====================================================
 // 2. RUTE YANG BUTUH LOGIN (Middleware: checkislogin)
 // ====================================================
 // Route::group(['middleware' => ['checkislogin']], function () {
 
-   // Pertahankan GET untuk kompatibilitas (opsional)
-Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout.get');
+// HANYA POST UNTUK LOGOUT
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Tambahkan POST untuk form logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+// OPTIONAL: Redirect GET /logout ke login
+Route::get('/logout', function () {
+    return redirect()->route('login');
+});
 
-    // Manajemen Profil (Semua user yang login bisa edit profil sendiri)
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile-picture', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Manajemen Profil (Semua user yang login bisa edit profil sendiri)
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile-picture', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+// ====================================================
+// 3. RUTE KHUSUS ADMIN (Middleware: checkrole:admin)
+// ====================================================
+// Hanya user dengan kolom role = 'admin' yang bisa mengakses ini
+// Route::group(['middleware' => ['checkrole:admin']], function () {
 
-    // ====================================================
-    // 3. RUTE KHUSUS ADMIN (Middleware: checkrole:admin)
-    // ====================================================
-    // Hanya user dengan kolom role = 'admin' yang bisa mengakses ini
-    // Route::group(['middleware' => ['checkrole:admin']], function () {
+// --- CRUD Produk Hukum (Create, Edit, Delete) ---
+// Note: Index dan Show sudah ada di Public di atas
+Route::get('/produk-hukum/create', [ProdukHukumController::class, 'create'])->name('produkHukum.create');
+Route::post('/produk-hukum', [ProdukHukumController::class, 'store'])->name('produkHukum.store');
+Route::get('/produk-hukum/{id}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
+Route::put('/produk-hukum/{id}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
+Route::delete('/produk-hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
 
-        // --- CRUD Produk Hukum (Create, Edit, Delete) ---
-        // Note: Index dan Show sudah ada di Public di atas
-        Route::get('/produk-hukum/create', [ProdukHukumController::class, 'create'])->name('produkHukum.create');
-        Route::post('/produk-hukum', [ProdukHukumController::class, 'store'])->name('produkHukum.store');
-        Route::get('/produk-hukum/{id}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
-        Route::put('/produk-hukum/{id}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
-        Route::delete('/produk-hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
+// --- Master Data (Resources) ---
+Route::resource('jenis_dokumen', JenisDokumenController::class);
+Route::resource('kategori_dokumen', KategoriDokumenController::class);
+Route::resource('warga', WargaController::class);
+Route::resource('user', UserController::class);
 
-        // --- Master Data (Resources) ---
-        Route::resource('jenis_dokumen', JenisDokumenController::class);
-        Route::resource('kategori_dokumen', KategoriDokumenController::class);
-        Route::resource('warga', WargaController::class);
-        Route::resource('user', UserController::class);
+// --- Lampiran Dokumen ---
+Route::resource('lampiran-dokumen', LampiranDokumenController::class)->names('lampiranDokumen');
 
-        // --- Lampiran Dokumen ---
-        Route::resource('lampiran-dokumen', LampiranDokumenController::class)->names('lampiranDokumen');
-
-        // --- Media (Upload File Pendukung) ---
-        Route::post('/media/store', [MediaController::class, 'store'])->name('media.store');
-        Route::delete('/media/{id}', [MediaController::class, 'destroy'])->name('media.destroy');
-    // });
+// --- Media (Upload File Pendukung) ---
+Route::post('/media/store', [MediaController::class, 'store'])->name('media.store');
+Route::delete('/media/{id}', [MediaController::class, 'destroy'])->name('media.destroy');
+// });
 
 // });
 

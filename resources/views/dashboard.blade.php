@@ -7,17 +7,31 @@
     <!-- Welcome Card -->
     <div class="welcome-card mb-4">
         <div class="welcome-content">
-            <h1 class="welcome-title">Selamat Datang, {{ auth()->user()->name }}!</h1>
+            <h1 class="welcome-title">
+                Selamat Datang,
+                @auth
+                    {{ auth()->user()->name }}
+                @else
+                    Administrator
+                @endauth
+                !
+            </h1>
             <p class="welcome-subtitle">
-                Anda login sebagai <strong class="text-warning">{{ ucfirst(auth()->user()->role) }}</strong> dengan akses
-                penuh untuk mengelola sistem Portal Produk Hukum.
+                Anda login sebagai
+                <strong class="text-warning">
+                    @auth
+                        {{ ucfirst(auth()->user()->role ?? 'Admin') }}
+                    @else
+                        Admin
+                    @endauth
+                </strong>
+                dengan akses penuh untuk mengelola sistem Portal Produk Hukum.
             </p>
             <div class="admin-badge">
                 <i class="fas fa-user-shield me-2"></i> Portal Pengelolaan Hukum Daerah
             </div>
         </div>
     </div>
-
     <!-- Quick Stats Cards -->
     <div class="row mb-4">
         <!-- Total Dokumen -->
@@ -154,19 +168,24 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="text-center">
-                                <div class="h4 text-success">{{ \App\Models\User::where('role', 'user')->count() }}</div>
-                                <small class="text-muted">User</small>
-                            </div>
+                            <div class="h4 text-success">{{ \App\Models\User::where('role', 'user')->count() }}</div>
                         </div>
                     </div>
-                    @if (auth()->user()->role == 'admin')
-                        <div class="mt-3">
-                            <a href="{{ route('user.index') }}" class="btn btn-sm btn-info w-100">
-                                <i class="fas fa-users-cog me-1"></i> Kelola User
-                            </a>
-                        </div>
-                    @endif
+                    @auth
+                        @if (auth()->check() && auth()->user()->role == 'admin')
+                            <div class="mt-3">
+                                <a href="{{ route('user.index') }}" class="btn btn-sm btn-info w-100">
+                                    <i class="fas fa-users-cog me-1"></i> Kelola User
+                                </a>
+                            </div>
+                        @else
+                            <div class="mt-3">
+                                <span class="badge bg-warning w-100 py-2">
+                                    <i class="fas fa-user-shield me-1"></i> Hak Akses Admin
+                                </span>
+                            </div>
+                        @endif
+                    @endauth
                 </div>
             </div>
         </div>
@@ -245,11 +264,13 @@
                             <div class="col-12 text-center py-4">
                                 <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
                                 <p class="text-muted">Belum ada data jenis dokumen</p>
-                                @if (auth()->user()->role == 'admin')
-                                    <a href="{{ route('jenis_dokumen.create') }}" class="btn btn-primary">
-                                        <i class="fas fa-plus me-1"></i> Tambah Jenis Dokumen
-                                    </a>
-                                @endif
+                                @auth
+                                    @if (auth()->user()->role == 'admin')
+                                        <a href="{{ route('jenis_dokumen.create') }}" class="btn btn-primary">
+                                            <i class="fas fa-plus me-1"></i> Tambah Jenis Dokumen
+                                        </a>
+                                    @endif
+                                @endauth
                             </div>
                         @endforelse
                     </div>
@@ -316,12 +337,14 @@
                                         <td colspan="3" class="text-center py-4 text-muted">
                                             <i class="fas fa-file-excel fa-2x mb-3"></i>
                                             <p class="mb-0">Belum ada dokumen</p>
-                                            @if (auth()->user()->role == 'admin')
-                                                <a href="{{ route('produkHukum.create') }}"
-                                                    class="btn btn-primary btn-sm mt-2">
-                                                    <i class="fas fa-plus me-1"></i> Tambah Dokumen
-                                                </a>
-                                            @endif
+                                            @auth
+                                                @if (auth()->user()->role == 'admin')
+                                                    <a href="{{ route('produkHukum.create') }}"
+                                                        class="btn btn-primary btn-sm mt-2">
+                                                        <i class="fas fa-plus me-1"></i> Tambah Dokumen
+                                                    </a>
+                                                @endif
+                                            @endauth
                                         </td>
                                     </tr>
                                 @endforelse
@@ -340,11 +363,13 @@
                         <i class="fas fa-users text-success me-2"></i>
                         User Aktif Terbaru
                     </h5>
-                    @if (auth()->user()->role == 'admin')
-                        <a href="{{ route('user.index') }}" class="btn btn-sm btn-outline-success">
-                            Kelola User <i class="fas fa-arrow-right ms-1"></i>
-                        </a>
-                    @endif
+                    @auth
+                        @if (auth()->user()->role == 'admin')
+                            <a href="{{ route('user.index') }}" class="btn btn-sm btn-outline-success">
+                                Kelola User <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        @endif
+                    @endauth
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">

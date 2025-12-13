@@ -725,13 +725,14 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
+                                {{-- Di dropdown user --}}
                                 <li>
                                     <a class="dropdown-item text-danger" href="#"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fas fa-sign-out-alt me-2"></i> Logout
                                     </a>
-                                    <form id="logout-form" action="{{ route('auth.logout') }}" method="POST"
-                                        style="display: none;">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
                                         @csrf
                                     </form>
                                 </li>
