@@ -45,8 +45,11 @@ Route::get('/produk-hukum/{id}', [ProdukHukumController::class, 'show'])
 // ====================================================
 // Route::group(['middleware' => ['checkislogin']], function () {
 
-    // Logout (Semua user yang login bisa logout)
-    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+   // Pertahankan GET untuk kompatibilitas (opsional)
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout.get');
+
+// Tambahkan POST untuk form logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
     // Manajemen Profil (Semua user yang login bisa edit profil sendiri)
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');

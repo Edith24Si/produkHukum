@@ -1,292 +1,394 @@
+{{-- resources/views/dashboard/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="container-fluid">
-    <!-- Welcome Banner -->
+    <!-- Welcome Card -->
+    <div class="welcome-card mb-4">
+        <div class="welcome-content">
+            <h1 class="welcome-title">Selamat Datang, {{ auth()->user()->name }}!</h1>
+            <p class="welcome-subtitle">
+                Anda login sebagai <strong class="text-warning">{{ ucfirst(auth()->user()->role) }}</strong> dengan akses
+                penuh untuk mengelola sistem Portal Produk Hukum.
+            </p>
+            <div class="admin-badge">
+                <i class="fas fa-user-shield me-2"></i> Portal Pengelolaan Hukum Daerah
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats Cards -->
     <div class="row mb-4">
-        <div class="col-12">
-            <div class="welcome-banner p-4 rounded" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <h2 class="mb-2">Selamat Datang, Admin Hukum! 👋</h2>
-                        <p class="mb-0">Sistem manajemen produk hukum terintegrasi untuk pengelolaan dokumen legal yang efisien dan transparan.</p>
-                    </div>
-                    <div class="col-md-4 text-end">
-                        <button class="btn btn-light btn-lg">
-                            <i class="fas fa-plus me-2"></i> Tambah Dokumen
-                        </button>
-                    </div>
+        <!-- Total Dokumen -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="quick-stat-card" style="background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);">
+                <div class="stat-icon">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <div class="stat-number">{{ \App\Models\ProdukHukum::count() ?? 0 }}</div>
+                <div class="stat-label">PRODUK HUKUM</div>
+            </div>
+        </div>
+
+        <!-- Jenis Dokumen -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="quick-stat-card" style="background: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);">
+                <div class="stat-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="stat-number">{{ \App\Models\JenisDokumen::count() ?? 0 }}</div>
+                <div class="stat-label">JENIS DOKUMEN</div>
+            </div>
+        </div>
+
+        <!-- Kategori Dokumen -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="quick-stat-card" style="background: linear-gradient(135deg, #36b9cc 0%, #258391 100%);">
+                <div class="stat-icon">
+                    <i class="fas fa-folder"></i>
+                </div>
+                <div class="stat-number">{{ \App\Models\KategoriDokumen::count() ?? 0 }}</div>
+                <div class="stat-label">KATEGORI</div>
+            </div>
+        </div>
+
+        <!-- Total User (INILAH CARD USER) -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="quick-stat-card" style="background: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%);">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number">{{ \App\Models\User::count() }}</div>
+                <div class="stat-label">TOTAL USER</div>
+                <div class="stat-detail mt-2">
+                    <small class="text-light">
+                        Admin: {{ \App\Models\User::where('role', 'admin')->count() }} |
+                        User: {{ \App\Models\User::where('role', 'user')->count() }}
+                    </small>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Stats Cards -->
+    <!-- Main Statistics -->
     <div class="row mb-4">
-        <div class="col-xl-3 col-md-6">
-            <div class="stat-card total-documents">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="stat-icon documents mb-3">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                            <h6 class="text-muted mb-2">TOTAL DOKUMEN</h6>
-                            <h2 class="mb-0">{{ $totalDokumen ?? 0 }}</h2>
-                            <div class="mt-2">
-                                <span class="text-success">
-                                    <i class="fas fa-arrow-up"></i> +12%
+        <!-- Dokumen Hukum -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-primary text-white py-3">
+                    <h6 class="mb-0 font-weight-bold">
+                        <i class="fas fa-gavel me-2"></i>Dokumen Hukum
+                    </h6>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="h2 font-weight-bold text-dark mb-1">{{ \App\Models\ProdukHukum::count() ?? 0 }}</div>
+                        <div class="text-muted small">Total Produk Hukum</div>
+                        <div class="mt-3">
+                            <span class="badge bg-success">
+                                <i class="fas fa-database me-1"></i>
+                                Data Aktif
+                            </span>
+                        </div>
+                    </div>
+                    <div class="display-4 text-primary opacity-25">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Warga -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-success text-white py-3">
+                    <h6 class="mb-0 font-weight-bold">
+                        <i class="fas fa-users me-2"></i>Data Warga
+                    </h6>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @php
+                            $totalWarga = \App\Models\Warga::count() ?? 0;
+                        @endphp
+                        <div class="h2 font-weight-bold text-dark mb-1">{{ $totalWarga }}</div>
+                        <div class="text-muted small">Warga Terdaftar</div>
+                        <div class="mt-3">
+                            @if ($totalWarga > 0)
+                                <span class="badge bg-info">
+                                    <i class="fas fa-check-circle me-1"></i>
+                                    Data Tersedia
                                 </span>
-                                <small class="text-muted"> dari bulan lalu</small>
-                            </div>
+                            @else
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-exclamation-circle me-1"></i>
+                                    Belum Ada Data
+                                </span>
+                            @endif
                         </div>
-                        <div>
-                            <a href="{{ route('produkHukum.index') }}" class="btn btn-sm btn-outline-primary">Lihat</a>
-                        </div>
+                    </div>
+                    <div class="display-4 text-success opacity-25">
+                        <i class="fas fa-user-friends"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
-            <div class="stat-card categories">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="stat-icon categories mb-3">
-                                <i class="fas fa-folder"></i>
-                            </div>
-                            <h6 class="text-muted mb-2">KATEGORI</h6>
-                            <h2 class="mb-0">{{ $totalKategori ?? 0 }}</h2>
-                            <div class="mt-2">
-                                <small class="text-muted">Kategori aktif</small>
+        <!-- Pengguna Sistem (USER DETAIL) -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-info text-white py-3">
+                    <h6 class="mb-0 font-weight-bold">
+                        <i class="fas fa-user-cog me-2"></i>Pengguna Sistem
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="h2 font-weight-bold text-dark mb-1">{{ \App\Models\User::count() }}</div>
+                    <div class="text-muted small">Total User Aktif</div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="h4 text-primary">{{ \App\Models\User::where('role', 'admin')->count() }}</div>
+                                <small class="text-muted">Admin</small>
                             </div>
                         </div>
-                        <div>
-                            <a href="{{ route('kategori_dokumen.index') }}" class="btn btn-sm btn-outline-success">Lihat</a>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <div class="h4 text-success">{{ \App\Models\User::where('role', 'user')->count() }}</div>
+                                <small class="text-muted">User</small>
+                            </div>
                         </div>
                     </div>
+                    @if (auth()->user()->role == 'admin')
+                        <div class="mt-3">
+                            <a href="{{ route('user.index') }}" class="btn btn-sm btn-info w-100">
+                                <i class="fas fa-users-cog me-1"></i> Kelola User
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
-            <div class="stat-card types">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="stat-icon types mb-3">
-                                <i class="fas fa-tags"></i>
-                            </div>
-                            <h6 class="text-muted mb-2">JENIS DOKUMEN</h6>
-                            <h2 class="mb-0">{{ $totalJenis ?? 0 }}</h2>
-                            <div class="mt-2">
-                                <small class="text-muted">Jenis tersedia</small>
-                            </div>
+        <!-- Klasifikasi Dokumen -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-warning text-dark py-3">
+                    <h6 class="mb-0 font-weight-bold">
+                        <i class="fas fa-tags me-2"></i>Klasifikasi Dokumen
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6 mb-3">
+                            <div class="h3 font-weight-bold text-dark">{{ \App\Models\JenisDokumen::count() ?? 0 }}</div>
+                            <div class="text-muted small">Jenis Dokumen</div>
+                            <a href="{{ route('jenis_dokumen.index') }}" class="small text-primary">Lihat</a>
                         </div>
-                        <div>
-                            <a href="{{ route('jenis_dokumen.index') }}" class="btn btn-sm btn-outline-info">Lihat</a>
+                        <div class="col-6 mb-3">
+                            <div class="h3 font-weight-bold text-dark">{{ \App\Models\KategoriDokumen::count() ?? 0 }}
+                            </div>
+                            <div class="text-muted small">Kategori</div>
+                            <a href="{{ route('kategori_dokumen.index') }}" class="small text-success">Lihat</a>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-            <div class="stat-card users">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="stat-icon users mb-3">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <h6 class="text-muted mb-2">PENGGUNA AKTIF</h6>
-                            <h2 class="mb-0">{{ $totalUsers ?? 0 }}</h2>
-                            <div class="mt-2">
-                                <small class="text-muted">User terdaftar</small>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="#" class="btn btn-sm btn-outline-warning">Lihat</a>
-                        </div>
+                    @php
+                        $totalClassification =
+                            (\App\Models\JenisDokumen::count() ?? 0) + (\App\Models\KategoriDokumen::count() ?? 0);
+                        $jenisPercentage =
+                            $totalClassification > 0
+                                ? ((\App\Models\JenisDokumen::count() ?? 0) / $totalClassification) * 100
+                                : 0;
+                        $kategoriPercentage =
+                            $totalClassification > 0
+                                ? ((\App\Models\KategoriDokumen::count() ?? 0) / $totalClassification) * 100
+                                : 0;
+                    @endphp
+                    <div class="progress mt-2" style="height: 8px;">
+                        <div class="progress-bar bg-primary" style="width: {{ $jenisPercentage }}%"></div>
+                        <div class="progress-bar bg-success" style="width: {{ $kategoriPercentage }}%"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Charts Row -->
+    <!-- Document Type Cards -->
     <div class="row mb-4">
-        <div class="col-xl-8">
-            <div class="chart-container">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="mb-0">📈 Tren Dokumen (6 Bulan Terakhir)</h5>
-                    <div class="btn-group">
-                        <button class="btn btn-sm btn-outline-secondary active">Bulanan</button>
-                        <button class="btn btn-sm btn-outline-secondary">Tahunan</button>
-                    </div>
-                </div>
-                <div style="height: 300px;">
-                    <canvas id="lineChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4">
-            <div class="chart-container">
-                <h5 class="mb-4">📊 Distribusi Kategori</h5>
-                <div style="height: 300px;">
-                    <canvas id="pieChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quick Stats -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <h6 class="card-title text-muted mb-3">
-                        <i class="fas fa-file-contract text-primary me-2"></i> PERATURAN DESA
-                    </h6>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0">
-                            {{ \App\Models\Dokumen::whereHas('jenisDokumen', function($q) {
-                                $q->where('nama_jenis', 'like', '%Peraturan Desa%');
-                            })->count() }}
-                        </h3>
-                        <span class="badge bg-primary">Aktif</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <h6 class="card-title text-muted mb-3">
-                        <i class="fas fa-file-signature text-success me-2"></i> PERKADES
-                    </h6>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0">
-                            {{ \App\Models\Dokumen::whereHas('jenisDokumen', function($q) {
-                                $q->where('nama_jenis', 'like', '%Peraturan Kepala Desa%');
-                            })->count() }}
-                        </h3>
-                        <span class="badge bg-success">Aktif</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <h6 class="card-title text-muted mb-3">
-                        <i class="fas fa-file-invoice text-info me-2"></i> SURAT EDARAN
-                    </h6>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0">
-                            {{ \App\Models\Dokumen::whereHas('jenisDokumen', function($q) {
-                                $q->where('nama_jenis', 'like', '%Surat Edaran%');
-                            })->count() }}
-                        </h3>
-                        <span class="badge bg-info">Aktif</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Documents Table -->
-    <div class="row">
         <div class="col-12">
-            <div class="data-table">
-                <div class="card-body p-0">
-                    <div class="table-header p-4 border-bottom">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h5 class="mb-0">🗃️ Dokumen Terbaru</h5>
-                                <small class="text-muted">Dokumen yang baru ditambahkan</small>
-                            </div>
-                            <div>
-                                <a href="{{ route('produkHukum.create') }}" class="btn btn-primary me-2">
-                                    <i class="fas fa-plus me-2"></i> Tambah Baru
-                                </a>
-                                <a href="{{ route('produkHukum.index') }}" class="btn btn-outline-primary">
-                                    Lihat Semua <i class="fas fa-arrow-right ms-2"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 font-weight-bold text-dark">
+                        <i class="fas fa-chart-bar text-primary me-2"></i>
+                        Statistik Jenis Dokumen
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @php
+                            $jenisList = \App\Models\JenisDokumen::orderBy('id', 'desc')->limit(4)->get();
+                        @endphp
 
+                        @forelse($jenisList as $jenis)
+                            <div class="col-xl-3 col-md-6 mb-3">
+                                <div class="doc-type-card {{ $loop->iteration % 2 == 0 ? 'perkades' : 'perdes' }}">
+                                    <div class="doc-type-number">{{ $jenis->produk_hukum_count ?? 0 }}</div>
+                                    <div class="doc-type-label">{{ $jenis->nama_jenis ?? 'Jenis Dokumen' }}</div>
+                                    <div class="mt-2">
+                                        <small
+                                            class="text-muted">{{ Str::limit($jenis->deskripsi ?? 'Deskripsi jenis', 50) }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-12 text-center py-4">
+                                <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">Belum ada data jenis dokumen</p>
+                                @if (auth()->user()->role == 'admin')
+                                    <a href="{{ route('jenis_dokumen.create') }}" class="btn btn-primary">
+                                        <i class="fas fa-plus me-1"></i> Tambah Jenis Dokumen
+                                    </a>
+                                @endif
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tables Section -->
+    <div class="row">
+        <!-- Dokumen Terbaru -->
+        <div class="col-xl-6 col-lg-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 font-weight-bold text-dark">
+                        <i class="fas fa-file-alt text-primary me-2"></i>
+                        Dokumen Terbaru
+                    </h5>
+                    <a href="{{ route('produkHukum.index') }}" class="btn btn-sm btn-outline-primary">
+                        Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+                <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
-                            <thead>
+                            <thead class="table-light">
                                 <tr>
-                                    <th width="5%">No</th>
-                                    <th width="35%">Judul Dokumen</th>
-                                    <th width="15%">Nomor</th>
-                                    <th width="15%">Tahun</th>
-                                    <th width="15%">Status</th>
-                                    <th width="15%">Aksi</th>
+                                    <th class="ps-4">Judul</th>
+                                    <th>Jenis</th>
+                                    <th class="pe-4">Tanggal</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
-                                    $recentDocs = \App\Models\Dokumen::with('jenisDokumen')
+                                    $dokumenTerbaru = \App\Models\ProdukHukum::with('jenisDokumen')
                                         ->latest()
                                         ->limit(5)
                                         ->get();
                                 @endphp
 
-                                @forelse($recentDocs as $index => $doc)
-                                <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="doc-icon me-3">
-                                                <i class="fas fa-file-pdf text-danger"></i>
-                                            </div>
-                                            <div>
-                                                <div class="fw-bold">{{ Str::limit($doc->judul, 50) }}</div>
-                                                <small class="text-muted">{{ $doc->jenisDokumen->nama_jenis ?? '-' }}</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{{ $doc->nomor ?? '-' }}</td>
-                                    <td>{{ $doc->tahun ?? '-' }}</td>
-                                    <td>
-                                        @if($doc->status == 'Berlaku')
-                                            <span class="badge bg-success">Berlaku</span>
-                                        @else
-                                            <span class="badge bg-warning">Tidak Berlaku</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a href="{{ route('produkHukum.show', $doc->dokumen_id) }}" class="btn btn-sm btn-info">
-                                                <i class="fas fa-eye"></i>
+                                @forelse($dokumenTerbaru as $dokumen)
+                                    <tr>
+                                        <td class="ps-4">
+                                            <a href="{{ route('produkHukum.show', $dokumen->id) }}"
+                                                class="text-decoration-none text-dark">
+                                                <i class="fas fa-file-alt me-2 text-muted"></i>
+                                                {{ Str::limit($dokumen->judul, 35) }}
                                             </a>
-                                            <a href="{{ route('produkHukum.edit', $doc->dokumen_id) }}" class="btn btn-sm btn-warning">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td>
+                                            <span
+                                                class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">
+                                                {{ $dokumen->jenisDokumen->nama_jenis ?? '-' }}
+                                            </span>
+                                        </td>
+                                        <td class="pe-4">
+                                            <small class="text-muted">
+                                                {{ $dokumen->created_at->format('d/m/Y') }}
+                                            </small>
+                                        </td>
+                                    </tr>
                                 @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center py-4 text-muted">
+                                            <i class="fas fa-file-excel fa-2x mb-3"></i>
+                                            <p class="mb-0">Belum ada dokumen</p>
+                                            @if (auth()->user()->role == 'admin')
+                                                <a href="{{ route('produkHukum.create') }}"
+                                                    class="btn btn-primary btn-sm mt-2">
+                                                    <i class="fas fa-plus me-1"></i> Tambah Dokumen
+                                                </a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Aktif Terbaru -->
+        <div class="col-xl-6 col-lg-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 font-weight-bold text-dark">
+                        <i class="fas fa-users text-success me-2"></i>
+                        User Aktif Terbaru
+                    </h5>
+                    @if (auth()->user()->role == 'admin')
+                        <a href="{{ route('user.index') }}" class="btn btn-sm btn-outline-success">
+                            Kelola User <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    @endif
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
                                 <tr>
-                                    <td colspan="6" class="text-center py-4">
-                                        <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
-                                        <p class="text-muted">Belum ada dokumen</p>
-                                        <a href="{{ route('produkHukum.create') }}" class="btn btn-primary">
-                                            <i class="fas fa-plus me-2"></i> Tambah Dokumen Pertama
-                                        </a>
-                                    </td>
+                                    <th class="ps-4">Nama</th>
+                                    <th>Email</th>
+                                    <th class="pe-4">Role</th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $userTerbaru = \App\Models\User::latest()->limit(5)->get();
+                                @endphp
+
+                                @forelse($userTerbaru as $user)
+                                    <tr>
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="user-avatar-xs me-2">
+                                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                                </div>
+                                                {{ $user->name }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <small class="text-muted">{{ $user->email }}</small>
+                                        </td>
+                                        <td class="pe-4">
+                                            <span class="badge bg-{{ $user->role == 'admin' ? 'primary' : 'success' }}">
+                                                <i
+                                                    class="fas fa-user-{{ $user->role == 'admin' ? 'shield' : 'circle' }} me-1"></i>
+                                                {{ ucfirst($user->role) }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center py-4 text-muted">
+                                            <i class="fas fa-user-slash fa-2x mb-3"></i>
+                                            <p class="mb-0">Belum ada data user</p>
+                                        </td>
+                                    </tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -295,133 +397,148 @@
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Line Chart
-        const lineCtx = document.getElementById('lineChart').getContext('2d');
-        const lineChart = new Chart(lineCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
-                datasets: [{
-                    label: 'Jumlah Dokumen',
-                    data: [850, 920, 980, 1050, 1150, {{ $totalDokumen ?? 1230 }}],
-                    borderColor: '#667eea',
-                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                    borderWidth: 3,
-                    pointBackgroundColor: '#667eea',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 7,
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 12
-                            }
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                        titleFont: {
-                            size: 13
-                        },
-                        bodyFont: {
-                            size: 13
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            drawBorder: false,
-                            color: 'rgba(0, 0, 0, 0.05)'
-                        },
-                        ticks: {
-                            stepSize: 200,
-                            font: {
-                                size: 11
-                            }
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 11
-                            }
-                        }
-                    }
-                }
-            }
-        });
+    <!-- Info Footer -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card border-0 bg-light">
+                <div class="card-body text-center">
+                    <h6 class="font-weight-bold mb-3">Portal Produk Hukum Daerah</h6>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <i class="fas fa-envelope text-primary me-2"></i>
+                            <small>dokumen@daerah.hukum.id</small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <i class="fas fa-phone text-success me-2"></i>
+                            <small>📞 (021) 123-4567</small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <i class="fas fa-at text-info me-2"></i>
+                            <small>produkhukumdaerah@gmail.com</small>
+                        </div>
+                    </div>
+                    <hr class="my-3">
+                    <p class="small text-muted mb-0">
+                        <i class="fas fa-copyright me-1"></i> {{ date('Y') }} Portal Produk Hukum Daerah.
+                        Hak Cipta Dilindungi. Versi 2.0
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
-        // Pie Chart
-        const pieCtx = document.getElementById('pieChart').getContext('2d');
-        const pieChart = new Chart(pieCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Peraturan Desa', 'Peraturan Kepala Desa', 'Keputusan', 'Surat Edaran', 'Lainnya'],
-                datasets: [{
-                    data: [35, 25, 20, 15, 5],
-                    backgroundColor: [
-                        '#667eea',
-                        '#764ba2',
-                        '#f093fb',
-                        '#f5576c',
-                        '#4facfe'
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 20
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            font: {
-                                size: 11
-                            },
-                            padding: 15,
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
-                    }
-                },
-                cutout: '60%'
-            }
-        });
-
-        // Update time in footer
-        function updateTime() {
-            const now = new Date();
-            const timeElement = document.querySelector('.dashboard-footer small');
-            if (timeElement) {
-                timeElement.textContent = `v1.0.0 | Terakhir diperbarui: ${now.toLocaleDateString('id-ID')} ${now.toLocaleTimeString('id-ID')}`;
-            }
+@push('styles')
+    <style>
+        /* Custom styles for dashboard */
+        .quick-stat-card {
+            border-radius: 15px;
+            padding: 1.5rem;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        // Update time every minute
-        updateTime();
-        setInterval(updateTime, 60000);
-    });
-</script>
-@endsection
+        .quick-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .quick-stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-detail {
+            position: relative;
+            z-index: 1;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .doc-type-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid;
+            transition: all 0.3s;
+            height: 100%;
+        }
+
+        .doc-type-card.perdes {
+            border-top-color: #4e73df;
+        }
+
+        .doc-type-card.perkades {
+            border-top-color: #1cc88a;
+        }
+
+        .doc-type-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .doc-type-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-type-label {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .user-avatar-xs {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4e73df 0%, #2e59d9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+    </style>
+@endpush

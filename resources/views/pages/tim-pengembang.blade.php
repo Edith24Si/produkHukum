@@ -15,98 +15,136 @@
         </nav>
     </div>
 
-    <!-- Petunj Upload Foto -->
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <i class="fas fa-info-circle mr-2"></i>
-        <strong>Petunjuk Menggunakan Foto Asli:</strong>
+    <!-- Alert Info -->
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <i class="fas fa-users mr-2"></i>
+        <strong>Identitas Tim Pengembang</strong> - Berikut adalah data lengkap anggota tim yang mengembangkan sistem ini.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <ul class="mb-0 mt-2 pl-3">
-            <li>Siapkan foto asli dengan format JPG atau PNG (ukuran minimal 400x400px)</li>
-            <li>Simpan foto di folder: <code>public/images/tim/</code></li>
-            <li>Nama file: <strong>foto-[nama].jpg</strong> (contoh: foto-ahmad.jpg)</li>
-            <li>Foto akan muncul otomatis jika ditemukan, jika tidak akan menggunakan placeholder</li>
-        </ul>
     </div>
 
     <!-- Developer Cards Grid -->
     <div class="row">
         @foreach($developers as $developer)
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card shadow h-100 border-0">
+                <!-- Header dengan Background -->
+                <div class="card-header py-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="text-center">
+                        <!-- Foto Developer -->
+                        <div class="position-relative d-inline-block">
+                            <img src="{{ $developer['photo_url'] }}"
+                                 alt="Foto {{ $developer['name'] }}"
+                                 class="img-fluid rounded-circle border border-4 border-white shadow"
+                                 style="width: 140px; height: 140px; object-fit: cover;">
+                            <span class="position-absolute bottom-0 end-0 bg-success rounded-circle border border-3 border-white"
+                                  style="width: 20px; height: 20px;"></span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-center mb-3">
-                                <!-- Foto Developer -->
-                                <img src="{{ $developer['photo_url'] }}"
-                                     alt="Foto {{ $developer['name'] }}"
-                                     class="img-fluid rounded-circle border"
-                                     style="width: 120px; height: 120px; object-fit: cover;"
-                                     onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($developer['name']) }}&size=200&background=3498db&color=fff'">
+                    <!-- Nama dan Role -->
+                    <div class="text-center mb-3">
+                        <h4 class="font-weight-bold text-gray-800 mb-1">{{ $developer['name'] }}</h4>
+                        <span class="badge badge-primary px-3 py-2">{{ $developer['role'] }}</span>
+                    </div>
+
+                    <!-- Data Identitas -->
+                    <div class="developer-info mb-4">
+                        <!-- NIM -->
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-id-card text-primary mr-3" style="width: 20px;"></i>
+                            <div>
+                                <small class="text-muted d-block">NIM</small>
+                                <strong>{{ $developer['nim'] }}</strong>
                             </div>
+                        </div>
 
-                            <!-- Nama dan Role -->
-                            <div class="text-center mb-3">
-                                <h5 class="font-weight-bold text-primary mb-1">{{ $developer['name'] }}</h5>
-                                <span class="badge badge-success">{{ $developer['role'] }}</span>
+                        <!-- Prodi -->
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-graduation-cap text-primary mr-3" style="width: 20px;"></i>
+                            <div>
+                                <small class="text-muted d-block">Program Studi</small>
+                                <strong>{{ $developer['prodi'] }}</strong>
                             </div>
+                        </div>
 
-                            <!-- Data Pribadi -->
-                            <div class="developer-info mb-3">
-                                <div class="row mb-2">
-                                    <div class="col-4 font-weight-bold text-gray-800">NIM:</div>
-                                    <div class="col-8">{{ $developer['nim'] }}</div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-4 font-weight-bold text-gray-800">Prodi:</div>
-                                    <div class="col-8">{{ $developer['prodi'] }}</div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-4 font-weight-bold text-gray-800">Email:</div>
-                                    <div class="col-8">
-                                        <a href="mailto:{{ $developer['email'] }}" class="text-decoration-none">
-                                            {{ $developer['email'] }}
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4 font-weight-bold text-gray-800">Spesialisasi:</div>
-                                    <div class="col-8">
-                                        <small>{{ $developer['specialization'] }}</small>
-                                    </div>
-                                </div>
+                        <!-- Email -->
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-envelope text-primary mr-3" style="width: 20px;"></i>
+                            <div>
+                                <small class="text-muted d-block">Email</small>
+                                <a href="mailto:{{ $developer['email'] }}" class="text-decoration-none">
+                                    <strong>{{ $developer['email'] }}</strong>
+                                </a>
                             </div>
+                        </div>
 
-                            <!-- Social Media Links -->
-                            <div class="text-center mt-4 pt-3 border-top">
-                                <div class="social-links d-flex justify-content-center">
-                                    @if($developer['linkedin'])
-                                    <a href="{{ $developer['linkedin'] }}" target="_blank" class="btn btn-sm btn-outline-primary mx-1" title="LinkedIn">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </a>
-                                    @endif
-
-                                    @if($developer['github'])
-                                    <a href="{{ $developer['github'] }}" target="_blank" class="btn btn-sm btn-outline-dark mx-1" title="GitHub">
-                                        <i class="fab fa-github"></i>
-                                    </a>
-                                    @endif
-
-                                    @if($developer['twitter'])
-                                    <a href="{{ $developer['twitter'] }}" target="_blank" class="btn btn-sm btn-outline-info mx-1" title="Twitter">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                    @endif
-
-                                    @if($developer['instagram'])
-                                    <a href="{{ $developer['instagram'] }}" target="_blank" class="btn btn-sm btn-outline-danger mx-1" title="Instagram">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                    @endif
-                                </div>
+                        <!-- Spesialisasi -->
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-tools text-primary mr-3 mt-1" style="width: 20px;"></i>
+                            <div>
+                                <small class="text-muted d-block">Spesialisasi</small>
+                                <small class="text-gray-600">{{ $developer['specialization'] }}</small>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Media Links -->
+                    <div class="text-center mt-4 pt-3 border-top">
+                        <h6 class="text-muted mb-3">Temukan Saya di:</h6>
+                        <div class="social-links d-flex justify-content-center">
+                            <!-- LinkedIn -->
+                            @if($developer['linkedin'])
+                            <a href="{{ $developer['linkedin'] }}" target="_blank"
+                               class="btn btn-sm btn-social mx-1"
+                               title="LinkedIn"
+                               style="background-color: #0077b5; color: white;">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            @endif
+
+                            <!-- GitHub -->
+                            @if($developer['github'])
+                            <a href="{{ $developer['github'] }}" target="_blank"
+                               class="btn btn-sm btn-social mx-1"
+                               title="GitHub"
+                               style="background-color: #333; color: white;">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            @endif
+
+                            <!-- Twitter -->
+                            @if($developer['twitter'])
+                            <a href="{{ $developer['twitter'] }}" target="_blank"
+                               class="btn btn-sm btn-social mx-1"
+                               title="Twitter"
+                               style="background-color: #1da1f2; color: white;">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            @endif
+
+                            <!-- Instagram -->
+                            @if($developer['instagram'])
+                            <a href="{{ $developer['instagram'] }}" target="_blank"
+                               class="btn btn-sm btn-social mx-1"
+                               title="Instagram"
+                               style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white;">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            @endif
+
+                            <!-- WhatsApp -->
+                            @if($developer['whatsapp'])
+                            <a href="{{ $developer['whatsapp'] }}" target="_blank"
+                               class="btn btn-sm btn-social mx-1"
+                               title="WhatsApp"
+                               style="background-color: #25d366; color: white;">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -115,35 +153,38 @@
         @endforeach
     </div>
 
-    <!-- Video Section -->
+    <!-- Team Description -->
     <div class="row mt-5">
         <div class="col-12">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">
-                        <i class="fas fa-video mr-2"></i>Video Terbaru
-                    </h6>
-                    <a href="#" class="btn btn-sm btn-primary">Lihat Semua Video</a>
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle mr-2"></i>Tentang Tim Pengembang
+                    </h5>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        @foreach($videos as $video)
-                        <div class="col-lg-4 mb-4">
-                            <div class="card h-100 border-left-info shadow-sm">
-                                <div class="card-body">
-                                    <h6 class="card-title font-weight-bold text-gray-800">{{ $video['title'] }}</h6>
-                                    <p class="card-text text-muted small">
-                                        <i class="fas fa-user mr-1"></i> {{ $video['author'] }}
-                                    </p>
-                                    <div class="text-center mt-3">
-                                        <a href="#" class="btn btn-sm btn-outline-primary">
-                                            <i class="fas fa-play-circle mr-1"></i> Tonton Video
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                    <p class="card-text">
+                        Tim pengembang ini terdiri dari mahasiswa yang memiliki minat dan keahlian
+                        dalam pengembangan perangkat lunak. Dengan semangat kolaborasi dan inovasi,
+                        tim berhasil mengembangkan sistem Portal Hukum Desa ini untuk memudahkan
+                        administrasi dan transparansi hukum di tingkat desa.
+                    </p>
+                    <div class="row mt-4">
+                        <div class="col-md-4 text-center">
+                            <i class="fas fa-code fa-3x text-primary mb-3"></i>
+                            <h5>Pengembangan Modern</h5>
+                            <p class="text-muted">Menggunakan teknologi terbaru dalam pengembangan web</p>
                         </div>
-                        @endforeach
+                        <div class="col-md-4 text-center">
+                            <i class="fas fa-users fa-3x text-success mb-3"></i>
+                            <h5>Kolaborasi Tim</h5>
+                            <p class="text-muted">Bekerja sama dalam pengembangan fitur dan testing</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <i class="fas fa-lightbulb fa-3x text-warning mb-3"></i>
+                            <h5>Inovasi</h5>
+                            <p class="text-muted">Terus berinovasi untuk meningkatkan pengalaman pengguna</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -164,38 +205,58 @@
 @push('css')
 <style>
     .developer-info {
-        background-color: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
+        background-color: #f8fafc;
+        padding: 20px;
+        border-radius: 10px;
         border-left: 4px solid #4e73df;
     }
 
-    .developer-info .row {
-        padding: 3px 0;
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.3s ease;
     }
 
-    .developer-info .col-4 {
-        font-size: 0.9rem;
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
     }
 
-    .developer-info .col-8 {
-        font-size: 0.9rem;
-        color: #5a5c69;
-    }
-
-    .social-links .btn {
-        width: 36px;
-        height: 36px;
+    .btn-social {
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 0;
+        transition: all 0.3s ease;
     }
 
-    .card:hover {
-        transform: translateY(-5px);
-        transition: transform 0.3s ease;
+    .btn-social:hover {
+        transform: scale(1.1);
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        font-weight: 500;
     }
 </style>
+@endpush
+
+@push('js')
+<script>
+    // Smooth hover effect for cards
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = 100;
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = 1;
+            });
+        });
+    });
+</script>
 @endpush

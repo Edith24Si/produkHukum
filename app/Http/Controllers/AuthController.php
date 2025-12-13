@@ -61,16 +61,23 @@ class AuthController extends Controller
     }
     public function logout(Request $request)
     {
-        // 1. Keluarkan user dari sesi autentikasi
-        Auth::logout();
+        // Validasi hanya untuk POST
+        if ($request->isMethod('post')) {
 
-        // 2. Invalidate session (penting untuk keamanan)
-        $request->session()->invalidate();
+            // 1. Keluarkan user dari sesi autentikasi
+            Auth::logout();
 
-        // 3. Regenerate token CSRF (penting untuk keamanan)
-        $request->session()->regenerateToken();
+            // 2. Invalidate session (penting untuk keamanan)
+            $request->session()->invalidate();
 
-        // 4. Redirect kembali ke halaman login (atau dashboard publik)
-        return redirect()->route('dashboard')->with('success', 'Anda telah logout.');
+            // 3. Regenerate token CSRF (penting untuk keamanan)
+            $request->session()->regenerateToken();
+
+            // 4. Redirect kembali ke halaman login (atau dashboard publik)
+            return redirect()->route('dashboard')->with('success', 'Anda telah logout.');
+
+            // Jika method GET, redirect ke dashboard
+            return redirect('/dashboard');
+        }
+        }
     }
-}
