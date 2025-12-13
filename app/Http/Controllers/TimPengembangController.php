@@ -1,66 +1,95 @@
 <?php
-
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 
 class TimPengembangController extends Controller
 {
     public function index()
     {
-        // Data Tim Pengembang - Ganti dengan data asli Anda
+        // Data tim pengembang dengan foto
         $developers = [
             [
-                'name' => 'Nama Lengkap Anda 1',
-                'role' => 'Frontend Developer',
-                'nim' => 'NIM123456',
-                'prodi' => 'Teknik Informatika',
-                'email' => 'emailanda1@example.com',
-                'specialization' => 'HTML, CSS, JavaScript, React',
-                'photo' => 'foto1.jpg', // Nama file foto di public/images/tim/
-                'linkedin' => 'https://linkedin.com/in/username1',
-                'github' => 'https://github.com/username1',
-                'twitter' => 'https://twitter.com/username1',
-                'instagram' => 'https://instagram.com/username1',
-                'whatsapp' => 'https://wa.me/6281234567890' // Opsional
+                'name'           => 'Fitriana Tasya',
+                'role'           => 'Frontend Developer',
+                'nim'            => 'NIM123456',
+                'prodi'          => 'Teknik Informatika',
+                'email'          => 'fitriana24si@mahasiswa.pcr.ac.id',
+                'specialization' => 'Laravel, CSS/HTML, JavaScript',
+                'photo'          => 'FitrianaTasya.jpg', // Nama file di public/images/tim/
+                'linkedin'       => 'https://linkedin.com/in/fitrianatasya',
+                'github'         => 'https://github.com/fitrianatasya',
+                'twitter'        => null,
+                'instagram'      => 'https://instagram.com/fitrianatasya',
+                'whatsapp'       => 'https://wa.me/6281234567890',
             ],
             [
-                'name' => 'Nama Lengkap Anda 2',
-                'role' => 'Backend Developer',
-                'nim' => 'NIM234567',
-                'prodi' => 'Sistem Informasi',
-                'email' => 'emailanda2@example.com',
-                'specialization' => 'PHP, Laravel, MySQL, REST API',
-                'photo' => 'foto2.jpg',
-                'linkedin' => 'https://linkedin.com/in/username2',
-                'github' => 'https://github.com/username2',
-                'twitter' => null, // Bisa null jika tidak ada
-                'instagram' => 'https://instagram.com/username2',
-                'whatsapp' => null
+                'name'           => 'Edith Helena',
+                'role'           => 'Developer',
+                'nim'            => 'NIM234567',
+                'prodi'          => 'Sistem Informasi',
+                'email'          => 'edith24si@mahasiswa.pcr.ac.id',
+                'specialization' => 'PHP, MySQL, REST API',
+                'photo'          => 'EdithHelena.jpg', // Nama file di public/images/tim/
+                'linkedin'       => 'https://linkedin.com/in/edithhelena',
+                'github'         => 'https://github.com/Edith24Si',
+                'twitter'        => null,
+                'instagram'      => 'https://instagram.com/editha.nl',
+                'whatsapp'       => 'https://wa.me/6287714351335',
             ],
             [
-                'name' => 'Nama Lengkap Anda 3',
-                'role' => 'UI/UX Designer',
-                'nim' => 'NIM345678',
-                'prodi' => 'Desain Komunikasi Visual',
-                'email' => 'emailanda3@example.com',
+                'name'           => 'Admin Hukum',
+                'role'           => 'Project Manager & Full Stack Developer',
+                'nim'            => 'NIM000001',
+                'prodi'          => 'Ilmu Hukum Digital',
+                'email'          => 'admin@hukum.com',
+                'specialization' => 'Sistem Hukum Digital, Database Management',
+                'photo'          => 'profile-pictures/admin-hukum.jpg',
+                'linkedin'       => 'https://linkedin.com/in/admin-hukum',
+                'github'         => 'https://github.com/Edith24Si',
+                'twitter'        => 'https://twitter.com/admin_hukum',
+                'instagram'      => 'https://instagram.com/admin.hukum',
+                'whatsapp'       => 'https://wa.me/6281234567891',
+            ],
+            // Tambahkan anggota tim lainnya jika ada
+            [
+                'name'           => 'Anggota Tim 4',
+                'role'           => 'UI/UX Designer',
+                'nim'            => 'NIM345678',
+                'prodi'          => 'Desain Komunikasi Visual',
+                'email'          => 'designer@example.com',
                 'specialization' => 'Figma, Adobe XD, User Research, Prototyping',
-                'photo' => 'foto3.jpg',
-                'linkedin' => 'https://linkedin.com/in/username3',
-                'github' => 'https://github.com/username3',
-                'twitter' => 'https://twitter.com/username3',
-                'instagram' => 'https://instagram.com/username3',
-                'whatsapp' => 'https://wa.me/6281234567891'
+                'photo'          => 'foto-designer.jpg',
+                'linkedin'       => 'https://linkedin.com/in/designer',
+                'github'         => null,
+                'twitter'        => null,
+                'instagram'      => 'https://instagram.com/designer',
+                'whatsapp'       => null,
             ],
-            // Tambahkan anggota tim lainnya...
         ];
 
         // Tambahkan URL foto lengkap
         foreach ($developers as &$developer) {
-            $photoPath = 'images/tim/' . $developer['photo'];
-            $developer['photo_url'] = file_exists(public_path($photoPath))
-                ? asset($photoPath)
-                : 'https://ui-avatars.com/api/?name=' . urlencode($developer['name']) . '&size=200&background=4e73df&color=fff';
+            // Cek foto di beberapa lokasi
+            $photoPaths = [
+                'images/tim/' . $developer['photo'],
+                'storage/' . $developer['photo'],
+                'storage/profile-pictures/' . $developer['photo'],
+            ];
+
+            $found = false;
+            foreach ($photoPaths as $path) {
+                if (file_exists(public_path($path))) {
+                    $developer['photo_url'] = asset($path);
+                    $found                  = true;
+                    break;
+                }
+            }
+
+            // Jika tidak ditemukan, gunakan avatar dari inisial
+            if (! $found) {
+                $developer['photo_url'] = 'https://ui-avatars.com/api/?name=' .
+                urlencode($developer['name']) .
+                    '&size=200&background=4e73df&color=fff&bold=true';
+            }
         }
 
         return view('pages.tim-pengembang', compact('developers'));
