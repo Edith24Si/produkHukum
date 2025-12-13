@@ -12,6 +12,7 @@ use App\Http\Controllers\KategoriDokumenController;
 use App\Http\Controllers\LampiranDokumenController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MediaController; // Tambahkan ini agar lebih rapi
+use App\Http\Controllers\TimPengembangController;
 
 // ====================================================
 // 1. RUTE PUBLIK (Bisa Diakses Siapa Saja / Tamu)
@@ -83,3 +84,5 @@ Route::get('/produk-hukum/{id}', [ProdukHukumController::class, 'show'])
     // });
 
 // });
+
+Route::get('/tim-pengembang', [TimPengembangController::class, 'index'])->name('tim-pengembang');

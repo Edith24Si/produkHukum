@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 // Tambahkan ini
 
 class KategoriDokumen extends Model
@@ -19,6 +20,12 @@ class KategoriDokumen extends Model
         'nama',
         'deskripsi',
     ];
+
+    // TAMBAHKAN RELASI INI
+    public function dokumens()
+    {
+        return $this->hasMany(Dokumen::class, 'kategori_dokumen_id', 'id');
+    }
 
     public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
     {

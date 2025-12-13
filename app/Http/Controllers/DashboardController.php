@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ProdukHukum;
+use App\Models\Dokumen; // GANTI INI!
 use App\Models\KategoriDokumen;
 use App\Models\JenisDokumen;
 use App\Models\User;
@@ -16,7 +16,7 @@ class DashboardController extends Controller
         try {
             // Data statistik untuk dashboard - dengan error handling
             $data = [
-                'totalDokumen' => $this->safeCount(ProdukHukum::class),
+                'totalDokumen' => $this->safeCount(Dokumen::class), // GANTI INI!
                 'totalKategori' => $this->safeCount(KategoriDokumen::class),
                 'totalJenis' => $this->safeCount(JenisDokumen::class),
                 'totalUsers' => $this->safeCount(User::class),

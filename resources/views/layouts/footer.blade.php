@@ -8,11 +8,10 @@
                 <!-- Logo & System Name -->
                 <div class="footer-brand mb-4">
                     <div class="d-flex align-items-center">
-                        @if(file_exists(public_path('assets/images/logo-produk-hukum.jpg')))
-                            <img src="{{ asset('assets/images/logo-produk-hukum.jpg') }}"
-                                 alt="Sistem Produk Hukum"
-                                 class="footer-logo me-3"
-                                 style="height: 70px; width: auto; border-radius: 8px; border: 2px solid #B71C1C;">
+                        @if (file_exists(public_path('assets/images/logo-produk-hukum.jpg')))
+                            <img src="{{ asset('assets/images/logo-produk-hukum.jpg') }}" alt="Sistem Produk Hukum"
+                                class="footer-logo me-3"
+                                style="height: 70px; width: auto; border-radius: 8px; border: 2px solid #B71C1C;">
                         @else
                             <div class="footer-icon me-3">
                                 <i class="fas fa-gavel fa-3x text-warning"></i>
@@ -65,7 +64,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Column 2: Document Types (jenis_dokumen) -->
             <div class="col-lg-3 col-md-6 mb-4">
                 <h5 class="text-white mb-4 position-relative footer-title">
@@ -78,12 +76,14 @@
 
                     @forelse($jenisDokumen as $jenis)
                         <li class="mb-2">
-                            <a href="{{ route('produkHukum.index') }}?jenis={{ $jenis->jenis_id }}"
-                               class="text-light text-decoration-none doc-type-link">
+                            <!-- PERBAIKAN: ganti $jenis->jenis_id menjadi $jenis->id -->
+                            <a href="{{ route('produkHukum.index') }}?jenis={{ $jenis->id }}"
+                                class="text-light text-decoration-none doc-type-link">
                                 <i class="fas fa-file-alt me-2 text-primary"></i>
                                 <span>{{ $jenis->nama_jenis }}</span>
-                                @if($jenis->deskripsi)
-                                    <small class="text-muted d-block ms-4 small">{{ Str::limit($jenis->deskripsi, 40) }}</small>
+                                @if ($jenis->deskripsi)
+                                    <small
+                                        class="text-muted d-block ms-4 small">{{ Str::limit($jenis->deskripsi, 40) }}</small>
                                 @endif
                             </a>
                         </li>
@@ -95,7 +95,7 @@
                     @endforelse
                 </ul>
 
-                @if($jenisDokumen->count() > 0)
+                @if ($jenisDokumen->count() > 0)
                     <a href="{{ route('jenis_dokumen.index') }}" class="btn btn-sm btn-outline-light mt-2">
                         <i class="fas fa-list me-1"></i> Semua Jenis
                     </a>
@@ -109,13 +109,14 @@
                 </h5>
                 <ul class="footer-categories list-unstyled">
                     @php
-                        $categories = \App\Models\KategoriDokumen::withCount('dokumens')->limit(6)->get();
+                        $categories = \App\Models\KategoriDokumen::withCount('dokumens')->limit(10)->get();
                     @endphp
 
                     @forelse($categories as $category)
                         <li class="mb-2">
-                            <a href="{{ route('produkHukum.index') }}?kategori={{ $category->kategori_id }}"
-                               class="text-light text-decoration-none category-link">
+                            <!-- PERBAIKAN: ganti $category->kategori_id menjadi $category->id -->
+                            <a href="{{ route('produkHukum.index') }}?kategori={{ $category->id }}"
+                                class="text-light text-decoration-none category-link">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <i class="fas fa-folder-open me-2 text-warning"></i>
@@ -123,8 +124,9 @@
                                     </div>
                                     <span class="badge bg-secondary">{{ $category->dokumens_count }}</span>
                                 </div>
-                                @if($category->deskripsi)
-                                    <small class="text-muted d-block ms-4 small">{{ Str::limit($category->deskripsi, 35) }}</small>
+                                @if ($category->deskripsi)
+                                    <small
+                                        class="text-muted d-block ms-4 small">{{ Str::limit($category->deskripsi, 35) }}</small>
                                 @endif
                             </a>
                         </li>
@@ -136,13 +138,12 @@
                     @endforelse
                 </ul>
 
-                @if($categories->count() > 0)
+                @if ($categories->count() > 0)
                     <a href="{{ route('kategori_dokumen.index') }}" class="btn btn-sm btn-outline-light mt-2">
                         <i class="fas fa-th-large me-1"></i> Semua Kategori
                     </a>
                 @endif
             </div>
-
             <!-- Column 4: Latest Documents & Contact -->
             <div class="col-lg-2 col-md-6 mb-4">
                 <h5 class="text-white mb-4 position-relative footer-title">
@@ -156,7 +157,7 @@
                     @forelse($latestDocs as $doc)
                         <li class="mb-3">
                             <a href="{{ route('produkHukum.show', $doc->dokumen_id) }}"
-                               class="text-light text-decoration-none latest-doc-link">
+                                class="text-light text-decoration-none latest-doc-link">
                                 <div class="doc-badge me-2 d-inline-block">
                                     <i class="fas fa-file-pdf text-danger"></i>
                                 </div>
@@ -220,7 +221,8 @@
                                     <div class="text-white fw-bold mb-1">SISTEM PRODUK HUKUM DESA</div>
                                     <div class="text-muted small">
                                         <i class="fas fa-copyright me-1"></i>
-                                        Hak Cipta {{ date('Y') }} - Direktorat Jenderal Peraturan Perundang-undangan
+                                        Hak Cipta {{ date('Y') }} - Direktorat Jenderal Peraturan
+                                        Perundang-undangan
                                     </div>
                                 </div>
                             </div>
@@ -253,7 +255,8 @@
                     <a href="#" class="legal-link text-muted text-decoration-none me-3 mb-2 mb-md-0">
                         <i class="fas fa-gavel me-1"></i> Legalitas
                     </a>
-                    <a href="{{ route('produkHukum.index') }}" class="legal-link text-muted text-decoration-none me-3 mb-2 mb-md-0">
+                    <a href="{{ route('produkHukum.index') }}"
+                        class="legal-link text-muted text-decoration-none me-3 mb-2 mb-md-0">
                         <i class="fas fa-sitemap me-1"></i> Peta Situs
                     </a>
                     <a href="#" class="legal-link text-muted text-decoration-none mb-2 mb-md-0">
@@ -272,19 +275,22 @@
                         <div class="me-4 mb-2">
                             <span class="badge bg-dark me-2">
                                 <i class="fas fa-file-contract me-1"></i>
-                                Perdes: {{ \App\Models\Dokumen::whereHas('jenisDokumen', function($q) {
+                                Perdes:
+                                {{ \App\Models\Dokumen::whereHas('jenisDokumen', function ($q) {
                                     $q->where('nama_jenis', 'like', '%Perdes%');
                                 })->count() }}
                             </span>
                             <span class="badge bg-dark me-2">
                                 <i class="fas fa-file-signature me-1"></i>
-                                Perkades: {{ \App\Models\Dokumen::whereHas('jenisDokumen', function($q) {
+                                Perkades:
+                                {{ \App\Models\Dokumen::whereHas('jenisDokumen', function ($q) {
                                     $q->where('nama_jenis', 'like', '%Perkades%');
                                 })->count() }}
                             </span>
                             <span class="badge bg-dark">
                                 <i class="fas fa-file-invoice me-1"></i>
-                                Surat Edaran: {{ \App\Models\Dokumen::whereHas('jenisDokumen', function($q) {
+                                Surat Edaran:
+                                {{ \App\Models\Dokumen::whereHas('jenisDokumen', function ($q) {
                                     $q->where('nama_jenis', 'like', '%Surat Edaran%');
                                 })->count() }}
                             </span>
@@ -520,7 +526,8 @@
                 // Add loading indicator for document navigation
                 const loadingOverlay = document.createElement('div');
                 loadingOverlay.className = 'loading-overlay';
-                loadingOverlay.innerHTML = '<i class="fas fa-spinner fa-spin fa-2x text-warning"></i>';
+                loadingOverlay.innerHTML =
+                    '<i class="fas fa-spinner fa-spin fa-2x text-warning"></i>';
                 loadingOverlay.style.cssText = `
                     position: fixed;
                     top: 0;
@@ -600,7 +607,7 @@
         // Initialize Bootstrap tooltips
         if (typeof bootstrap !== 'undefined') {
             const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(function (tooltipTriggerEl) {
+            tooltipTriggerList.map(function(tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
         }

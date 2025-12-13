@@ -59,7 +59,7 @@ class KategoriDokumenController extends Controller
             'deskripsi' => $request->deskripsi,
         ]);
 
-        return redirect()->route('pages.kategori_dokumen.index')->with('success', 'Kategori berhasil diperbarui');
+        return redirect()->route('kategori_dokumen.index')->with('success', 'Kategori berhasil diperbarui');
     }
 
     public function destroy($id)

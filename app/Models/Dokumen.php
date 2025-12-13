@@ -1,16 +1,16 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 class Dokumen extends Model
 {
     use HasFactory;
 
-    protected $guarded = []; // Agar dapat diisi oleh Seeder
-    protected $table   = 'dokumens';
+    protected $guarded    = []; // Agar dapat diisi oleh Seeder
+    protected $table      = 'dokumens';
     protected $primaryKey = 'dokumen_id';
     // Relasi untuk mengambil nama Jenis Dokumen
     public function jenisDokumen()
@@ -23,7 +23,12 @@ class Dokumen extends Model
     {
         return $this->belongsTo(KategoriDokumen::class, 'kategori_dokumen_id');
     }
-public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
+
+    public function lampirans()
+    {
+        return $this->hasMany(LampiranDokumen::class, 'dokumen_id', 'dokumen_id');
+    }
+    public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
     {
         foreach ($filterableColumns as $column) {
             if ($request->filled($column)) {
@@ -43,4 +48,3 @@ public function scopeFilter(Builder $query, $request, array $filterableColumns):
         }
     }
 }
-
