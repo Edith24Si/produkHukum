@@ -32,7 +32,6 @@
             </div>
         </div>
     </div>
-
     <!-- ==================== SLIDESHOW SECTION (TAMBAHAN BARU) ==================== -->
     <div class="row mb-4">
         <div class="col-12">
@@ -104,17 +103,47 @@
                             @for ($i = 0; $i < $totalSlides; $i++)
                                 <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
                                     @if (isset($availableImages[$i]))
-                                        <!-- Jika ada gambar di slideshow -->
+                                        <!-- Jika ada gambar di slideshow - PERBAIKAN DI SINI -->
                                         @php
                                             $imagePath = 'images/slideshow/' . $availableImages[$i];
                                         @endphp
-                                        <img src="{{ asset($imagePath) }}" class="d-block w-100"
-                                            alt="{{ $slideTitles[$i] ?? 'Slide ' . ($i + 1) }}"
-                                            style="height: 400px; object-fit: cover;">
-                                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3"
-                                            style="max-width: 600px; margin: 0 auto; bottom: 20px;">
-                                            <h4 class="text-white">{{ $slideTitles[$i] ?? 'Slide ' . ($i + 1) }}</h4>
-                                            <p class="mb-2">{{ $slideDescriptions[$i] ?? 'Deskripsi slide' }}</p>
+
+                                        <!-- Container untuk gambar dengan fixed height -->
+                                        <div
+                                            style="
+                                        height: 450px;
+                                        width: 100%;
+                                        overflow: hidden;
+                                        position: relative;
+                                        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                                    ">
+                                            <img src="{{ asset($imagePath) }}"
+                                                alt="{{ $slideTitles[$i] ?? 'Slide ' . ($i + 1) }}"
+                                                style="
+                                                width: 100%;
+                                                height: 100%;
+                                                object-fit: contain; /* Menggunakan contain agar gambar utuh */
+                                                object-position: center center;
+                                                display: block;
+                                             ">
+                                        </div>
+
+                                        <!-- Caption dengan positioning yang lebih baik -->
+                                        <div class="carousel-caption d-none d-md-block"
+                                            style="
+                                            background: rgba(0, 0, 0, 0.7);
+                                            border-radius: 8px;
+                                            padding: 20px;
+                                            max-width: 650px;
+                                            margin: 0 auto;
+                                            bottom: 30px;
+                                            left: 50%;
+                                            transform: translateX(-50%);
+                                         ">
+                                            <h4 class="text-white mb-2">{{ $slideTitles[$i] ?? 'Slide ' . ($i + 1) }}</h4>
+                                            <p class="mb-3 text-light" style="font-size: 0.95rem;">
+                                                {{ $slideDescriptions[$i] ?? 'Deskripsi slide' }}
+                                            </p>
                                             @if ($i == 0)
                                                 <a href="{{ route('produkHukum.index') }}" class="btn btn-sm btn-warning">
                                                     <i class="fas fa-search me-1"></i> Jelajahi Dokumen
@@ -144,9 +173,9 @@
                                             $colorClass = $slideColors[$i] ?? 'primary';
                                             $icon = $slideIcons[$i] ?? 'image';
                                         @endphp
-                                        <div
-                                            class="carousel-slide-content bg-gradient-{{ $colorClass }} {{ $colorClass == 'warning' ? 'text-dark' : 'text-white' }}">
-                                            <div class="row align-items-center min-h-300">
+                                        <div class="carousel-slide-content bg-gradient-{{ $colorClass }} {{ $colorClass == 'warning' ? 'text-dark' : 'text-white' }}"
+                                            style="height: 450px; display: flex; align-items: center;">
+                                            <div class="row align-items-center w-100">
                                                 <div class="col-md-6 p-5">
                                                     <h3 class="display-6 fw-bold mb-3">
                                                         {{ $slideTitles[$i] ?? 'Slide ' . ($i + 1) }}</h3>
@@ -177,9 +206,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 p-0">
+                                                <div class="col-md-6 p-0 h-100">
                                                     <div
-                                                        class="carousel-image-placeholder bg-{{ $colorClass }} bg-opacity-25 min-h-300 d-flex align-items-center justify-content-center">
+                                                        class="carousel-image-placeholder bg-{{ $colorClass }} bg-opacity-25 h-100 d-flex align-items-center justify-content-center">
                                                         <i class="fas fa-{{ $icon }} fa-6x opacity-50"></i>
                                                     </div>
                                                 </div>
@@ -190,20 +219,22 @@
                             @endfor
                         </div>
 
-                        <!-- Controls -->
+                        <!-- Controls dengan style yang lebih baik -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#hukumCarousel"
                             data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                            <span class="carousel-control-prev-icon bg-dark bg-opacity-75 rounded-circle p-3"
+                                aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
                         <button class="carousel-control-next" type="button" data-bs-target="#hukumCarousel"
                             data-bs-slide="next">
-                            <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                            <span class="carousel-control-next-icon bg-dark bg-opacity-75 rounded-circle p-3"
+                                aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
 
-                    <!-- Thumbnail Navigation -->
+                    <!-- Thumbnail Navigation dengan style -->
                     <div class="row g-0 text-center bg-light">
                         @php
                             $thumbnailTitles = [
@@ -218,7 +249,12 @@
                         @for ($i = 0; $i < min(5, $totalSlides); $i++)
                             <div class="{{ $totalSlides <= 5 ? 'col-' . 12 / $totalSlides : 'col-3' }}">
                                 <a href="#" onclick="goToSlide({{ $i }})"
-                                    class="d-block p-3 thumbnail-nav-item {{ $i === 0 ? 'active-thumbnail' : '' }}">
+                                    class="d-block p-3 thumbnail-nav-item {{ $i === 0 ? 'active-thumbnail' : '' }} text-decoration-none"
+                                    style="
+                                    color: #495057;
+                                    transition: all 0.3s;
+                                    border-bottom: 3px solid transparent;
+                                ">
                                     <i class="fas fa-{{ $slideIcons[$i] ?? 'image' }} me-1"></i>
                                     {{ $thumbnailTitles[$i] ?? 'Slide ' . ($i + 1) }}
                                 </a>
@@ -252,6 +288,131 @@
         </div>
     </div>
     <!-- ==================== END SLIDESHOW SECTION ==================== -->
+
+    <!-- Tambahkan style untuk mobile responsiveness -->
+    <style>
+        /* Style untuk thumbnail navigation */
+        .thumbnail-nav-item:hover {
+            background-color: #f8f9fa;
+            color: #0d6efd !important;
+        }
+
+        .active-thumbnail {
+            background-color: #f8f9fa !important;
+            color: #0d6efd !important;
+            font-weight: 600 !important;
+            border-bottom-color: #0d6efd !important;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+
+            /* Atur tinggi gambar lebih kecil di mobile */
+            .carousel-item>div:first-child {
+                height: 300px !important;
+            }
+
+            .carousel-slide-content {
+                height: 300px !important;
+            }
+
+            /* Caption untuk mobile */
+            .carousel-caption {
+                padding: 10px 15px !important;
+                bottom: 15px !important;
+                max-width: 90% !important;
+            }
+
+            .carousel-caption h4 {
+                font-size: 1rem !important;
+                margin-bottom: 5px !important;
+            }
+
+            .carousel-caption p {
+                font-size: 0.8rem !important;
+                margin-bottom: 10px !important;
+                display: none;
+                /* Sembunyikan deskripsi di mobile untuk hemat ruang */
+            }
+
+            .carousel-caption .btn {
+                padding: 4px 8px !important;
+                font-size: 0.8rem !important;
+            }
+
+            /* Thumbnail navigation di mobile */
+            .thumbnail-nav-item {
+                padding: 10px 5px !important;
+                font-size: 0.8rem !important;
+            }
+
+            .thumbnail-nav-item i {
+                display: block;
+                margin-bottom: 3px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .carousel-item>div:first-child {
+                height: 250px !important;
+            }
+
+            .carousel-slide-content {
+                height: 250px !important;
+            }
+
+            .carousel-slide-content .col-md-6 {
+                padding: 20px !important;
+            }
+
+            .carousel-slide-content h3 {
+                font-size: 1.2rem !important;
+            }
+        }
+    </style>
+
+    <!-- Script untuk thumbnail navigation -->
+    <script>
+        function goToSlide(index) {
+            const carousel = new bootstrap.Carousel(document.getElementById('hukumCarousel'));
+            carousel.to(index);
+
+            // Update active state pada thumbnail
+            document.querySelectorAll('.thumbnail-nav-item').forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active-thumbnail');
+                } else {
+                    item.classList.remove('active-thumbnail');
+                }
+            });
+        }
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active thumbnail pertama
+            const firstThumbnail = document.querySelector('.thumbnail-nav-item');
+            if (firstThumbnail) {
+                firstThumbnail.classList.add('active-thumbnail');
+            }
+
+            // Update thumbnail saat carousel berubah
+            const carousel = document.getElementById('hukumCarousel');
+            if (carousel) {
+                carousel.addEventListener('slide.bs.carousel', function(event) {
+                    const slideIndex = event.to;
+
+                    // Update active thumbnail
+                    document.querySelectorAll('.thumbnail-nav-item').forEach((item, i) => {
+                        if (i === slideIndex) {
+                            item.classList.add('active-thumbnail');
+                        } else {
+                            item.classList.remove('active-thumbnail');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 
 
 
