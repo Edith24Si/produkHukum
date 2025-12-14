@@ -74,23 +74,20 @@ class ProdukHukumController extends Controller
     }
     public function show($id)
     {
-        // 1. Ambil detail dokumen
         $dokumen = Dokumen::with(['jenisDokumen', 'kategoriDokumen'])->findOrFail($id);
 
-        // 2. Ambil file media milik dokumen ini
-        // Note: 'dokumens' adalah nama tabel Anda di database
         $medias = Media::where('ref_table', 'dokumens')
             ->where('ref_id', $id)
             ->latest()
             ->get();
 
-        // Tambahkan ini untuk dokumen terkait
+        // Perbaiki relatedDocuments jika dokumen_id bukan primary key
         $relatedDocuments = Dokumen::where('jenis_dokumen_id', $dokumen->jenis_dokumen_id)
-            ->where('dokumen_id', '!=', $id)
+            ->where('id', '!=', $id) // Gunakan id bukan dokumen_id
             ->limit(3)
             ->get();
 
-        return view('pages.produk_hukum.show', compact('dokumen', 'medias'));
+        return view('pages.produk_hukum.show', compact('dokumen', 'medias', 'relatedDocuments'));
     }
     /**
      * Menampilkan form edit.
