@@ -78,12 +78,14 @@
                                     <td>
                                         {{-- Logika Tampilkan Foto atau Placeholder Inisial --}}
                                         @if ($user->profile_picture)
-                                            [Gambar foto profil user]
+
+                                            {{-- [foto profil user] --}}
+                                            
                                             <img src="{{ asset('storage/' . $user->profile_picture) }}" alt="Foto Profil"
                                                 style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
                                         @else
                                             {{-- Placeholder Inisial (Compressed Image) --}}
-                                            [Gambar placeholder default/inisial]
+                                            [placeholder default/inisial]
                                             <div
                                                 style="width: 50px; height: 50px; background-color: #007bff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">
                                                 {{ strtoupper(substr($user->name, 0, 1)) }}

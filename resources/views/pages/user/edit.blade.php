@@ -72,7 +72,9 @@
                                 <div class="mb-3">
                                     <label>Foto Saat Ini:</label><br>
                                     {{-- Tampilkan foto profil saat ini --}}
-                                    [Gambar foto profil user saat ini]
+
+                                    [foto profil ]
+                                    
                                     <img src="{{ asset('storage/' . $user->profile_picture) }}"
                                          alt="Foto Profil"
                                          style="max-width: 150px; height: auto; border-radius: 5px;">
