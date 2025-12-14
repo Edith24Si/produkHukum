@@ -593,7 +593,7 @@
                     <i class="fas fa-gavel"></i>
                 </div>
                 <div>
-                    <div class="logo-text">PORTAL HUKUM</div>
+                    <div class="logo-text">PILARHUKUM</div>
                     <div class="logo-subtext">Sistem Desa Digital</div>
                 </div>
             </div>
