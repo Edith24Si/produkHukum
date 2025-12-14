@@ -1,17 +1,18 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProdukHukumController;
 use App\Http\Controllers\JenisDokumenController;
+use App\Http\Controllers\TimPengembangController;
 use App\Http\Controllers\KategoriDokumenController;
 use App\Http\Controllers\LampiranDokumenController;
-use App\Http\Controllers\MediaController;
-use App\Http\Controllers\ProdukHukumController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TimPengembangController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\RiwayatPerubahanController;
 use App\Http\Controllers\WargaController; // Tambahkan ini agar lebih rapi
-use Illuminate\Support\Facades\Route;
 
 // ====================================================
 // 1. RUTE PUBLIK (Bisa Diakses Siapa Saja / Tamu)
@@ -87,3 +88,9 @@ Route::delete('/media/{id}', [MediaController::class, 'destroy'])->name('media.d
 // });
 
 Route::get('/tim-pengembang', [TimPengembangController::class, 'index'])->name('tim-pengembang');
+
+
+// Route untuk riwayat perubahan
+    Route::get('/riwayat-perubahan', [RiwayatPerubahanController::class, 'index'])->name('riwayat-perubahan.index');
+    Route::get('/riwayat-perubahan/{riwayatPerubahan}', [RiwayatPerubahanController::class, 'show'])->name('riwayat-perubahan.show');
+

@@ -654,6 +654,17 @@
                     </a>
                 </li>
 
+                <!-- Riwayat Perubahan -->
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('riwayat-perubahan.*') ? 'active' : '' }}"
+                        href="{{ route('riwayat-perubahan.index') }}">
+                        <i class="fas fa-history"></i>
+                        <span>Riwayat Perubahan</span>
+                    </a>
+                </li>
+
+
+
                 <!-- Manajemen User (Hanya Admin) -->
                 @if (auth()->check() && (auth()->user()->role === 'admin' || auth()->user()->role === 'Admin'))
                     <li class="nav-item">
