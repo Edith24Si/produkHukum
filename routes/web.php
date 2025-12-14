@@ -32,9 +32,9 @@ Route::post('/register', [AuthController::class, 'processRegister'])->name('regi
 
 // Dashboard & Baca Data (Agar tamu bisa melihat data tanpa login)
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/produk-hukum', [ProdukHukumController::class, 'index'])->name('produkHukum.index');
+Route::get('/produk_hukum', [ProdukHukumController::class, 'index'])->name('produkHukum.index');
 // Cari baris ini di bagian RUTE PUBLIK (sekitar baris 30-an)
-Route::get('/produk-hukum/{id}', [ProdukHukumController::class, 'show'])
+Route::get('/produk_hukum/{id}', [ProdukHukumController::class, 'show'])
     ->name('produkHukum.show')
     ->where('id', '[0-9]+'); // <--- TAMBAHKAN INI
 
@@ -65,11 +65,11 @@ Route::delete('/profile-picture', [ProfileController::class, 'destroy'])->name('
 
 // --- CRUD Produk Hukum (Create, Edit, Delete) ---
 // Note: Index dan Show sudah ada di Public di atas
-Route::get('/produk-hukum/create', [ProdukHukumController::class, 'create'])->name('produkHukum.create');
-Route::post('/produk-hukum', [ProdukHukumController::class, 'store'])->name('produkHukum.store');
-Route::get('/produk-hukum/{id}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
-Route::put('/produk-hukum/{id}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
-Route::delete('/produk-hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
+Route::get('/produk_hukum/create', [ProdukHukumController::class, 'create'])->name('produkHukum.create');
+Route::post('/produk_hukum', [ProdukHukumController::class, 'store'])->name('produkHukum.store');
+Route::get('/produk_hukum/{id}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
+Route::put('/produk_hukum/{id}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
+Route::delete('/produk_hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
 
 // --- Master Data (Resources) ---
 Route::resource('jenis_dokumen', JenisDokumenController::class);
