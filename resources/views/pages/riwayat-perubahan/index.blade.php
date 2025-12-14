@@ -49,7 +49,7 @@
                 <table class="table table-bordered table-hover" width="100%" cellspacing="0">
                     <thead class="bg-light">
                         <tr>
-                            <th width="5%">#</th>
+                            <th width="5%">No</th>
                             <th width="15%">Tanggal</th>
                             <th width="20%">Dokumen</th>
                             <th width="10%">Versi</th>
