@@ -48,35 +48,35 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($dokumens as $item)
+                            @forelse ($dokumens as $dokumen)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ \Illuminate\Support\Str::limit($item->judul, 50, '...') }}</td>
-                                    <td>{{ $item->nomor }}</td>
-                                    <td>{{ $item->tahun }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($dokumen->judul, 50, '...') }}</td>
+                                    <td>{{ $dokumen->nomor }}</td>
+                                    <td>{{ $dokumen->tahun }}</td>
                                     <td>
                                         <span
-                                            class="badge badge-primary">{{ $item->jenisDokumen->nama_jenis ?? '-' }}</span><br>
-                                        <small class="text-muted">{{ $item->kategoriDokumen->nama ?? '-' }}</small>
+                                            class="badge badge-primary">{{ $dokumen->jenisDokumen->nama_jenis ?? '-' }}</span><br>
+                                        <small class="text-muted">{{ $dokumen->kategoriDokumen->nama ?? '-' }}</small>
                                     </td>
                                     <td>
                                         {{-- PERBAIKAN LINK --}}
 
                                         {{-- 1. Tombol Lihat (Detail/Upload Media) --}}
                                         {{-- Pastikan menggunakan primary key yang benar (dokumen_id) --}}
-                                        <a href="{{ route('produkHukum.show', $item->dokumen_id) }}" class="btn btn-sm btn-info"
+                                        <a href="{{ route('produkHukum.show', $dokumen->dokumen_id) }}" class="btn btn-sm btn-info"
                                             title="Detail & Upload">
                                             <i class="fas fa-eye"></i>
                                         </a>
 
                                         {{-- 2. Tombol Edit --}}
-                                        <a href="{{ route('produkHukum.edit', $item->dokumen_id) }}"
+                                        <a href="{{ route('produkHukum.edit', $dokumen->dokumen_id) }}"
                                             class="btn btn-sm btn-warning" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
 
                                         {{-- 3. Tombol Hapus --}}
-                                        <form action="{{ route('produkHukum.destroy', $item->dokumen_id) }}" method="POST"
+                                        <form action="{{ route('produkHukum.destroy', $dokumen->dokumen_id) }}" method="POST"
                                             class="d-inline" onsubmit="return confirm('Yakin ingin menghapus dokumen ini?');">
                                             @csrf
                                             @method('DELETE')
