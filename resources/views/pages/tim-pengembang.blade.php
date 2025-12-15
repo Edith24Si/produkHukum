@@ -18,7 +18,7 @@
     <!-- Alert Info -->
     <div class="alert alert-info alert-dismissible fade show" role="alert">
         <i class="fas fa-users mr-2"></i>
-        <strong>Identitas Developer</strong> - Berikut adalah data lengkap anggota tim yang mengembangkan sistem ini
+        <strong>Identitas Developer</strong> - Berikut adalah data lengkap anggota tim yang mengembangkan sistem ini.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
