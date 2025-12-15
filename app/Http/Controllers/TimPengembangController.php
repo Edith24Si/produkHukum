@@ -51,7 +51,7 @@ class TimPengembangController extends Controller
             ],
             // Tambahkan anggota tim lainnya jika ada
             [
-                'name'           => 'Anggota Tim 4',
+                'name'           => 'SUPPORT SYSTEM',
                 'role'           => 'UI/UX Designer',
                 'nim'            => 'NIM345678',
                 'prodi'          => 'Desain Komunikasi Visual',
