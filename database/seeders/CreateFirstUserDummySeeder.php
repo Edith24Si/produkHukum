@@ -16,7 +16,7 @@ class CreateFirstUserDummySeeder extends Seeder
             ['email' => 'produk@hukum.com'], // Kunci pencarian (Cek email ini)
             [
                 'name' => 'Admin Hukum',
-                '   ' => 'adminhukum',
+                'username' => 'adminhukum',
                 'password' => Hash::make('password'), // Password default
                 'role' => 'admin', // <--- PENTING: Paksa role jadi admin
             ]
