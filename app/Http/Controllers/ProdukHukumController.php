@@ -48,7 +48,7 @@ class ProdukHukumController extends Controller
         // 1. Validasi Input
         $validatedData = $request->validate([
             'judul'               => 'required|string|max:255',
-            'nomor'               => 'required|integer|min:1',
+            'nomor'               => 'required|string|min:1',
             'tahun'               => 'required|integer|min:1900|max:' . date('Y'),
             'tanggal_penetapan'   => 'required|date',
             'jenis_dokumen_id'    => 'required|exists:jenis_dokumen,id',
@@ -121,7 +121,7 @@ class ProdukHukumController extends Controller
             'kategori_dokumen_id' => 'required|exists:kategori_dokumen,id',
             'file_dokumen'        => 'nullable|file|max:5120|mimes:pdf,doc,docx,xls,xlsx,zip,rar',
         ]);
-
+        unset($validatedData['file_dokumen']); // <-- TAMBAHKAN BARIS INI
         // Cek jika ada file baru diupload untuk mengganti file utama
         if ($request->hasFile('file_dokumen')) {
             // Hapus file lama jika ada (Opsional, perlu import Storage)

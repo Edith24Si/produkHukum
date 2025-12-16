@@ -9,7 +9,16 @@ class Dokumen extends Model
 {
     use HasFactory;
 
-    protected $guarded    = []; // Agar dapat diisi oleh Seeder
+    protected $fillable = [
+        'judul',
+        'nomor',
+        'tahun',
+        'tanggal_penetapan',
+        'jenis_dokumen_id',
+        'kategori_dokumen_id',
+        'file_path', // <-- PASTIKAN KOLOM INI ADA DI DATABASE DENGAN NAMA PERSIS INI
+        // Tambahkan semua kolom lain yang bisa diisi dari form atau seeder di sini.
+    ];
     protected $table      = 'dokumens';
     protected $primaryKey = 'dokumen_id';
     // Relasi untuk mengambil nama Jenis Dokumen
