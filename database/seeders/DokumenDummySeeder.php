@@ -43,7 +43,7 @@ class DokumenDummySeeder extends Seeder
             'Lingkungan', 'RT', 'RW', 'Dusun', 'Kampung', 'Nagari', 'Lembang'
         ];
 
-        // Buat 50 data dokumen dengan istilah Indonesia
+        // Buat 100 data dokumen dengan istilah Indonesia
         for ($i = 0; $i < 200; $i++) {
             $jenisDokumen = $faker->randomElement(['Peraturan Desa', 'Peraturan Kepala Desa', 'Keputusan Kepala Desa', 'Surat Edaran']);
 
@@ -76,7 +76,7 @@ class DokumenDummySeeder extends Seeder
             ]);
         }
 
-        $this->command->info('Berhasil membuat 50 data Dokumen Hukum dengan istilah Indonesia.');
+        $this->command->info('Berhasil membuat 100 data Dokumen Hukum dengan istilah Indonesia.');
     }
 
     /**

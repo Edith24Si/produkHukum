@@ -34,9 +34,8 @@ Route::post('/register', [AuthController::class, 'processRegister'])->name('regi
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/produk_hukum', [ProdukHukumController::class, 'index'])->name('produkHukum.index');
 // Cari baris ini di bagian RUTE PUBLIK (sekitar baris 30-an)
-Route::get('/produk_hukum/{id}', [ProdukHukumController::class, 'show'])
-    ->name('produkHukum.show')
-    ->where('id', '[0-9]+'); // <--- TAMBAHKAN INI
+Route::get('/produk_hukum/{id?}', [ProdukHukumController::class, 'show'])
+    ->name('produkHukum.show');
 
 // ====================================================
 // 2. RUTE YANG BUTUH LOGIN (Middleware: checkislogin)
@@ -67,9 +66,9 @@ Route::delete('/profile-picture', [ProfileController::class, 'destroy'])->name('
 // Note: Index dan Show sudah ada di Public di atas
 Route::get('/produk_hukum/create', [ProdukHukumController::class, 'create'])->name('produkHukum.create');
 Route::post('/produk_hukum', [ProdukHukumController::class, 'store'])->name('produkHukum.store');
-Route::get('/produk_hukum/{id}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
+Route::get('/produk_hukum/{id?}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
 Route::put('/produk_hukum/{id}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
-Route::delete('/produk_hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
+Route::delete('/produk_hukum/{id?}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
 
 // --- Master Data (Resources) ---
 Route::resource('jenis_dokumen', JenisDokumenController::class);
