@@ -69,7 +69,11 @@ Route::get('/produk_hukum/create', [ProdukHukumController::class, 'create'])->na
 Route::post('/produk_hukum', [ProdukHukumController::class, 'store'])->name('produkHukum.store');
 Route::get('/produk_hukum/{id}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
 Route::put('/produk_hukum/{id}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
-Route::delete('/produk-hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
+<<<<<<< HEAD
+Route::delete('/produk_hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
+=======
+Route::delete('/produk_hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
+>>>>>>> 74e62f7ba2722d5c9fc5f90ec3e18066c48608f7
 
 // --- Master Data (Resources) ---
 Route::resource('jenis_dokumen', JenisDokumenController::class);

@@ -8,10 +8,10 @@ class TimPengembangController extends Controller
         // Data tim pengembang dengan foto
         $developers = [
             [
-                'name'           => 'Fitriana Tasya',
+                'name'           => 'GUEST Fitriana Tasya',
                 'role'           => 'Frontend Developer',
                 'nim'            => 'NIM123456',
-                'prodi'          => 'Teknik Informatika',
+                'prodi'          => 'Sistem Informasi',
                 'email'          => 'fitriana24si@mahasiswa.pcr.ac.id',
                 'specialization' => 'Laravel, CSS/HTML, JavaScript',
                 'photo'          => 'FitrianaTasya.jpg', // Nama file di public/images/tim/
@@ -22,7 +22,7 @@ class TimPengembangController extends Controller
                 'whatsapp'       => 'https://wa.me/6281234567890',
             ],
             [
-                'name'           => 'Edith Helena',
+                'name'           => 'ADMIN Edith Helena',
                 'role'           => 'Developer',
                 'nim'            => 'NIM234567',
                 'prodi'          => 'Sistem Informasi',
@@ -36,13 +36,13 @@ class TimPengembangController extends Controller
                 'whatsapp'       => 'https://wa.me/6287714351335',
             ],
             [
-                'name'           => 'Admin Hukum',
+                'name'           => 'SUPPORT SYSTEM',
                 'role'           => 'Project Manager & Full Stack Developer',
                 'nim'            => 'NIM000001',
                 'prodi'          => 'Ilmu Hukum Digital',
                 'email'          => 'admin@hukum.com',
                 'specialization' => 'Sistem Hukum Digital, Database Management',
-                'photo'          => 'profile-pictures/admin-hukum.jpg',
+                'photo'          => 'edith helena cantik.jpg',// Nama file di public/images/tim/
                 'linkedin'       => 'https://linkedin.com/in/admin-hukum',
                 'github'         => 'https://github.com/Edith24Si',
                 'twitter'        => 'https://twitter.com/admin_hukum',
@@ -51,7 +51,7 @@ class TimPengembangController extends Controller
             ],
             // Tambahkan anggota tim lainnya jika ada
             [
-                'name'           => 'Anggota Tim 4',
+                'name'           => 'SUPPORT SYSTEM',
                 'role'           => 'UI/UX Designer',
                 'nim'            => 'NIM345678',
                 'prodi'          => 'Desain Komunikasi Visual',
