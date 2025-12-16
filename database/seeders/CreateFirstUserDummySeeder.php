@@ -12,19 +12,17 @@ class CreateFirstUserDummySeeder extends Seeder
     public function run()
     {
         // 1. UPDATE atau CREATE akun ADMIN
-        // Kita gunakan updateOrCreate agar jika user produk@hukum.com sudah ada,
-        // datanya (terutama ROLE) akan dipaksa update menjadi 'admin'.
         User::updateOrCreate(
             ['email' => 'produk@hukum.com'], // Kunci pencarian (Cek email ini)
             [
                 'name' => 'Admin Hukum',
-                'username' => 'adminhukum',
+                '   ' => 'adminhukum',
                 'password' => Hash::make('password'), // Password default
                 'role' => 'admin', // <--- PENTING: Paksa role jadi admin
             ]
         );
 
-        $this->command->info("User 'Admin Hukum' (Role: admin) siap. Silakan login.");
+        $this->command->info(string: "User 'Admin Hukum' (Role: admin) siap. Silakan login.");
 
         // 2. Buat User Biasa (Opsional, untuk testing akses ditolak)
         // Gunakan akun ini nanti untuk mengetes apakah middleware checkrole bekerja

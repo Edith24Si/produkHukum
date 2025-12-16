@@ -39,51 +39,64 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead class="thead-light">
                             <tr>
+                                {{-- INI ADALAH HEADER YANG BENAR --}}
                                 <th width="5%">No</th>
                                 <th>Judul</th>
                                 <th>Nomor</th>
                                 <th>Tahun</th>
                                 <th>Jenis / Kategori</th>
-                                <th width="20%">Aksi</th>
+                                <th width="15%">Aksi</th> {{-- Lebar Aksi diperkecil sedikit --}}
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($dokumens as $dokumen)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ \Illuminate\Support\Str::limit($dokumen->judul, 50, '...') }}</td>
+                                    {{-- 1. Kolom No (Menggunakan Nomor Urut Paginasi) --}}
+                                    {{-- Menggunakan $loop->iteration jika tidak peduli urutan paginasi, atau Nomor Dokumen. --}}
+                                    {{-- Berdasarkan konten yang Anda berikan, kolom pertama terisi nomor dokumen. Kita sesuaikan. --}}
+
+                                    {{-- Kolom 1: No (Menggunakan nomor urut dari paginasi jika ada, atau baris) --}}
+                                    <td>{{ ($dokumens->currentPage() - 1) * $dokumens->perPage() + $loop->iteration }}</td>
+
+                                    {{-- Kolom 2: Judul --}}
+                                    <td>{{ $dokumen->judul }}</td>
+
+                                    {{-- Kolom 3: Nomor --}}
                                     <td>{{ $dokumen->nomor }}</td>
+
+                                    {{-- Kolom 4: Tahun --}}
                                     <td>{{ $dokumen->tahun }}</td>
+
+                                    {{-- Kolom 5: Jenis / Kategori (SESUAI HEADER) --}}
                                     <td>
-                                        <span
-                                            class="badge badge-primary">{{ $dokumen->jenisDokumen->nama_jenis ?? '-' }}</span><br>
-                                        <small class="text-muted">{{ $dokumen->kategoriDokumen->nama ?? '-' }}</small>
+                                        {{ $dokumen->jenisDokumen->nama_jenis ?? '-' }}
+                                        <br>
+                                        <small class="text-muted">({{ $dokumen->kategoriDokumen->nama ?? '-' }})</small>
                                     </td>
-                                    <td>
-                                        {{-- PERBAIKAN LINK --}}
 
-                                        {{-- 1. Tombol Lihat (Detail/Upload Media) --}}
-                                        {{-- Pastikan menggunakan primary key yang benar (dokumen_id) --}}
-                                        <a href="{{ route('produkHukum.show', $dokumen->dokumen_id) }}" class="btn btn-sm btn-info"
-                                            title="Detail & Upload">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-
-                                        {{-- 2. Tombol Edit --}}
-                                        <a href="{{ route('produkHukum.edit', $dokumen->dokumen_id) }}"
-                                            class="btn btn-sm btn-warning" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-
-                                        {{-- 3. Tombol Hapus --}}
-                                        <form action="{{ route('produkHukum.destroy', $dokumen->dokumen_id) }}" method="POST"
-                                            class="d-inline" onsubmit="return confirm('Yakin ingin menghapus dokumen ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                    {{-- Kolom 6: Aksi (SESUAI HEADER TERAKHIR) --}}
+                                    <td class="text-center">
+                                        {{-- KODE AKSI ANDA DIMASUKKAN DI SINI --}}
+                                        @if ($dokumen->dokumen_id)
+                                            {{-- Tombol Show --}}
+                                            <a href="{{ route('produkHukum.show', $dokumen->dokumen_id) }}" class="btn btn-sm btn-info"
+                                                title="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            {{-- Tombol Edit --}}
+                                            <a href="{{ route('produkHukum.edit', $dokumen->dokumen_id) }}" class="btn btn-sm btn-warning" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            {{-- Tombol Hapus --}}
+                                            <form action="{{ route('produkHukum.destroy', $dokumen->dokumen_id) }}" method="POST" class="d-inline"
+                                                onsubmit="return confirm('Yakin ingin menghapus dokumen ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty

@@ -54,7 +54,7 @@ class JenisDokumenDummySeeder extends Seeder
             'Standar Pelayanan Minimal', 'Prosedur Operasional Standar', 'Pedoman Teknis'
         ];
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $namaJenis = $jenisLain[$i] ?? 'Dokumen ' . ucfirst($faker->word()) . ' Desa';
             JenisDokumen::create([
                 'nama_jenis' => $namaJenis,

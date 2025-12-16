@@ -32,9 +32,14 @@ Route::post('/register', [AuthController::class, 'processRegister'])->name('regi
 
 // Dashboard & Baca Data (Agar tamu bisa melihat data tanpa login)
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/produk_hukum/create', [ProdukHukumController::class, 'create'])->name('produkHukum.create');
+
+// Index Produk Hukum
 Route::get('/produk_hukum', [ProdukHukumController::class, 'index'])->name('produkHukum.index');
-// Cari baris ini di bagian RUTE PUBLIK (sekitar baris 30-an)
-Route::get('/produk_hukum/{id?}', [ProdukHukumController::class, 'show'])
+
+// Rute Show (WAJIB ID, AMAN KARENA CREATE SUDAH DI ATASNYA)
+Route::get('/produk_hukum/{id}', [ProdukHukumController::class, 'show'])
     ->name('produkHukum.show');
 
 // ====================================================
@@ -47,14 +52,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // OPTIONAL: Redirect GET /logout ke login
 Route::get('/logout', function () {
-    return redirect()->route('login');
+    return redirect()->route('login');  
 });
 
-// Manajemen Profil (Semua user yang login bisa edit profil sendiri)
-Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-Route::delete('/profile-picture', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Route::get('/produk_hukum/create', [ProdukHukumController::class, 'create'])->name('produkHukum.create');
+// Route::post('/produk_hukum', [ProdukHukumController::class, 'store'])->name('produkHukum.store');
+// Route::get('/produk_hukum/{id}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
+// Route::put('/produk_hukum/{id}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
+// Route::delete('/produk_hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
+
+
 
 // ====================================================
 // 3. RUTE KHUSUS ADMIN (Middleware: checkrole:admin)
@@ -63,13 +70,17 @@ Route::delete('/profile-picture', [ProfileController::class, 'destroy'])->name('
 // Route::group(['middleware' => ['checkrole:admin']], function () {
 
 // --- CRUD Produk Hukum (Create, Edit, Delete) ---
-// Note: Index dan Show sudah ada di Public di atas
-Route::get('/produk_hukum/create', [ProdukHukumController::class, 'create'])->name('produkHukum.create');
 Route::post('/produk_hukum', [ProdukHukumController::class, 'store'])->name('produkHukum.store');
-Route::get('/produk_hukum/{id?}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
-Route::put('/produk_hukum/{id?}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
-Route::delete('/produk_hukum/{id?}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
 
+Route::get('/produk_hukum/{id}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
+
+Route::put('/produk_hukum/{id}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
+
+Route::delete('/produk_hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
+
+
+
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
 // --- Master Data (Resources) ---
 Route::resource('jenis_dokumen', JenisDokumenController::class);
 Route::resource('kategori_dokumen', KategoriDokumenController::class);

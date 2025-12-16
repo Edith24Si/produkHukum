@@ -44,7 +44,7 @@ class DokumenDummySeeder extends Seeder
         ];
 
         // Buat 100 data dokumen dengan istilah Indonesia
-        for ($i = 0; $i < 200; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $jenisDokumen = $faker->randomElement(['Peraturan Desa', 'Peraturan Kepala Desa', 'Keputusan Kepala Desa', 'Surat Edaran']);
 
             // Format nomor yang lebih realistis

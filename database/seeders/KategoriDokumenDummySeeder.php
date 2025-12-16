@@ -54,7 +54,7 @@ class KategoriDokumenDummySeeder extends Seeder
             'Pemberdayaan Masyarakat', 'Pelestarian Adat Istiadat'
         ];
 
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $namaKategori = $kategoriLain[$i] ?? 'Kategori ' . ucfirst($faker->word());
             KategoriDokumen::create([
                 'nama' => $namaKategori,

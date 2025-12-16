@@ -72,6 +72,8 @@ class ProdukHukumController extends Controller
         return redirect()->route('produkHukum.index')
             ->with('success', 'Produk Hukum berhasil ditambahkan!');
     }
+    // App\Http\Controllers\ProdukHukumController.php
+
     public function show($id)
     {
         $dokumen = Dokumen::with(['jenisDokumen', 'kategoriDokumen'])->findOrFail($id);
@@ -83,7 +85,7 @@ class ProdukHukumController extends Controller
 
         // Perbaiki relatedDocuments jika dokumen_id bukan primary key
         $relatedDocuments = Dokumen::where('jenis_dokumen_id', $dokumen->jenis_dokumen_id)
-            ->where('id', '!=', $id) // Gunakan id bukan dokumen_id
+            ->where('dokumen_id', '!=', $id) // <-- GANTI 'id' menjadi 'dokumen_id'
             ->limit(3)
             ->get();
 

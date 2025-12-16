@@ -341,13 +341,13 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        @php
+                        <!-- @php
                             // Anda bisa menambahkan query untuk dokumen terkait di controller
                             $relatedDocuments = \App\Models\Dokumen::where('jenis_dokumen_id', $dokumen->jenis_dokumen_id)
                                 ->where('dokumen_id', '!=', $dokumen->dokumen_id)
                                 ->limit(3)
                                 ->get();
-                        @endphp
+                        @endphp -->
 
                         @if($relatedDocuments->count() > 0)
                             @foreach($relatedDocuments as $related)
