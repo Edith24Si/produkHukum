@@ -74,8 +74,8 @@
                                     {{-- Tampilkan foto profil saat ini --}}
 
                                     [foto profil ]
-                                    
-                                    <img src="{{ asset('storage/' . $user->profile_picture) }}"
+
+                                    <img src="{{ asset('/' . $user->profile_picture) }}"
                                          alt="Foto Profil"
                                          style="max-width: 150px; height: auto; border-radius: 5px;">
                                 </div>
