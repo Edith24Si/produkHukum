@@ -12,14 +12,14 @@ class CreateFirstUserDummySeeder extends Seeder
     public function run()
     {
         // 1. UPDATE atau CREATE akun ADMIN
-        // Kita gunakan updateOrCreate agar jika user admin@hukum.com sudah ada,
+        // Kita gunakan updateOrCreate agar jika user produk@hukum.com sudah ada,
         // datanya (terutama ROLE) akan dipaksa update menjadi 'admin'.
         User::updateOrCreate(
-            ['email' => 'admin@hukum.com'], // Kunci pencarian (Cek email ini)
+            ['email' => 'produk@hukum.com'], // Kunci pencarian (Cek email ini)
             [
                 'name' => 'Admin Hukum',
                 'username' => 'adminhukum',
-                'password' => Hash::make('password123'), // Password default
+                'password' => Hash::make('password'), // Password default
                 'role' => 'admin', // <--- PENTING: Paksa role jadi admin
             ]
         );
