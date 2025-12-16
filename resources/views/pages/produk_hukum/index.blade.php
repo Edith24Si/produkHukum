@@ -64,7 +64,6 @@
 
                                         {{-- 1. Tombol Lihat (Detail/Upload Media) --}}
                                         {{-- Pastikan menggunakan primary key yang benar (dokumen_id) --}}
-
                                         <a href="{{ route('produkHukum.show', $dokumen->dokumen_id) }}" class="btn btn-sm btn-info"
                                             title="Detail & Upload">
                                             <i class="fas fa-eye"></i>

@@ -67,7 +67,7 @@ Route::delete('/profile-picture', [ProfileController::class, 'destroy'])->name('
 Route::get('/produk_hukum/create', [ProdukHukumController::class, 'create'])->name('produkHukum.create');
 Route::post('/produk_hukum', [ProdukHukumController::class, 'store'])->name('produkHukum.store');
 Route::get('/produk_hukum/{id?}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
-Route::put('/produk_hukum/{id}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
+Route::put('/produk_hukum/{id?}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
 Route::delete('/produk_hukum/{id?}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
 
 // --- Master Data (Resources) ---
