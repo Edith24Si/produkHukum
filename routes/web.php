@@ -1,18 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\MediaController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProdukHukumController;
 use App\Http\Controllers\JenisDokumenController;
-use App\Http\Controllers\TimPengembangController;
 use App\Http\Controllers\KategoriDokumenController;
 use App\Http\Controllers\LampiranDokumenController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\ProdukHukumController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatPerubahanController;
-use App\Http\Controllers\WargaController; // Tambahkan ini agar lebih rapi
+use App\Http\Controllers\TimPengembangController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WargaController;
+use Illuminate\Support\Facades\Route;
+// Tambahkan ini agar lebih rapi
 
 // ====================================================
 // 1. RUTE PUBLIK (Bisa Diakses Siapa Saja / Tamu)
@@ -52,7 +53,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // OPTIONAL: Redirect GET /logout ke login
 Route::get('/logout', function () {
-    return redirect()->route('login');  
+    return redirect()->route('login');
 });
 
 // Route::get('/produk_hukum/create', [ProdukHukumController::class, 'create'])->name('produkHukum.create');
@@ -60,8 +61,6 @@ Route::get('/logout', function () {
 // Route::get('/produk_hukum/{id}/edit', [ProdukHukumController::class, 'edit'])->name('produkHukum.edit');
 // Route::put('/produk_hukum/{id}', [ProdukHukumController::class, 'update'])->name('produkHukum.update');
 // Route::delete('/produk_hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
-
-
 
 // ====================================================
 // 3. RUTE KHUSUS ADMIN (Middleware: checkrole:admin)
@@ -78,9 +77,10 @@ Route::put('/produk_hukum/{id}', [ProdukHukumController::class, 'update'])->name
 
 Route::delete('/produk_hukum/{id}', [ProdukHukumController::class, 'destroy'])->name('produkHukum.destroy');
 
-
-
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
+Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/update', [ProfileController::class, 'update'])->name('profil.update');
+Route::delete('/photo/delete', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // --- Master Data (Resources) ---
 Route::resource('jenis_dokumen', JenisDokumenController::class);
 Route::resource('kategori_dokumen', KategoriDokumenController::class);
@@ -99,8 +99,6 @@ Route::delete('/media/{id}', [MediaController::class, 'destroy'])->name('media.d
 
 Route::get('/tim-pengembang', [TimPengembangController::class, 'index'])->name('tim-pengembang');
 
-
 // Route untuk riwayat perubahan
-    Route::get('/riwayat-perubahan', [RiwayatPerubahanController::class, 'index'])->name('riwayat-perubahan.index');
-    Route::get('/riwayat-perubahan/{riwayatPerubahan}', [RiwayatPerubahanController::class, 'show'])->name('riwayat-perubahan.show');
-
+Route::get('/riwayat-perubahan', [RiwayatPerubahanController::class, 'index'])->name('riwayat-perubahan.index');
+Route::get('/riwayat-perubahan/{riwayatPerubahan}', [RiwayatPerubahanController::class, 'show'])->name('riwayat-perubahan.show');

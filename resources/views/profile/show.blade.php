@@ -6,7 +6,7 @@
 <div class="container-fluid">
 
     <div class="d-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">👤 Profil Pengguna</h1>
+        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">👤 Profil Admin website PILARHUKUM</h1>
         <span class="text-muted">Data Profil Anda</span>
     </div>
 

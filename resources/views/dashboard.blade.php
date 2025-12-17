@@ -8,7 +8,7 @@
     <div class="welcome-card mb-4">
         <div class="welcome-content">
             <h1 class="welcome-title">
-                Selamat Datang,
+                Selamat Datang Di WebSite,
                 @auth
                     {{ auth()->user()->name }}
                 @else
@@ -25,7 +25,7 @@
                         Admin
                     @endauth
                 </strong>
-                dengan akses penuh untuk mengelola sistem Portal Produk Hukum.
+                dengan akses penuh untuk mengelola sistem Portal Regulasi Desa.
             </p>
             <div class="admin-badge">
                 <i class="fas fa-user-shield me-2"></i> Portal Pengelolaan Hukum Daerah

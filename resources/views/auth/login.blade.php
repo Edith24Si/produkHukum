@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Akses Hukum - Login</title>
+    <title>Portal REGULASI DESA - Login</title>
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -215,12 +215,12 @@
                 <!-- Panel Kiri: Logo & Branding -->
                 <div class="col-lg-6 d-none d-lg-block left-panel">
                     <img src="{{ asset('images/logo-produk-hukum.jpg') }}"
-                         alt="Portal Akses Hukum"
+                         alt="Portal REGULASI DESA"
                          class="logo-large">
 
                     <h1 class="portal-title">
                         PORTAL<br>
-                        <span style="color: var(--color-secondary);">AKSES HUKUM</span>
+                        <span style="color: var(--color-secondary);">REGULASI DESA</span>
                     </h1>
 
                     <p class="portal-subtitle mt-3">
@@ -370,7 +370,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Akses Hukum - Login</title>
+    <title>Portal Regulasi Desa - Login</title>
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -581,12 +581,12 @@
                 <!-- Panel Kiri: Logo & Branding -->
                 <div class="col-lg-6 d-none d-lg-block left-panel">
                     <img src="{{ asset('images/logo-produk-hukum.jpg') }}"
-                         alt="Portal Akses Hukum"
+                         alt="Portal REGULASI DESA"
                          class="logo-large">
 
                     <h1 class="portal-title">
                         PORTAL<br>
-                        <span style="color: var(--color-secondary);">AKSES HUKUM</span>
+                        <span style="color: var(--color-secondary);">REGULASI DESA</span>
                     </h1>
 
                     <p class="portal-subtitle mt-3">
